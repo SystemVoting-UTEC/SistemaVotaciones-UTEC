@@ -1,0 +1,230 @@
+body{position:relative}
+
+.slider-container {
+	margin: 0 auto;
+	width: 700px;
+}
+
+.slider-wrapper {
+	position: relative;
+	height: 360px;
+	width: 100%;
+	border: 0px solid #415066;
+	overflow: hidden;
+}
+
+.slider-wrapper li {
+	display: none;
+}
+
+li.slide-current {
+	display: block;
+}
+
+.slider-wrapper li img {
+	position: absolute;
+	top: 0;
+	left: 0;
+	max-width: 100%;
+	height: auto;
+}
+
+.caption {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background: rgba(0,0,0,0.6);
+	padding: 12px;
+	-webkit-transform: translateY(100%);
+	-ms-transform: translateY(100%);
+	-o-transform: translateY(100%);
+	transform: translateY(100%);
+	-webkit-transition: all 0.4s ease;
+	-o-transition: all 0.4s ease;
+	transition: all 0.4s ease;
+}
+
+.slider-wrapper li:hover .caption {
+	-webkit-transform: translateY(0);
+	-ms-transform: translateY(0);
+	-o-transform: translateY(0);
+	transform: translateY(0);
+}
+
+.slider-controls {
+	text-align: center;
+	margin-top: 15px;
+}
+
+.slider-controls li {
+	background: #415066;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	display: inline-block;
+	height: 12px;
+	width: 12px;
+	margin: 0 4px;
+	cursor: pointer;
+}
+
+.slider-controls li.active {
+	background: #00c5b9;	
+}
+
+
+@media only screen and (max-width: 825px) {
+	.slider-container {
+		width: 400px;
+	}
+
+	.slider-wrapper {
+		height: 210px;
+	}
+}
+
+@media only screen and (max-width: 535px) {
+	.slider-container {
+		padding: 5px;
+		width: 100%;
+	}
+
+	.slider-wrapper {
+		height: 218px;
+	}
+
+	.caption {
+		display: none;
+	}
+}
+
+@media only screen and (max-width: 410px) {
+	.slider-wrapper {
+		height: 158px;
+	}
+
+}
+
+.overlay,.sideMenu{position:fixed;bottom:0}
+.overlay{top:0;left:-100%;right:100%;margin:auto;background-color: rgba(50, 115, 220, 0.3);z-index:998;transition:all ease 0.2s}
+.overlay.open{left:0;right:0}
+.sidebarNavigation{margin-bottom:0;z-index:999;justify-content:flex-start}
+.sidebarNavigation .leftNavbarToggler{margin-right:10px;order:-1}
+.sideMenu{left:-100%;top:52px;transition:all ease 0.5s;overflow:hidden;width:100%;z-index:999;max-width:80%;margin-bottom:0;padding:1rem}
+.sideMenu.open{left:0;display:block;overflow-y:auto}
+.sideMenu ul{margin:0;padding:0 15px}
+
+
+#p1 {
+	width: 90%;
+	margin: auto;
+	margin-top: 60px;
+	background-color: transparent;
+	max-width: 1000px;
+	overflow: hidden;
+}
+
+#cn {
+	width: 400px;
+	height: 110px;
+}
+
+#p1 ul {
+	display: flex;
+	padding: 0;
+	width: 400%;
+	animation: cambio 20s infinite;
+	animation-direction: alternate;
+	animation-timing-function: ease-in;
+}
+
+@
+keyframes cambio { 0%{
+	margin-left: 0%;
+}
+
+20%{
+margin-left
+
+
+:
+
+
+0%;
+}
+25%{
+margin-left
+
+
+:
+
+
+-100%;
+}
+45%{
+margin-left
+
+
+:
+
+
+-100%;
+}
+50%{
+margin-left
+
+
+:
+
+
+-200%;
+}
+70%{
+margin-left
+
+
+:
+
+
+-200%;
+}
+75%{
+margin-left
+
+
+:
+
+
+-300%;
+}
+100%{
+margin-left
+
+
+:
+
+
+-300%;
+}
+}
+#p1 li {
+	width: 100%;
+	list-style: none;
+}
+
+#p1 img {
+	width: 100%;
+}
+
+.custab{
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5% 0;
+    box-shadow: 3px 3px 2px #ccc;
+    transition: 0.5s;
+    }
+.custab:hover{
+    box-shadow: 3px 3px 0px transparent;
+    transition: 0.5s;
+    }

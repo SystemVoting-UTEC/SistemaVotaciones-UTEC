@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7c3f4820-6bcb-47e1-b663-f1e4856c1748">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="54"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\Mario Muzo\\Documents\\NetBeansProjects\\Sistema\\SistemaVotaciones\\web\\reportes\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[select count(*) from public."DUI" where public."DUI".genero_id = '1';]]>
+	</queryString>
+	<field name="count" class="java.lang.Long"/>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="c6324c28-21a0-40a6-8f50-f6722f738d6b"/>
+				<staticText>
+					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="57a7070a-6f6b-4712-9db8-dad1c9daf583"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Reportes]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="355" y="63" width="205" height="20" forecolor="#FFFFFF" uuid="c40edb52-d7a9-4022-b14c-b366df7dad20"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Cantidad de votantes]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="bdeb7e86-20e4-4176-9bac-8ab10d2f714a"/>
+			</line>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="555" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="988d610a-1e5d-4e99-acd8-491473a013a2"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hombre]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20">
+			<line>
+				<reportElement positionType="FixRelativeToBottom" x="0" y="19" width="555" height="1" uuid="dee7d217-3a79-4bec-a603-4da2b3924f75"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="0" y="0" width="555" height="20" uuid="dc3c9df3-571b-4815-8edb-717f6f1e1b6c"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{count}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="1"/>
+	</pageFooter>
+	<summary>
+		<band height="260">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="247" width="515" height="13" backcolor="#E6E6E6" uuid="36e07d34-72d6-4ed0-a74c-8a093b6e62f7"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Pag "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="247" width="100" height="13" uuid="2e3f7d5a-d269-465f-a9ab-85996d9b6152"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="247" width="40" height="13" backcolor="#E6E6E6" uuid="f681ca61-b964-4dcf-b619-3056e092e36c"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement x="0" y="0" width="555" height="111" uuid="72546d25-ba35-47a3-9a53-5c70f682ca65"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reportCantidadVotantes1.jasper"]]></subreportExpression>
+			</subreport>
+			<subreport>
+				<reportElement x="0" y="120" width="555" height="87" uuid="7d8a8112-0885-451d-9c25-4b8b7d1f93e7"/>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "reportCantidadVotantes_subreport1.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</summary>
+</jasperReport>

@@ -1,0 +1,79 @@
+.field{
+	padding: 5px;	
+}
+
+label{
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:small;
+
+}
+input{
+	border:1px solid black;
+	margin-bottom:.5em;
+}
+input.error{
+	border:1px solid red;
+}
+label.error{
+	background:url('../img/unchecked.gif') no-repeat;
+	padding-left:16px;margin-left:.3em;
+
+}
+label.valid{
+	background:url('../img/checked.gif') no-repeat;	
+	width:16px;
+	height:16px;
+}
+
+.btn{
+	width: 120px;
+	height: 30px;
+	background-color: #949494;
+	color: #fff;
+	transition: .5s all ease;
+}
+
+.btn:hover{
+	background-color: #626262;
+}
+
+select{
+	padding: 5px;
+	width: 180px;
+}
+
+table{
+    margin: auto;
+}
+input{
+    text-align: center;
+    margin: 2px;
+}
+input[type=text]:focus {
+    border: 1px solid #555;
+}
+
+input[type=password]:focus {
+    border: 1px solid #555;
+}
+
+.button {
+    padding: 5px;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+.button2 {
+    background-color: white; 
+    color: black; 
+    border: 2px solid #008CBA;
+}
+
+.button2:hover {
+    background-color: #008CBA;
+    color: white;
+}
