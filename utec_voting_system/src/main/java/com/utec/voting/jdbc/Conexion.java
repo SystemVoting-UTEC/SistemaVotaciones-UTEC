@@ -18,12 +18,12 @@ public class Conexion {
     private String hostname = "localhost";
     private String puerto = "3306";
     private String base = "SYSTEM_VOTING";
-    private String classname = "com.mysql.jdbc.Drive";
+    private String classname = "com.mysql.jdbc.Driver";
     private String url = "jdbc:mysql://" + hostname + ":" + puerto + "/" + base;
     private static Connection conecto;
     private ResultSet rs;
     private PreparedStatement ps;
-    public static final String SELECT = "SELEC * FROM ";
+    public static final String SELECT = "SELECT * FROM ";
     public static final String UPDATE = "UPDATE ";
     public static final String INSERT = "INSERT INTO ";
     public static final String SET = " SET ";
@@ -37,15 +37,16 @@ public class Conexion {
     static final Logger logger = Logger.getLogger(Conexion.class);
     
     public Conexion(){
-        try {
+        
+    }
+    
+    public Connection getConnection() {
+    	try {
             Class.forName(classname).newInstance();
             conecto = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
         	logger.error("Error" + e);
         }
-    }
-    
-    public Connection getConnection() {
         return this.conecto;
     }
 

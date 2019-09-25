@@ -75,7 +75,7 @@ public class Autentificando extends HttpServlet {
 				HttpSession sesion = request.getSession(true);
 //				sesion.setAttribute("votos", voto.mostrar());
 //				sesion.setAttribute("candidatos", candidatos.mostrarCandidato());
-				sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
+//				sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
 				response.sendRedirect("graficosVotaciones.jsp");
 			}
 		} catch (Exception e) {

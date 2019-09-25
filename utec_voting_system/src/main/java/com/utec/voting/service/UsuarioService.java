@@ -42,10 +42,13 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 			setPs(consPrepare(SELECT + TABLE + WHERE + "US_PER_DUI = ? AND US_PASSWORD = ?"));
 			getPs().setString(1, dui);
 			getPs().setString(2, Encriptar.sha1(password));
-			while (getRs().next()) {
-				prs = personService.finById(getRs().getString(1));
-				tpus = tipoUsService.finById(getRs().getInt(3));
-				obj = new Usuario(prs, getRs().getString(2), tpus);
+			setRs(getPs().executeQuery());
+			if(getRs().next()) {
+				while (getRs().next()) {
+					prs = personService.finById(getRs().getString(1));
+					tpus = tipoUsService.finById(getRs().getInt(3));
+					obj = new Usuario(prs, getRs().getString(2), tpus);
+				}				
 			}
 		} catch (Exception e) {
 			logger.error("Error: " + e);
