@@ -1,6 +1,7 @@
 package com.utec.voting.controller;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +21,7 @@ import com.utec.voting.service.UsuarioService;
  * @author Kevin Orellana
  * @version 1.0 Date: September 2019
  */
-public class Autentificando extends HttpServlet {
+public class Autentificando extends HttpServlet implements Serializable {
 
     /**
 	 * 
@@ -72,14 +73,10 @@ public class Autentificando extends HttpServlet {
 					response.sendRedirect("votante.jsp");
 				}
 			} else {
-				HttpSession sesion = request.getSession(true);
-//				sesion.setAttribute("votos", voto.mostrar());
-//				sesion.setAttribute("candidatos", candidatos.mostrarCandidato());
-//				sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
 				response.sendRedirect("graficosVotaciones.jsp");
 			}
 		} catch (Exception e) {
-			logger.error("Error en el proceso: ", e);
+			logger.error("Error en el servlet Autentificando en el método processRequest: ", e);
 		}
 		
 	}

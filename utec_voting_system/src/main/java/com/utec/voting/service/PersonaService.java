@@ -44,17 +44,18 @@ public class PersonaService extends Conexion implements Service<Persona>, Serial
 		ArrayList<Persona> l1 = new ArrayList<>();
 		try {
 			setRs(consPrepare(SELECT + TABLE).executeQuery());
-			while (getRs().next()) {
-				genero = generoService.finById(getRs().getInt("PER_GEN_ID"));
-				depto = departamentoService.finById(getRs().getInt("PER_DEP_ID"));
-				estadoF =  estadoFamiliarService.finById(getRs().getInt("PER_EST_ID"));
-				g = new Persona(getRs().getString(1),getRs().getString(2),getRs().getString(3),
-						getRs().getString(4),getRs().getString(5)
-						,getRs().getString(6),getRs().getDate(7),
-						getRs().getInt(8)
-						,genero,depto, estadoF,getRs().getString(12),getRs().getString(13));
-				l1.add(g);
-			}
+			if(getRs().next())
+				while (getRs().next()) {
+					genero = generoService.finById(getRs().getInt("PER_GEN_ID"));
+					depto = departamentoService.finById(getRs().getInt("PER_DEP_ID"));
+					estadoF =  estadoFamiliarService.finById(getRs().getInt("PER_EST_ID"));
+					g = new Persona(getRs().getString(1),getRs().getString(2),getRs().getString(3),
+							getRs().getString(4),getRs().getString(5)
+							,getRs().getString(6),getRs().getDate(7),
+							getRs().getInt(8)
+							,genero,depto, estadoF,getRs().getString(12),getRs().getString(13));
+					l1.add(g);
+				}
 		} catch (Exception e) {
 			logger.error("Error <DepartamentoService: getAll>: " + e);
 		} finally {
@@ -156,16 +157,17 @@ public class PersonaService extends Conexion implements Service<Persona>, Serial
 			setPs(consPrepare(SELECT + TABLE + WHERE + "PER_DUI = ?"));
 			getPs().setString(1, id);
 			setRs(getPs().executeQuery());
-			while (getRs().next()) {
-				genero = generoService.finById(getRs().getInt("PER_GEN_ID"));
-				depto = departamentoService.finById(getRs().getInt("PER_DEP_ID"));
-				estadoF =  estadoFamiliarService.finById(getRs().getInt("PER_EST_ID"));
-				g = new Persona(getRs().getString(1),getRs().getString(2),getRs().getString(3),
-						getRs().getString(4),getRs().getString(5)
-						,getRs().getString(6),getRs().getDate(7),
-						getRs().getInt(8)
-						,genero,depto, estadoF,getRs().getString(12),getRs().getString(13));
-			}
+			if(getRs().next())
+				while (getRs().next()) {
+					genero = generoService.finById(getRs().getInt("PER_GEN_ID"));
+					depto = departamentoService.finById(getRs().getInt("PER_DEP_ID"));
+					estadoF =  estadoFamiliarService.finById(getRs().getInt("PER_EST_ID"));
+					g = new Persona(getRs().getString(1),getRs().getString(2),getRs().getString(3),
+							getRs().getString(4),getRs().getString(5)
+							,getRs().getString(6),getRs().getDate(7),
+							getRs().getInt(8)
+							,genero,depto, estadoF,getRs().getString(12),getRs().getString(13));
+				}
 		} catch (Exception e) {
 			logger.error("Error: " + e);
 		} finally {

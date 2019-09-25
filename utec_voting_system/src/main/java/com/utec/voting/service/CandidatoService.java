@@ -47,14 +47,15 @@ public class CandidatoService extends Conexion implements Service<Candidato>, Se
 		ArrayList<Candidato> l1 = new ArrayList<>();
 		try {
 			setRs(consPrepare(SELECT + TABLE).executeQuery());
-			while (getRs().next()) {
-				person =  personaService.finById(getRs().getString(2));
-				partido = partidoService.finById(getRs().getInt(3));
-				depto = departamentoService.finById(getRs().getInt(4));
-				canType = tipoCandidatoService.finById(getRs().getInt(5));
-				g = new Candidato(getRs().getInt(1),person, partido,depto,canType);
-				l1.add(g);
-			}
+			if(getRs().next())
+				while (getRs().next()) {
+					person =  personaService.finById(getRs().getString(2));
+					partido = partidoService.finById(getRs().getInt(3));
+					depto = departamentoService.finById(getRs().getInt(4));
+					canType = tipoCandidatoService.finById(getRs().getInt(5));
+					g = new Candidato(getRs().getInt(1),person, partido,depto,canType);
+					l1.add(g);
+				}
 		} catch (Exception e) {
 			logger.error("Error <CandidatoService: getAll>: " + e);
 		} finally {
@@ -131,13 +132,14 @@ public class CandidatoService extends Conexion implements Service<Candidato>, Se
 			setPs(consPrepare(SELECT + TABLE + WHERE + "DEP_ID = ?"));
 			getPs().setInt(1, id);
 			setRs(getPs().executeQuery());
-			while (getRs().next()) {
-				person =  personaService.finById(getRs().getString(2));
-				partido = partidoService.finById(getRs().getInt(3));
-				depto = departamentoService.finById(getRs().getInt(4));
-				canType = tipoCandidatoService.finById(getRs().getInt(5));
-				g = new Candidato(getRs().getInt(1),person, partido,depto,canType);
-			}
+			if(getRs().next())
+				while (getRs().next()) {
+					person =  personaService.finById(getRs().getString(2));
+					partido = partidoService.finById(getRs().getInt(3));
+					depto = departamentoService.finById(getRs().getInt(4));
+					canType = tipoCandidatoService.finById(getRs().getInt(5));
+					g = new Candidato(getRs().getInt(1),person, partido,depto,canType);
+				}
 		} catch (Exception e) {
 			logger.error("Error: " + e);
 		} finally {

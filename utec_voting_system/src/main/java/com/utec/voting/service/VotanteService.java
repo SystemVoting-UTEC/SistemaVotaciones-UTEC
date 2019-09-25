@@ -38,11 +38,12 @@ public class VotanteService extends Conexion implements Service<Votante>,Seriali
 		ArrayList<Votante> l1 = new ArrayList<>();
 		try {
 			setRs(consPrepare(SELECT + TABLE).executeQuery());
-			while (getRs().next()) {
-				person =  personaService.finById(getRs().getString(1));
-				g = new Votante(person, getRs().getDate(2),getRs().getDate(3));
-				l1.add(g);
-			}
+			if(getRs().next())
+				while (getRs().next()) {
+					person =  personaService.finById(getRs().getString(1));
+					g = new Votante(person, getRs().getDate(2),getRs().getDate(3));
+					l1.add(g);
+				}
 		} catch (Exception e) {
 			logger.error("Error <DepartamentoService: getAll>: " + e);
 		} finally {
@@ -120,10 +121,11 @@ public class VotanteService extends Conexion implements Service<Votante>,Seriali
 			setPs(consPrepare(SELECT + TABLE + WHERE + "VOT_PER_DUI = ?"));
 			getPs().setString(1, id);
 			setRs(getPs().executeQuery());
-			while (getRs().next()) {
-				person =  personaService.finById(getRs().getString(1));
-				g = new Votante(person, getRs().getDate(2),getRs().getDate(3));
-			}
+			if(getRs().next())
+				while (getRs().next()) {
+					person =  personaService.finById(getRs().getString(1));
+					g = new Votante(person, getRs().getDate(2),getRs().getDate(3));
+				}
 		} catch (Exception e) {
 			logger.error("Error: " + e);
 		} finally {
