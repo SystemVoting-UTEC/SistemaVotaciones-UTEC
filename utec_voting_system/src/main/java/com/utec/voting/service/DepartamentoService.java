@@ -28,11 +28,13 @@ public class DepartamentoService extends Conexion implements Service<Departament
 		ArrayList<Departamento> l1 = new ArrayList<>();
 		try {
 			setRs(consPrepare(SELECT + TABLE).executeQuery());
-			if(getRs().next())
+			if(getRs().next()) {
+				getRs().beforeFirst();
 				while (getRs().next()) {
 					g = new Departamento(getRs().getInt(1), getRs().getString(2));
 					l1.add(g);
 				}
+			}
 		} catch (Exception e) {
 			logger.error("Error <DepartamentoService: getAll>: " + e);
 		} finally {
@@ -100,10 +102,12 @@ public class DepartamentoService extends Conexion implements Service<Departament
 			setPs(consPrepare(SELECT + TABLE + WHERE + "DEP_ID = ?"));
 			getPs().setInt(1, id);
 			setRs(getPs().executeQuery());
-			if(getRs().next())
+			if(getRs().next()) {
+				getRs().beforeFirst();
 				while (getRs().next()) {
 					g = new Departamento(getRs().getInt(1), getRs().getString(2));
 				}
+			}
 		} catch (Exception e) {
 			logger.error("Error: " + e);
 		} finally {

@@ -38,12 +38,14 @@ public class MunicipioService extends Conexion implements Service<Municipio>, Se
 		ArrayList<Municipio> l1 = new ArrayList<>();
 		try {
 			setRs(consPrepare(SELECT + TABLE).executeQuery());
-			if(getRs().next())
+			if(getRs().next()) {
+				getRs().beforeFirst();
 				while (getRs().next()) {
 					depto =  departamentoService.finById(getRs().getInt(3));
 					g = new Municipio(getRs().getInt(1), getRs().getString(2),depto);
 					l1.add(g);
 				}
+			}
 		} catch (Exception e) {
 			logger.error("Error: " + e);
 		} finally {
@@ -114,11 +116,13 @@ public class MunicipioService extends Conexion implements Service<Municipio>, Se
 			setPs(consPrepare(SELECT + TABLE + WHERE + "MUN_ID = ?"));
 			getPs().setInt(1, id);
 			setRs(getPs().executeQuery());
-			if(getRs().next())
+			if(getRs().next()) {
+				getRs().beforeFirst();
 				while (getRs().next()) {
 					depto =  departamentoService.finById(getRs().getInt(3));
 					g = new Municipio(getRs().getInt(1), getRs().getString(2),depto);
 				}
+			}
 		} catch (Exception e) {
 			logger.error("Error: " + e);
 		} finally {

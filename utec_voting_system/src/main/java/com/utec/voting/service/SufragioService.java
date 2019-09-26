@@ -41,13 +41,15 @@ public class SufragioService extends Conexion implements Service<Sufragio>, Seri
 		ArrayList<Sufragio> l1 = new ArrayList<>();
 		try {
 			setRs(consPrepare(SELECT + TABLE).executeQuery());
-			if(getRs().next())
+			if(getRs().next()) {
+				getRs().beforeFirst();
 				while (getRs().next()) {
 					persona =  personaService.finById(getRs().getString(2));
 					candidato =  candidatoService.finById(getRs().getInt(3));
 					g = new Sufragio(getRs().getInt(1), persona, candidato, getRs().getDouble(4));
 					l1.add(g);
 				}
+			}
 		} catch (Exception e) {
 			logger.error("Error <PartidoService: getAll>: " + e);
 		} finally {

@@ -33,11 +33,13 @@ public class TipoUsuarioService extends Conexion implements Service<TipoUsuario>
 		ArrayList<TipoUsuario> l1 = new ArrayList<>();
 		try {
 			setRs(consPrepare(SELECT + TABLE).executeQuery());
-			if(getRs().next())
+			if(getRs().next()) {
+				getRs().beforeFirst();
 				while (getRs().next()) {
 					g = new TipoUsuario(getRs().getInt(1), getRs().getString(2));
 					l1.add(g);
 				}
+			}
 		} catch (Exception e) {
 			logger.error("Error <TipoUsuarioService: getAll>: " + e);
 		} finally {
@@ -105,10 +107,12 @@ public class TipoUsuarioService extends Conexion implements Service<TipoUsuario>
 			setPs(consPrepare(SELECT + TABLE + WHERE + "TUS_ID = ?"));
 			getPs().setInt(1, id);
 			setRs(getPs().executeQuery());
-			if(getRs().next())
+			if(getRs().next()) {
+				getRs().beforeFirst();
 				while (getRs().next()) {
 					g = new TipoUsuario(getRs().getInt(1), getRs().getString(2));
 				}
+			}
 		} catch (Exception e) {
 			logger.error("Error: " + e);
 		} finally {

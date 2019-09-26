@@ -32,7 +32,14 @@
 <link rel="stylesheet" href="css/Estilos.css">
 <link rel="stylesheet" href="css/styleVotante.css">
 </head>
-<body onkeydown="return showKeyCode(event)" >
+<script>
+	window.location.hash="no-back-button";
+	window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
+	window.onhashchange=function(){
+		window.location.hash="no-back-button";
+	}
+</script> 
+<body onkeydown="return showKeyCode(event)" onLoad="noBack();" onpageshow="if (event.persisted) noBack();" onUnload="">
 	<nav class="navbar navbar-expand-md navbar-ligth sidebarNavigation" data-sidebarClass="navbar-light" style="background-color: #e3f2fd;">
 	        <div class="container-fluid">
 	        <a class="navbar-brand" href="#">Sistema Votaciones</a>
@@ -50,7 +57,7 @@
 				            if(usuario!=null){
 			        	%>
 						<form method="POST" action="LogOut.do">
-							<a href="LogOut?btnCerrar=true"><i
+							<a href="LogOut.do?btnCerrar=true"><i
 								class="fa fa-power-off fa-2x fa-3x" aria-hidden="true"
 								style="float: left; margin-top: -4px; margin-left: 20px;"></i></a> <input
 								type="hidden" name="btnCerrar">

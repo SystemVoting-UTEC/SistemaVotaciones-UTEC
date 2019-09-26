@@ -35,6 +35,7 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 	private TipoUsuarioService tipoUsService = new TipoUsuarioService();
 
 	public Usuario findByCredentials(String dui, String password) throws SQLException {
+
 		Usuario obj = null;
 		Persona prs = null;
 		TipoUsuario tpus = null;
@@ -44,11 +45,12 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 			getPs().setString(2, Encriptar.sha1(password));
 			setRs(getPs().executeQuery());
 			if(getRs().next()) {
+				getRs().beforeFirst();
 				while (getRs().next()) {
 					prs = personService.finById(getRs().getString(1));
 					tpus = tipoUsService.finById(getRs().getInt(3));
 					obj = new Usuario(prs, getRs().getString(2), tpus);
-				}				
+				}	
 			}
 		} catch (Exception e) {
 			logger.error("Error: " + e);

@@ -73,7 +73,7 @@ public class Autentificando extends HttpServlet implements Serializable {
 					response.sendRedirect("votante.jsp");
 				}
 			} else {
-				response.sendRedirect("graficosVotaciones.jsp");
+				response.sendRedirect("graficoVotaciones.jsp");
 			}
 		} catch (Exception e) {
 			logger.error("Error en el servlet Autentificando en el método processRequest: ", e);

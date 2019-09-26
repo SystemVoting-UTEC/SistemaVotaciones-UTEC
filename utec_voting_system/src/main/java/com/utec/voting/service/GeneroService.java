@@ -31,11 +31,13 @@ public class GeneroService extends Conexion implements Service<Genero>, Serializ
 		ArrayList<Genero> l1 = new ArrayList<>();
 		try {
 			setRs(consPrepare(SELECT + TABLE).executeQuery());
-			if(getRs().next())
+			if(getRs().next()) {
+				getRs().beforeFirst();
 				while (getRs().next()) {
 					g = new Genero(getRs().getInt(1), getRs().getString(2));
 					l1.add(g);
 				}
+			}
 		} catch (Exception e) {
 			logger.error("Error: " + e);
 		} finally {
@@ -104,10 +106,12 @@ public class GeneroService extends Conexion implements Service<Genero>, Serializ
 			setPs(consPrepare(SELECT + TABLE + WHERE + "GEN_ID = ?"));
 			getPs().setInt(1, id);
 			setRs(getPs().executeQuery());
-			if(getRs().next())
+			if(getRs().next()) {
+				getRs().beforeFirst();
 				while (getRs().next()) {
 					g = new Genero(getRs().getInt(1), getRs().getString(2));
 				}
+			}
 		} catch (Exception e) {
 			logger.error("Error: " + e);
 		} finally {
