@@ -54,6 +54,7 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 			}
 		} catch (Exception e) {
 			logger.error("Error: " + e);
+			return obj;
 		} finally {
 			getPs().close();
 		}

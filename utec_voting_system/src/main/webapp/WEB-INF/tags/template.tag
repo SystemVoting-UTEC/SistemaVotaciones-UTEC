@@ -31,15 +31,8 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/Estilos.css">
 <link rel="stylesheet" href="css/styleVotante.css">
-</head>
-<script>
-	window.location.hash="no-back-button";
-	window.location.hash="Again-No-back-button";//again because google chrome don't insert first hash into history
-	window.onhashchange=function(){
-		window.location.hash="no-back-button";
-	}
-</script> 
-<body onkeydown="return showKeyCode(event)" onLoad="noBack();" onpageshow="if (event.persisted) noBack();" onUnload="">
+</head> 
+<body onkeydown="return showKeyCode(event)">
 	<nav class="navbar navbar-expand-md navbar-ligth sidebarNavigation" data-sidebarClass="navbar-light" style="background-color: #e3f2fd;">
 	        <div class="container-fluid">
 	        <a class="navbar-brand" href="#">Sistema Votaciones</a>
@@ -70,10 +63,10 @@
 								<tr>
 									<td><input type="text" name="usuario" id="usuario"
 										maxlength="30" size="25" autofocus autocomplete="off"
-										class="form-control" placeholder="Usuario"></td>
+										class="form-control" placeholder="00000000-0" pattern="[1-9]{8}-[1-9]{1}"></td>
 									<td>&nbsp;</td>
 									<td><input type="password" name="pass" id="pass" size="25"
-										class="form-control" placeholder="Contraseña"></td>
+										class="form-control" placeholder="Contraseña" pattern="[a-zA-Z0-9-]+"></td>
 									<td><input type="submit" id="BTN_Login"
 										value="Iniciar sesión" class="button button2"></td>
 								</tr>

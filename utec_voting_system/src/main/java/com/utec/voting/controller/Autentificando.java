@@ -59,7 +59,6 @@ public class Autentificando extends HttpServlet implements Serializable {
 					sesion.setAttribute("usuario", usr);
 					sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
 					request.setAttribute("mosDepa", departamentoService.getAll());
-//					request.setAttribute("mosDui", ob.mostrarDUI());
 					request.setAttribute("mosEsta", estadoFamiliarService.getAll());
 					request.setAttribute("mosGene", generoService.getAll());
 					response.sendRedirect("administracion.jsp");
@@ -68,8 +67,6 @@ public class Autentificando extends HttpServlet implements Serializable {
 					sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
 					sesion.setAttribute("usuario", usr);
 					sesion.setAttribute("diputado", dui);
-//					sesion.setAttribute("dui", usuario_dui);
-//					sesion.setAttribute("knowsufragio", sufragio);
 					response.sendRedirect("votante.jsp");
 				}
 			} else {
@@ -77,6 +74,7 @@ public class Autentificando extends HttpServlet implements Serializable {
 			}
 		} catch (Exception e) {
 			logger.error("Error en el servlet Autentificando en el método processRequest: ", e);
+			response.sendRedirect("graficoVotaciones.jsp");
 		}
 		
 	}
