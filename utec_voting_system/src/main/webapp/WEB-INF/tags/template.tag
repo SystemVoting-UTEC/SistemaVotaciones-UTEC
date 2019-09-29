@@ -63,7 +63,7 @@
 								<tr>
 									<td><input type="text" name="usuario" id="usuario"
 										maxlength="30" size="25" autofocus autocomplete="off"
-										class="form-control" placeholder="00000000-0" pattern="[1-9]{8}-[1-9]{1}"></td>
+										class="form-control" placeholder="00000000-0" pattern="[0-9]{8}-[0-9]{1}"></td>
 									<td>&nbsp;</td>
 									<td><input type="password" name="pass" id="pass" size="25"
 										class="form-control" placeholder="Contraseña" pattern="[a-zA-Z0-9-]+"></td>
