@@ -1,11 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%
-	HttpSession sesion = request.getSession(true);
-	Object nombre = sesion.getAttribute("usuario") == null ? null : sesion.getAttribute("usuario");
-	if (nombre != null) {
-%>
+<c:if test = "${sessionScope.usuario != null}">
 <t:template>
 	<jsp:body>
 			<div  class="container-fluid">
@@ -17,8 +13,7 @@
 			</div>
 	</jsp:body>
 </t:template>
-<%
-	} else {
-		out.print("<script>location.replace('index.jsp')</script>");
-	}
-%>
+</c:if>
+<c:if test = "${sessionScope.usuario == null}">
+	 <c:redirect url = "index.jsp"/>
+</c:if>

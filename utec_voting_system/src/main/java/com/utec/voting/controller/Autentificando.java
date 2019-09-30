@@ -15,6 +15,7 @@ import com.utec.voting.modelo.Usuario;
 import com.utec.voting.service.DepartamentoService;
 import com.utec.voting.service.EstadoFamiliarService;
 import com.utec.voting.service.GeneroService;
+import com.utec.voting.service.OptionMenuService;
 import com.utec.voting.service.UsuarioService;
 
 /**
@@ -48,6 +49,7 @@ public class Autentificando extends HttpServlet implements Serializable {
 			DepartamentoService departamentoService = new DepartamentoService();
 			GeneroService generoService = new GeneroService();
 			EstadoFamiliarService estadoFamiliarService = new EstadoFamiliarService(); 
+			OptionMenuService optionMenuService = new OptionMenuService(); 
 			response.setContentType("text/html;charset=UTF-8");
 			String dui = request.getParameter("usuario");
 			String pass = request.getParameter("pass");
@@ -58,6 +60,7 @@ public class Autentificando extends HttpServlet implements Serializable {
 					HttpSession sesion = request.getSession(true);
 					sesion.setAttribute("usuario", usr);
 					sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
+					sesion.setAttribute("optList", optionMenuService.getAllByRol(usr.getUsTusId()));
 					request.setAttribute("mosDepa", departamentoService.getAll());
 					request.setAttribute("mosEsta", estadoFamiliarService.getAll());
 					request.setAttribute("mosGene", generoService.getAll());

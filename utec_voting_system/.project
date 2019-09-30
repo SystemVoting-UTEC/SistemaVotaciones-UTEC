@@ -3,6 +3,7 @@
 	<name>utec_voting_system</name>
 	<comment></comment>
 	<projects>
+		<project>utec_voting_system_ws</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
