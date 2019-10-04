@@ -6,19 +6,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.sql.DataSource;
+
 /**
 *
 * @author Kevin Orellana
 */
 public class Conexion {
-    private String username = "kevin-UTEC";
-    private String password = "12345";
-    private String hostname = "104.197.59.203";
-    private String puerto = "3306";
-    private String base = "SYSTEM_VOTING";
-    private String classname = "com.mysql.jdbc.Driver";
-    private String url = "jdbc:mysql://" + hostname + ":" + puerto + "/" + base;
+	
+//    private String username = "kevin-UTEC";
+//    private String password = "12345";
+//    private String hostname = "104.197.59.203";
+//    private String puerto = "3306";
+//    private String base = "SYSTEM_VOTING";
+//    private String classname = "com.mysql.jdbc.Driver";
+//    private String url = "jdbc:mysql://" + hostname + ":" + puerto + "/" + base;
     private static Connection conecto;
+   
     private ResultSet rs;
     private PreparedStatement ps;
     public static final String SELECT = "SELECT * FROM ";
@@ -39,9 +45,14 @@ public class Conexion {
     
     public Connection getConnection() {
     	try {
-            Class.forName(classname).newInstance();
-            conecto = DriverManager.getConnection(url, username, password);
+    		Context initCtx = new InitialContext();
+    		Context envCtx = (Context) initCtx.lookup("java:comp/env");
+    		DataSource ds = (DataSource)
+    		envCtx.lookup("jdbc/system_voting");
+//            Class.forName(classname).newInstance();
+            conecto = ds.getConnection();
         } catch (Exception e) {
+        	System.out.println("Al intentar conectar"+e);
         }
         return this.conecto;
     }
@@ -78,5 +89,10 @@ public class Conexion {
 	 */
 	public void setRs(ResultSet rs) {
 		this.rs = rs;
+	}
+	
+	public static void main(String[] args) {
+		Conexion conn = new Conexion();
+		Connection con = conn.getConnection();
 	}
 }
