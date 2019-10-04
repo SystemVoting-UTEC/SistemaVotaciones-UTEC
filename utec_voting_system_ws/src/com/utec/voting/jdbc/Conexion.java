@@ -6,8 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import org.apache.log4j.Logger;
-
 /**
 *
 * @author Kevin Orellana
@@ -34,7 +32,6 @@ public class Conexion {
     /**
      * Variable de logueo para errores.
      */
-    static final Logger logger = Logger.getLogger(Conexion.class);
     
     public Conexion(){
         
@@ -45,7 +42,6 @@ public class Conexion {
             Class.forName(classname).newInstance();
             conecto = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
-        	logger.error("Error" + e);
         }
         return this.conecto;
     }
