@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -15,13 +16,16 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.mysql.jdbc.CallableStatement;
 import com.utec.voting.jdbc.Conexion;
 
+import utec.voting.system.entities.Persona;
+import utec.voting.system.entities.TipoUsuario;
 import utec.voting.system.entities.Usuario;
 import utec.voting.system.services.Service;
 
-@Path("/usuario")
-@Produces(MediaType.APPLICATION_JSON)
+@Path("/login")
+@Produces(MediaType.APPLICATION_JSON) 
 @Consumes(MediaType.APPLICATION_JSON)
 public class UsuarioService extends Conexion implements Service<Usuario>, Serializable{
 
@@ -29,8 +33,6 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private static final String TABLE = "USUARIO";
 
 	@Override
 	public ArrayList<Usuario> getAll() throws SQLException {
@@ -66,47 +68,39 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 	@Override
 	public Usuario finById(@PathParam("id") String id) throws SQLException {
 		Usuario obj = null;
-		
-		try {
-			setPs(consPrepare(SELECT + TABLE + WHERE + "US_PER_DUI = ?"));
-			getPs().setString(1, id);
-			setRs(getPs().executeQuery());
-			if(getRs().next()) {
-				getRs().beforeFirst();
-				while (getRs().next()) {
-					System.out.println("Valor "+getRs().getString(1));
-				}	
-			}
-		} catch (Exception e) {
-			return obj;
-		} finally {
-			getPs().close();
-		}
 		return obj;
 	}
 	
 	@SuppressWarnings("finally")
-	@GET
-	@Path("/findId/{id}")
-	public Response finByIds(@PathParam("id") String id) throws SQLException {
+	@POST
+	@Path("/finByCredential/{id}/{pass}")
+	public Response finByCredential(@PathParam("id") String dui, @PathParam("pass") String pass) throws SQLException {
 		Usuario obj = null;
+		TipoUsuario tpusu = null;
+		Persona per = null;
 		JSONObject jsonObject = null;
 		
 		try {
-			setPs(consPrepare(SELECT + TABLE + WHERE + "US_PER_DUI = ?"));
-			getPs().setString(1, id);
-			setRs(getPs().executeQuery());
+			String query = "{CALL SP_LOGIN(?,?)}";
+			CallableStatement stmt = (CallableStatement) getConnection().prepareCall(query);
+			stmt.setString(1, dui);
+			stmt.setString(2, pass);
+			setRs(stmt.executeQuery());
 			if(getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					System.out.println("Valor "+getRs().getString(1));
+					per = new Persona();
+					per.setPerDui(getRs().getString(1));
+					tpusu = new TipoUsuario(getRs().getInt(3), "ADM");
+					obj =  new Usuario(per, getRs().getString(2), tpusu);
 				}	
 			}
 			jsonObject = new JSONObject(obj);
 		} catch (Exception e) {
-			return Response.status(200).entity(jsonObject).build();
+			System.out.println("Error: "+e);
+			return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 		} finally {
-			return Response.status(200).entity(jsonObject).build();
+			return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 		}
 	}
 	

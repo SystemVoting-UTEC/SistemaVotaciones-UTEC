@@ -22,7 +22,7 @@ public class Conexion {
 //    private String base = "SYSTEM_VOTING";
 //    private String classname = "com.mysql.jdbc.Driver";
 //    private String url = "jdbc:mysql://" + hostname + ":" + puerto + "/" + base;
-    private static Connection conecto;
+    private  Connection conecto;
    
     private ResultSet rs;
     private PreparedStatement ps;
