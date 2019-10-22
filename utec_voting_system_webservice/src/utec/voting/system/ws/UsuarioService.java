@@ -71,20 +71,18 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 		return obj;
 	}
 	
-	@SuppressWarnings("finally")
 	@POST
-	@Path("/finByCredential/{id}/{pass}")
-	public Response finByCredential(@PathParam("id") String dui, @PathParam("pass") String pass) throws SQLException {
+	public Response finByCredential(Usuario us) throws SQLException {
 		Usuario obj = null;
 		TipoUsuario tpusu = null;
 		Persona per = null;
 		JSONObject jsonObject = null;
-		
+		System.out.println("Request: "+us);
 		try {
 			String query = "{CALL SP_LOGIN(?,?)}";
 			CallableStatement stmt = (CallableStatement) getConnection().prepareCall(query);
-			stmt.setString(1, dui);
-			stmt.setString(2, pass);
+			stmt.setString(1, us.getUsPerDui().getPerDui());
+			stmt.setString(2, us.getUsPassword());
 			setRs(stmt.executeQuery());
 			if(getRs().next()) {
 				getRs().beforeFirst();
@@ -98,10 +96,9 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 			jsonObject = new JSONObject(obj);
 		} catch (Exception e) {
 			System.out.println("Error: "+e);
-			return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
-		} finally {
-			return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+			return Response.status(500).build();
 		}
+		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 	}
 	
 	@GET
