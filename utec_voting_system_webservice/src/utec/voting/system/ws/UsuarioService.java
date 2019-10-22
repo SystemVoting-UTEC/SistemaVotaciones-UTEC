@@ -1,6 +1,7 @@
 package utec.voting.system.ws;
 
 import java.io.Serializable;
+import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -16,12 +17,12 @@ import javax.ws.rs.core.Response;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.mysql.jdbc.CallableStatement;
 import com.utec.voting.jdbc.Conexion;
 
 import utec.voting.system.entities.Persona;
 import utec.voting.system.entities.TipoUsuario;
 import utec.voting.system.entities.Usuario;
+import utec.voting.system.services.PersonaImpl;
 import utec.voting.system.services.Service;
 
 @Path("/login")
@@ -33,6 +34,8 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private PersonaImpl personaService = new PersonaImpl();
 
 	@Override
 	public ArrayList<Usuario> getAll() throws SQLException {
@@ -66,7 +69,7 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 	}
 
 	@Override
-	public Usuario finById(@PathParam("id") String id) throws SQLException {
+	public Usuario finById(String id) throws SQLException {
 		Usuario obj = null;
 		return obj;
 	}
@@ -80,19 +83,19 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 		System.out.println("Request: "+us);
 		try {
 			String query = "{CALL SP_LOGIN(?,?)}";
-			CallableStatement stmt = (CallableStatement) getConnection().prepareCall(query);
+			CallableStatement stmt = getConnection().prepareCall(query);
 			stmt.setString(1, us.getUsPerDui().getPerDui());
 			stmt.setString(2, us.getUsPassword());
 			setRs(stmt.executeQuery());
 			if(getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					per = new Persona();
-					per.setPerDui(getRs().getString(1));
+					per = personaService.finById(us.getUsPerDui().getPerDui());
 					tpusu = new TipoUsuario(getRs().getInt(3), "ADM");
 					obj =  new Usuario(per, getRs().getString(2), tpusu);
 				}	
 			}
+			System.out.println("Response: "+obj);
 			jsonObject = new JSONObject(obj);
 		} catch (Exception e) {
 			System.out.println("Error: "+e);
