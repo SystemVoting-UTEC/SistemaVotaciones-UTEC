@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+    <Resource name="jdbc/system_voting" auth="Container" type="javax.sql.DataSource"
+              maxActive="50" maxIdle="30" maxWait="100000"
+              username="kevin-UTEC" password="12345"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://104.197.59.203:3306/SYSTEM_VOTING"/>
+</Context>
