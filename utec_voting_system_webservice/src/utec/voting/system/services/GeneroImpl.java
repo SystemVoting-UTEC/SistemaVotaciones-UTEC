@@ -3,11 +3,19 @@ package utec.voting.system.services;
 import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
 
 import com.utec.voting.jdbc.Conexion;
 
 import utec.voting.system.entities.Genero;
+
+/**
+ * @author Kevin Orellana
+ * @version 1.0 Date: September 2019
+ */
 
 public class GeneroImpl extends Conexion implements Service<Genero>, Serializable{
 
@@ -15,23 +23,73 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	/**
+	 * Variable de logueo para errores.
+	 */
+	static final Logger logger = Logger.getLogger(GeneroImpl.class);
+	
 	@Override
 	public ArrayList<Genero> getAll() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Genero g;
+		ArrayList<Genero> l1 = new ArrayList<>();
+		try {
+			String query = "{CALL SP_READ_PERSONAS()}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			setRs(stmt.executeQuery());
+			if(getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					g = new Genero(getRs().getInt(1), getRs().getString(2));
+					l1.add(g);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error: " + e);
+		} finally {
+			getPs().close();
+		}
+		return l1;
 	}
 
 	@Override
 	public Boolean save(Genero t) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		boolean bandera = false;
+		try {
+			String query = "{CALL SP_CREATE_GENERO(?,?)}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt.setString(1, t.getGenGenero());
+			stmt.registerOutParameter(2, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(2) == 1) {
+				bandera = true;
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		} finally {
+			getPs().close();
+		}
+		return bandera;
 	}
 
 	@Override
 	public Boolean update(Genero t) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		boolean bandera = false;
+		try {
+			String query = "{CALL SP_UPDATE_GENERO(?,?)}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt.setInt(1, t.getGenId());
+			stmt.registerOutParameter(2, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(2) == 1) {
+				bandera = true;
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		} finally {
+			getPs().close();
+		}
+		return bandera;
 	}
 
 	@Override

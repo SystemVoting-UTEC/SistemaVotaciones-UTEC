@@ -5,6 +5,8 @@ import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import com.utec.voting.jdbc.Conexion;
 
 import utec.voting.system.entities.Departamento;
@@ -19,14 +21,46 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	/**
+	 * Variable de logueo para errores.
+	 */
+	static final Logger logger = Logger.getLogger(PersonaImpl.class);
+	
 	private GeneroImpl generoService =  new GeneroImpl();
 	private DepartamentoImpl departamentoService =  new DepartamentoImpl();
 	private EstadoFamiliarImpl estadoFamiliarService =  new EstadoFamiliarImpl();
 
 	@Override
 	public ArrayList<Persona> getAll() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Persona g;
+		Departamento depto = null;
+		Genero genero =  null;
+		EstadoFamiliar estadoF = null;
+		ArrayList<Persona> l1 = new ArrayList<>();
+		try {
+			String query = "{CALL SP_READ_PERSONAS()}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			setRs(stmt.executeQuery());
+			if(getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					genero = generoService.finById(getRs().getInt("PER_GEN_ID"));
+					depto = departamentoService.finById(getRs().getInt("PER_DEP_ID"));
+					estadoF =  estadoFamiliarService.finById(getRs().getInt("PER_EST_ID"));
+					g = new Persona(getRs().getString(1),getRs().getString(2),getRs().getString(3),
+							getRs().getString(4),getRs().getString(5)
+							,getRs().getString(6),getRs().getDate(7),
+							getRs().getInt(8)
+							,genero,depto, estadoF,getRs().getString(12),getRs().getString(13));
+					l1.add(g);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error: " + e);
+		} finally {
+			getPs().close();
+		}
+		return l1;
 	}
 
 	@Override
@@ -55,7 +89,6 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 
 	@Override
 	public Persona finById(String id) throws SQLException {
-		System.out.println("Valor que envian: "+id);
 		Persona g = null;
 		Departamento depto = null;
 		Genero genero =  null;
