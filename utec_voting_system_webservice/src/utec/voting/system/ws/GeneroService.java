@@ -13,6 +13,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import utec.voting.system.entities.Genero;
@@ -40,18 +41,18 @@ public class GeneroService implements Serializable{
 	static final Logger logger = Logger.getLogger(GeneroService.class);
 	
 	@GET
-	@Path("")
 	public Response findAll() throws SQLException {
+		JSONArray jsArray;
 		List<Genero> obj = null;
-		JSONObject jsonObject = null;
 		try {
 			obj =  new ArrayList<Genero>();
-			obj.addAll(generoService.getAll());
-			jsonObject = new JSONObject(obj);
+			obj = generoService.getAll();
+			logger.info("OBJECT:::"+obj.toString());
+			jsArray = new JSONArray(obj);
 		} catch (Exception e) {
 			logger.error("Error: ",e);
 			return Response.status(500).build();
 		}
-		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+		return Response.ok(jsArray.toString(),MediaType.APPLICATION_JSON).build();
 	}
 }

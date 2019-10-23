@@ -34,20 +34,20 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 		Genero g;
 		ArrayList<Genero> l1 = new ArrayList<>();
 		try {
-			String query = "{CALL SP_READ_PERSONAS()}";
+			String query = "{CALL SP_READ_GENEROS()}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			setRs(stmt.executeQuery());
 			if(getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
 					g = new Genero(getRs().getInt(1), getRs().getString(2));
+					logger.error("Aquí: " + g);
 					l1.add(g);
 				}
 			}
+			stmt.close();
 		} catch (Exception e) {
 			logger.error("Error: " + e);
-		} finally {
-			getPs().close();
 		}
 		return l1;
 	}
