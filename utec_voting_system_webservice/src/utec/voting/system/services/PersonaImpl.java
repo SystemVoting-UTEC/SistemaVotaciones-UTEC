@@ -61,7 +61,7 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 		Genero genero =  null;
 		EstadoFamiliar estadoF = null;
 		try {
-			String query = "{CALL SP_LOGIN(?,?)}";
+			String query = "{CALL SP_READ_ONE_PER(?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			stmt.setString(1, id);
 			setRs(stmt.executeQuery());
