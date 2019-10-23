@@ -5,11 +5,10 @@ import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.utec.voting.jdbc.Conexion;
+import utec.voting.system.entities.Departamento;
+import utec.voting.system.jdbc.Conexion;
 
-import utec.voting.system.entities.TipoUsuario;
-
-public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, Serializable{
+public class DepartamentoImpl extends Conexion implements Service<Departamento>, Serializable{
 
 	/**
 	 * 
@@ -17,41 +16,41 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public ArrayList<TipoUsuario> getAll() throws SQLException {
+	public ArrayList<Departamento> getAll() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public TipoUsuario save(TipoUsuario t) throws SQLException {
+	public Departamento save(Departamento t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public TipoUsuario update(TipoUsuario t) throws SQLException {
+	public Departamento update(Departamento t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean delete(TipoUsuario t) throws SQLException {
+	public Boolean delete(Departamento t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public TipoUsuario finById(Integer id) throws SQLException {
-		TipoUsuario g =  null;
+	public Departamento finById(Integer id) throws SQLException {
+		Departamento g =  null;
 		try {
-			String query = "{CALL SP_READ_ONE_TPUSU(?)}";
+			String query = "{CALL SP_READ_ONE_DEP(?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);
 			setRs(stmt.executeQuery());
 			if (getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					g = new TipoUsuario(getRs().getInt(1), getRs().getString(2));
+					g = new Departamento(getRs().getInt(1), getRs().getString(2));
 				}
 			}
 		} catch (Exception e) {
@@ -61,7 +60,7 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 	}
 
 	@Override
-	public TipoUsuario finById(String id) throws SQLException {
+	public Departamento finById(String id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

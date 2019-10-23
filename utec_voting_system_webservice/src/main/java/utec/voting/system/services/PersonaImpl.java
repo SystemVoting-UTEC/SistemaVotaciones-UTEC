@@ -7,12 +7,11 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import com.utec.voting.jdbc.Conexion;
-
 import utec.voting.system.entities.Departamento;
 import utec.voting.system.entities.EstadoFamiliar;
 import utec.voting.system.entities.Genero;
 import utec.voting.system.entities.Persona;
+import utec.voting.system.jdbc.Conexion;
 
 public class PersonaImpl extends Conexion implements Service<Persona>, Serializable{
 

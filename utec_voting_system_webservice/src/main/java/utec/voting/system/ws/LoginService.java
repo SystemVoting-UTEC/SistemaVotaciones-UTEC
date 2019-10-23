@@ -42,7 +42,6 @@ public class LoginService implements Serializable{
 	public Response finByCredential(Usuario us) throws SQLException {
 		Usuario obj = null;
 		JSONObject jsonObject = null;
-		System.out.println("Request: "+us);
 		try {
 			obj =  new Usuario();
 			obj = usuarioImpl.loginCredential(us);

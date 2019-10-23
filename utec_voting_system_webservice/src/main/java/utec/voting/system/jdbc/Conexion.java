@@ -1,4 +1,4 @@
-package com.utec.voting.jdbc;
+package utec.voting.system.jdbc;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

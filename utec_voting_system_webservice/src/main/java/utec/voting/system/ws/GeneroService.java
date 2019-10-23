@@ -51,7 +51,6 @@ public class GeneroService implements Serializable{
 		try {
 			obj =  new ArrayList<Genero>();
 			obj = generoService.getAll();
-			logger.info("OBJECT:::"+obj.toString());
 			jsArray = new JSONArray(obj);
 		} catch (Exception e) {
 			logger.error("Error: ",e);

@@ -8,9 +8,8 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import com.utec.voting.jdbc.Conexion;
-
 import utec.voting.system.entities.Genero;
+import utec.voting.system.jdbc.Conexion;
 
 /**
  * @author Kevin Orellana
@@ -41,7 +40,6 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 				getRs().beforeFirst();
 				while (getRs().next()) {
 					g = new Genero(getRs().getInt(1), getRs().getString(2));
-					logger.error("Aquí: " + g);
 					l1.add(g);
 				}
 			}
@@ -115,7 +113,7 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Error: "+e);
+			logger.error("Error" + e);
 		}
 		return g;
 	}

@@ -5,11 +5,11 @@ import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.utec.voting.jdbc.Conexion;
+import utec.voting.system.entities.EstadoFamiliar;
+import utec.voting.system.entities.Genero;
+import utec.voting.system.jdbc.Conexion;
 
-import utec.voting.system.entities.Departamento;
-
-public class DepartamentoImpl extends Conexion implements Service<Departamento>, Serializable{
+public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamiliar>, Serializable{
 
 	/**
 	 * 
@@ -17,41 +17,41 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public ArrayList<Departamento> getAll() throws SQLException {
+	public ArrayList<EstadoFamiliar> getAll() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Departamento save(Departamento t) throws SQLException {
+	public EstadoFamiliar save(EstadoFamiliar t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Departamento update(Departamento t) throws SQLException {
+	public EstadoFamiliar update(EstadoFamiliar t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean delete(Departamento t) throws SQLException {
+	public Boolean delete(EstadoFamiliar t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Departamento finById(Integer id) throws SQLException {
-		Departamento g =  null;
+	public EstadoFamiliar finById(Integer id) throws SQLException {
+		EstadoFamiliar g =  null;
 		try {
-			String query = "{CALL SP_READ_ONE_DEP(?)}";
+			String query = "{CALL SP_READ_ONE_ESTADOF(?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);
 			setRs(stmt.executeQuery());
 			if (getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					g = new Departamento(getRs().getInt(1), getRs().getString(2));
+					g = new EstadoFamiliar(getRs().getInt(1), getRs().getString(2));
 				}
 			}
 		} catch (Exception e) {
@@ -61,7 +61,7 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 	}
 
 	@Override
-	public Departamento finById(String id) throws SQLException {
+	public EstadoFamiliar finById(String id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

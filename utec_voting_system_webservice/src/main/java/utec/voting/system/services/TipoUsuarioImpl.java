@@ -5,12 +5,10 @@ import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import com.utec.voting.jdbc.Conexion;
+import utec.voting.system.entities.TipoUsuario;
+import utec.voting.system.jdbc.Conexion;
 
-import utec.voting.system.entities.EstadoFamiliar;
-import utec.voting.system.entities.Genero;
-
-public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamiliar>, Serializable{
+public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, Serializable{
 
 	/**
 	 * 
@@ -18,41 +16,41 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	public ArrayList<EstadoFamiliar> getAll() throws SQLException {
+	public ArrayList<TipoUsuario> getAll() throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public EstadoFamiliar save(EstadoFamiliar t) throws SQLException {
+	public TipoUsuario save(TipoUsuario t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public EstadoFamiliar update(EstadoFamiliar t) throws SQLException {
+	public TipoUsuario update(TipoUsuario t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean delete(EstadoFamiliar t) throws SQLException {
+	public Boolean delete(TipoUsuario t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public EstadoFamiliar finById(Integer id) throws SQLException {
-		EstadoFamiliar g =  null;
+	public TipoUsuario finById(Integer id) throws SQLException {
+		TipoUsuario g =  null;
 		try {
-			String query = "{CALL SP_READ_ONE_ESTADOF(?)}";
+			String query = "{CALL SP_READ_ONE_TPUSU(?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);
 			setRs(stmt.executeQuery());
 			if (getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					g = new EstadoFamiliar(getRs().getInt(1), getRs().getString(2));
+					g = new TipoUsuario(getRs().getInt(1), getRs().getString(2));
 				}
 			}
 		} catch (Exception e) {
@@ -62,7 +60,7 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 	}
 
 	@Override
-	public EstadoFamiliar finById(String id) throws SQLException {
+	public TipoUsuario finById(String id) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
