@@ -9,11 +9,20 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
+
+import utec.voting.system.services.TipoUsuarioImpl;
+
 /**
 *
 * @author Kevin Orellana
 */
 public class Conexion {
+	/**
+	 * Variable de logueo para errores.
+	 */
+	static final Logger logger = Logger.getLogger(Conexion.class);
+	
     private  Connection conecto;
    
     private ResultSet rs;
@@ -21,7 +30,7 @@ public class Conexion {
     /**
      * Variable de logueo para errores.
      */
-    
+	
     public Conexion(){
         
     }
@@ -34,7 +43,7 @@ public class Conexion {
     		envCtx.lookup("jdbc/system_voting");
             conecto = ds.getConnection();
         } catch (Exception e) {
-        	System.out.println("Al intentar conectar"+e);
+        	logger.error("Al intentar conectar"+e);
         }
         return this.conecto;
     }

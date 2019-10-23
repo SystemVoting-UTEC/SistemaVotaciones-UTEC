@@ -5,6 +5,8 @@ import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import utec.voting.system.entities.TipoUsuario;
 import utec.voting.system.jdbc.Conexion;
 
@@ -15,6 +17,11 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 	 */
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Variable de logueo para errores.
+	 */
+	static final Logger logger = Logger.getLogger(TipoUsuarioImpl.class);
+	
 	@Override
 	public ArrayList<TipoUsuario> getAll() throws SQLException {
 		// TODO Auto-generated method stub
@@ -54,7 +61,7 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Error: "+e);
+			logger.error("Error: ",e);
 		}
 		return g;
 	}

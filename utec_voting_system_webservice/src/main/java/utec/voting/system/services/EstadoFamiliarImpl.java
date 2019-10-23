@@ -5,8 +5,9 @@ import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import utec.voting.system.entities.EstadoFamiliar;
-import utec.voting.system.entities.Genero;
 import utec.voting.system.jdbc.Conexion;
 
 public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamiliar>, Serializable{
@@ -15,6 +16,11 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Variable de logueo para errores.
+	 */
+	static final Logger logger = Logger.getLogger(EstadoFamiliarImpl.class);
 
 	@Override
 	public ArrayList<EstadoFamiliar> getAll() throws SQLException {
@@ -55,7 +61,7 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 				}
 			}
 		} catch (Exception e) {
-			System.out.println("Error: "+e);
+			logger.error("Error: ",e);
 		}
 		return g;
 	}
