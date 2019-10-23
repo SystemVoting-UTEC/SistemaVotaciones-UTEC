@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import com.utec.voting.jdbc.Conexion;
 
 import utec.voting.system.entities.Departamento;
-import utec.voting.system.entities.Genero;
 
 public class DepartamentoImpl extends Conexion implements Service<Departamento>, Serializable{
 
@@ -24,13 +23,13 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 	}
 
 	@Override
-	public Boolean save(Departamento t) throws SQLException {
+	public Departamento save(Departamento t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean update(Departamento t) throws SQLException {
+	public Departamento update(Departamento t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

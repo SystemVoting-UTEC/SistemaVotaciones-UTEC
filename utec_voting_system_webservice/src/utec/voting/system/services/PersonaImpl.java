@@ -64,13 +64,13 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 	}
 
 	@Override
-	public Boolean save(Persona t) throws SQLException {
+	public Persona save(Persona t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean update(Persona t) throws SQLException {
+	public Persona update(Persona t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

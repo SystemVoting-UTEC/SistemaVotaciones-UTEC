@@ -34,13 +34,13 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>{
 	}
 
 	@Override
-	public Boolean save(Usuario t) throws SQLException {
+	public Usuario save(Usuario t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean update(Usuario t) throws SQLException {
+	public Usuario update(Usuario t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

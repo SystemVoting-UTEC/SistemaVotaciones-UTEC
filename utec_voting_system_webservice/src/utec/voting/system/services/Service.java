@@ -20,14 +20,14 @@ public interface Service<T> {
 	 * @return Boolean True Or False
 	 * @throws SQLException
 	 */
-	Boolean save(T t) throws SQLException;
+	T save(T t) throws SQLException;
 
 	/**
 	 * @param t
 	 * @return Boolean True Or False
 	 * @throws SQLException
 	 */
-	Boolean update(T t) throws SQLException;
+	T update(T t) throws SQLException;
 
 	/**
 	 * @param t

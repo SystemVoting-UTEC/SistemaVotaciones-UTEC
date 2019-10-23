@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import com.utec.voting.jdbc.Conexion;
 
-import utec.voting.system.entities.Genero;
 import utec.voting.system.entities.TipoUsuario;
 
 public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, Serializable{
@@ -24,13 +23,13 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 	}
 
 	@Override
-	public Boolean save(TipoUsuario t) throws SQLException {
+	public TipoUsuario save(TipoUsuario t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Boolean update(TipoUsuario t) throws SQLException {
+	public TipoUsuario update(TipoUsuario t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

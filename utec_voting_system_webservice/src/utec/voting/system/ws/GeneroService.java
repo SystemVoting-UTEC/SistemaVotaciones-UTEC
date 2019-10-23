@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -54,5 +58,52 @@ public class GeneroService implements Serializable{
 			return Response.status(500).build();
 		}
 		return Response.ok(jsArray.toString(),MediaType.APPLICATION_JSON).build();
+	}
+	
+	@POST
+	public Response addGenero(Genero gen) {
+		Genero genero = new Genero();
+		JSONObject jsonObject = null;
+		try {
+			genero = generoService.save(gen);
+			if( genero != null) {
+				genero = generoService.finById(genero.getGenId());
+				jsonObject = new JSONObject(genero);
+			}
+		} catch (Exception e) {
+			logger.error("Error: ",e);
+			return Response.status(500).build();
+		}
+		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+	}
+	
+	@PUT
+	public Response updGenero(Genero gen) {
+		Genero genero = new Genero();
+		JSONObject jsonObject = null;
+		try {
+			genero = generoService.update(gen);
+			if( genero != null) {
+				genero = generoService.finById(genero.getGenId());
+				jsonObject = new JSONObject(genero);
+			}
+		} catch (Exception e) {
+			logger.error("Error: ",e);
+			return Response.status(500).build();
+		}
+		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+	}
+	
+	@DELETE
+	public Response deleteGenero(Genero gen) {
+		JSONObject jsonObject = new JSONObject("{\"result\": \"ok\"}");
+		try {
+			if(generoService.delete(gen)) {
+			}
+		} catch (Exception e) {
+			logger.error("Error: ",e);
+			return Response.status(500).build();
+		}
+		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 	}
 }

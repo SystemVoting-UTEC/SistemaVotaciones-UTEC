@@ -51,10 +51,10 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 		}
 		return l1;
 	}
-
+	
 	@Override
-	public Boolean save(Genero t) throws SQLException {
-		boolean bandera = false;
+	public Genero save(Genero t) throws SQLException {
+		Genero bandera = null;
 		try {
 			String query = "{CALL SP_CREATE_GENERO(?,?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
@@ -62,7 +62,8 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 			stmt.registerOutParameter(2, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(2) == 1) {
-				bandera = true;
+				bandera = new Genero();
+				bandera.setGenId(stmt.getInt(2));
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
@@ -73,8 +74,8 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 	}
 
 	@Override
-	public Boolean update(Genero t) throws SQLException {
-		boolean bandera = false;
+	public Genero update(Genero t) throws SQLException {
+		Genero bandera = null;
 		try {
 			String query = "{CALL SP_UPDATE_GENERO(?,?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
@@ -82,7 +83,8 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 			stmt.registerOutParameter(2, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(2) == 1) {
-				bandera = true;
+				bandera = new Genero();
+				bandera.setGenId(stmt.getInt(2));
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
