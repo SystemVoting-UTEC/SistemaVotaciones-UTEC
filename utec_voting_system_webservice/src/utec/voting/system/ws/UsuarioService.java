@@ -9,7 +9,6 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -24,6 +23,7 @@ import utec.voting.system.entities.TipoUsuario;
 import utec.voting.system.entities.Usuario;
 import utec.voting.system.services.PersonaImpl;
 import utec.voting.system.services.Service;
+import utec.voting.system.services.TipoUsuarioImpl;
 
 @Path("/login")
 @Produces(MediaType.APPLICATION_JSON) 
@@ -36,6 +36,7 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 	private static final long serialVersionUID = 1L;
 	
 	private PersonaImpl personaService = new PersonaImpl();
+	private TipoUsuarioImpl tipoUsuarioService = new TipoUsuarioImpl();
 
 	@Override
 	public ArrayList<Usuario> getAll() throws SQLException {
@@ -91,7 +92,7 @@ public class UsuarioService extends Conexion implements Service<Usuario>, Serial
 				getRs().beforeFirst();
 				while (getRs().next()) {
 					per = personaService.finById(us.getUsPerDui().getPerDui());
-					tpusu = new TipoUsuario(getRs().getInt(3), "ADM");
+					tpusu = tipoUsuarioService.finById(getRs().getInt(3));
 					obj =  new Usuario(per, getRs().getString(2), tpusu);
 				}	
 			}

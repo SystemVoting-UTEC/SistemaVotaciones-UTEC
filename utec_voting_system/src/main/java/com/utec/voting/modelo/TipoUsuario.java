@@ -8,6 +8,9 @@ public class TipoUsuario {
 	private Integer tusId;
 	private String tusTipo;
 	
+	public TipoUsuario() {
+	}
+	
 	/**
 	 * @param tusId
 	 * @param tusTipo
