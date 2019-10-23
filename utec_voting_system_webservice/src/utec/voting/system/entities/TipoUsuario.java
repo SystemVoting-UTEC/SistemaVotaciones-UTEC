@@ -1,12 +1,18 @@
 package utec.voting.system.entities;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  * @author Kevin Orellana
  * @version 1.0 Date: September 2019
  */
+@XmlRootElement
 public class TipoUsuario {
 	private Integer tusId;
 	private String tusTipo;
+	
+	public TipoUsuario() {
+	}
 	
 	/**
 	 * @param tusId

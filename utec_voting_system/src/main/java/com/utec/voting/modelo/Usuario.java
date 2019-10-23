@@ -8,7 +8,11 @@ public class Usuario {
 	private Persona usPerDui;
 	private String usPassword;
 	private TipoUsuario usTusId;
+	
+	public Usuario() {
+	}
 
+	
 	/**
 	 * @param usPerDui
 	 * @param usPassword
