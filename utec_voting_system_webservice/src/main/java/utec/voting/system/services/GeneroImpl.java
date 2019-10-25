@@ -52,44 +52,37 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 	
 	@Override
 	public Genero save(Genero t) throws SQLException {
-		Genero bandera = null;
 		try {
 			String query = "{CALL SP_CREATE_GENERO(?,?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getGenGenero());
 			stmt.registerOutParameter(2, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(2) == 1) {
-				bandera = new Genero();
-				bandera.setGenId(stmt.getInt(2));
+			if (stmt.getInt(2) > 0) {
+				t.setGenId(stmt.getInt(2));
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
-		} finally {
-			getPs().close();
 		}
-		return bandera;
+		return t;
 	}
 
 	@Override
 	public Genero update(Genero t) throws SQLException {
-		Genero bandera = null;
 		try {
-			String query = "{CALL SP_UPDATE_GENERO(?,?)}";
+			String query = "{CALL SP_UPDATE_GENERO(?,?,?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
-			stmt.setInt(1, t.getGenId());
-			stmt.registerOutParameter(2, Types.INTEGER);
+			stmt.setString(1, t.getGenGenero());
+			stmt.setInt(2, t.getGenId());
+			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(2) == 1) {
-				bandera = new Genero();
-				bandera.setGenId(stmt.getInt(2));
+			if (stmt.getInt(3) >= 1) {
+				logger.error("Actualizadoooo.............");
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
-		} finally {
-			getPs().close();
 		}
-		return bandera;
+		return t;
 	}
 
 	@Override

@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package com.utec.voting.controller;
 
 import java.io.IOException;
@@ -12,21 +15,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 
 import com.google.gson.Gson;
-import com.utec.voting.modelo.Persona;
-import com.utec.voting.modelo.TipoUsuario;
+import com.utec.voting.modelo.Genero;
 import com.utec.voting.modelo.Usuario;
-import com.utec.voting.modelo.OptionMenu;
 import com.utec.voting.util.ClientWebService;
-import com.utec.voting.util.Encriptar;
 
 /**
- * @author Kevin Orellana
- * @version 1.0 Date: September 2019
+ * @author kevin_orellana
+ *
  */
-public class Autentificando extends HttpServlet implements Serializable {
+public class PartidoController extends HttpServlet implements Serializable {
 
     /**
 	 * 
@@ -36,7 +35,7 @@ public class Autentificando extends HttpServlet implements Serializable {
 	/**
 	 * Variable de logueo para errores.
 	 */
-	static final Logger logger = Logger.getLogger(Autentificando.class);
+	static final Logger logger = Logger.getLogger(PartidoController.class);
 	
 	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,40 +46,22 @@ public class Autentificando extends HttpServlet implements Serializable {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-	@SuppressWarnings({ "static-access", "unchecked" })
+	@SuppressWarnings("unchecked")
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Encriptar enc = new Encriptar();
 		Gson gson = new Gson();
+		List<Genero> optList =  new ArrayList<>();
+		Usuario usr = new Usuario(); 
+		HttpSession sesion = request.getSession(true);
+		usr = (Usuario) sesion.getAttribute("usuario");
 		try {
-			Persona pers = new Persona();
-			TipoUsuario tpu = new TipoUsuario();
-			List<OptionMenu> optList =  new ArrayList<>();
-			response.setContentType("text/html;charset=UTF-8");
-			pers.setPerDui(request.getParameter("usuario"));
-			String pass = request.getParameter("pass");
-			Usuario usr = new Usuario(); 
-			usr.setUsPassword(enc.sha1(pass));
-			usr.setUsPerDui(pers);
-			usr.setUsTusId(tpu);
-			JSONObject object = new JSONObject(usr);
-			usr = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/login", object, "POST"), Usuario.class);
 			if (usr != null) {
 				Integer tipor = 1;
 				if (usr.getUsTusId().getTusId() == tipor) {
-					optList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/option_menu/"+usr.getUsTusId().getTusId(), "GET"), ArrayList.class);
-					HttpSession sesion = request.getSession(true);
-					sesion.setAttribute("usuario", usr);
-					sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
-					sesion.setAttribute("optList", optList);
-//					request.setAttribute("mosDepa", departamentoService.getAll());
-//					request.setAttribute("mosEsta", estadoFamiliarService.getAll());
-//					request.setAttribute("mosGene", generoService.getAll());
-					response.sendRedirect("administracion.jsp");
+					optList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero", "GET"), ArrayList.class);
+					sesion.setAttribute("genList", optList);
+					response.sendRedirect("mtmGenero.jsp");
 				} else {
-					HttpSession sesion = request.getSession(true);
-//					sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
 					sesion.setAttribute("usuario", usr);
-//					sesion.setAttribute("diputado", usr);
 					response.sendRedirect("votante.jsp");
 				}
 			} else {
@@ -130,5 +111,4 @@ public class Autentificando extends HttpServlet implements Serializable {
     public String getServletInfo() {
         return "Short description";
     }
-
 }

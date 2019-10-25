@@ -3,15 +3,10 @@
 <%@include file="cache.jsp"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <t:template>
-<%
-HttpSession sesion = request.getSession(true);
-Object usuario = sesion.getAttribute("usuario")==null ? null : sesion.getAttribute("usuario");
-      if(usuario!=null){
-%>
 	<jsp:body>
+    <a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b>Nuevo</a>
 		<table class="table table-striped custab">
     <thead>
-    <a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b>Nuevo</a>
         <tr>
             <th>ID</th>
             <th>Nombre</th>
@@ -23,13 +18,9 @@ Object usuario = sesion.getAttribute("usuario")==null ? null : sesion.getAttribu
 		<td><c:out value="${dpt.depNombre}"></c:out></td>
 		<td class="text-center">
 			<a class='btn btn-info btn-xs' href="#">
-			<span class="glyphicon glyphicon-edit"></span> Editar</a> <a href="#" class="btn btn-danger btn-xs">
-			<span class="glyphicon glyphicon-remove"></span> Eliminar</a>
+			<span class="glyphicon glyphicon-edit"></span> Editar</a>
 		</td>
 	</c:forEach>
     </table>
 	</jsp:body>
-<%
-      } else {out.print("<script>location.replace('index.jsp')</script>");}
-%>
 </t:template>
