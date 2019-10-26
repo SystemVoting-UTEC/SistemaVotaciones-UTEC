@@ -13,6 +13,10 @@ public class TipoCandidato {
 	private Integer tcaId;
 	private String tcaTipo;
 	
+	public TipoCandidato() {
+		
+	}
+	
 	/**
 	 * @param tcaId
 	 * @param tcaTipo

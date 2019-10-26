@@ -9,7 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -17,6 +20,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import utec.voting.system.entities.TipoCandidato;
 import utec.voting.system.services.TipoCandidatoImpl;
@@ -56,4 +60,52 @@ public class TipoCandaditoService implements Serializable{
 			}
 			return Response.ok(jsArray.toString(),MediaType.APPLICATION_JSON).build();
 		}
+		
+		@POST
+		public Response addTipoCandidato(TipoCandidato gen) {
+			TipoCandidato TipoCandidato = new TipoCandidato();
+			JSONObject jsonObject = null;
+			try {
+				TipoCandidato = tpcService.save(gen);
+				if( TipoCandidato != null) {
+					TipoCandidato = tpcService.finById(TipoCandidato.getTcaId());
+					jsonObject = new JSONObject(TipoCandidato);
+				}
+			} catch (Exception e) {
+				logger.error("Error: ",e);
+				return Response.status(500).build();
+			}
+			return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+		}
+		
+		@PUT
+		public Response updTipoCandidato(TipoCandidato gen) {
+			TipoCandidato TipoCandidato = new TipoCandidato();
+			JSONObject jsonObject = null;
+			try {
+				TipoCandidato = tpcService.update(gen);
+				if( TipoCandidato != null) {
+					TipoCandidato = tpcService.finById(TipoCandidato.getTcaId());
+					jsonObject = new JSONObject(TipoCandidato);
+				}
+			} catch (Exception e) {
+				logger.error("Error: ",e);
+				return Response.status(500).build();
+			}
+			return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+		}
+		
+		@DELETE
+		public Response deleteTipoCandidato(TipoCandidato gen) {
+			JSONObject jsonObject = new JSONObject("{\"result\": \"ok\"}");
+			try {
+				if(tpcService.delete(gen)) {
+				}
+			} catch (Exception e) {
+				logger.error("Error: ",e);
+				return Response.status(500).build();
+			}
+			return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+		}
+
 }

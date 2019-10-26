@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import utec.voting.system.entities.Genero;
 import utec.voting.system.entities.TipoCandidato;
 import utec.voting.system.jdbc.Conexion;
 
