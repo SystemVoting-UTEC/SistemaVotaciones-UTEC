@@ -4,6 +4,11 @@ package utec.voting.system.entities;
  * @author Kevin Orellana
  * @version 1.0 Date: September 2019
  */
+/** 
+ * 
+ * @author Manuel Cardona
+ *
+ */
 public class TipoCandidato {
 	private Integer tcaId;
 	private String tcaTipo;
