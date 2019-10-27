@@ -6,9 +6,11 @@ package utec.voting.system.services;
 import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
+
 
 import utec.voting.system.entities.TipoCandidato;
 import utec.voting.system.jdbc.Conexion;
@@ -53,14 +55,37 @@ public class TipoCandidatoImpl extends Conexion implements Service<TipoCandidato
 
 	@Override
 	public TipoCandidato save(TipoCandidato t) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			String query = "{CALL SP_CREATE_TipoCandidato(?,?)}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt.setString(1, t.getTcaTipo());
+			stmt.registerOutParameter(2, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(2) > 0) {
+				t.setTcaId(stmt.getInt(2));
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		}
+		return t;
 	}
 
 	@Override
 	public TipoCandidato update(TipoCandidato t) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			String query = "{CALL SP_UPDATE_TipoCandidato(?,?,?)}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt.setString(1, t.getTcaTipo());
+			stmt.setInt(2, t.getTcaId());
+			stmt.registerOutParameter(3, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(3) >= 1) {
+				logger.error("Actualizadoooo.............");
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		}
+		return t;
 	}
 
 	@Override
@@ -71,8 +96,22 @@ public class TipoCandidatoImpl extends Conexion implements Service<TipoCandidato
 
 	@Override
 	public TipoCandidato finById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		TipoCandidato g =  null;
+		try {
+			String query = "{CALL SP_READ_ONE_TDC(?)}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt.setInt(1, id);
+			setRs(stmt.executeQuery());
+			if (getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					g = new TipoCandidato(getRs().getInt(1), getRs().getString(2));
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		}
+		return g;
 	}
 
 	@Override

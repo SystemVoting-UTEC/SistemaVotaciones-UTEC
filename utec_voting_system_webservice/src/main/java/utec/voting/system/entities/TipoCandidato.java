@@ -59,4 +59,9 @@ public class TipoCandidato {
 	public String toString() {
 		return "TipoCandidato [tcaId=" + tcaId + ", tcaTipo=" + tcaTipo + "]";
 	}
+
+	public String getGenGenero() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
