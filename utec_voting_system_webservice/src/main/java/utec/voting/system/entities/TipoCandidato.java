@@ -4,9 +4,18 @@ package utec.voting.system.entities;
  * @author Kevin Orellana
  * @version 1.0 Date: September 2019
  */
+/** 
+ * 
+ * @author Manuel Cardona
+ *
+ */
 public class TipoCandidato {
 	private Integer tcaId;
 	private String tcaTipo;
+	
+	public TipoCandidato() {
+		
+	}
 	
 	/**
 	 * @param tcaId
@@ -49,5 +58,10 @@ public class TipoCandidato {
 	@Override
 	public String toString() {
 		return "TipoCandidato [tcaId=" + tcaId + ", tcaTipo=" + tcaTipo + "]";
+	}
+
+	public String getGenGenero() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
