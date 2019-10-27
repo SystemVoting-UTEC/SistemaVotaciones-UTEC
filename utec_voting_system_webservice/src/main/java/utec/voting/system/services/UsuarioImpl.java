@@ -67,18 +67,25 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>{
 		Usuario obj = null;
 		TipoUsuario tpusu = null;
 		Persona per = null;
-		String query = "{CALL SP_LOGIN(?,?)}";
-		CallableStatement stmt = getConnection().prepareCall(query);
-		stmt.setString(1, us.getUsPerDui().getPerDui());
-		stmt.setString(2, us.getUsPassword());
-		setRs(stmt.executeQuery());
-		if(getRs().next()) {
-			getRs().beforeFirst();
-			while (getRs().next()) {
-				per = personaService.finById(us.getUsPerDui().getPerDui());
-				tpusu = tipoUsuarioService.finById(getRs().getInt(3));
-				obj =  new Usuario(per, getRs().getString(2), tpusu);
-			}	
+		CallableStatement stmt = null;
+		try {
+			String query = "{CALL SP_LOGIN(?,?)}";
+			stmt = getConnection().prepareCall(query);
+			stmt.setString(1, us.getUsPerDui().getPerDui());
+			stmt.setString(2, us.getUsPassword());
+			setRs(stmt.executeQuery());
+			if(getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					per = personaService.finById(us.getUsPerDui().getPerDui());
+					tpusu = tipoUsuarioService.finById(getRs().getInt(3));
+					obj =  new Usuario(per, getRs().getString(2), tpusu);
+				}	
+			}
+		} catch (Exception e) {
+			logger.error("Al loginCredential: ",e);
+		}finally {
+			stmt.close();
 		}
 		return obj;
 	}
