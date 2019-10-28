@@ -63,12 +63,12 @@ public class TipoCandaditoService implements Serializable{
 		
 		@POST
 		public Response addTipoCandidato(TipoCandidato gen) {
+			logger.error("Request>>>>>"+gen);
 			TipoCandidato TipoCandidato = new TipoCandidato();
 			JSONObject jsonObject = null;
 			try {
-				TipoCandidato = tpcService.save(gen);
-				if( TipoCandidato != null) {
-					TipoCandidato = tpcService.finById(TipoCandidato.getTcaId());
+				if( gen != null) {
+					TipoCandidato = tpcService.save(TipoCandidato);
 					jsonObject = new JSONObject(TipoCandidato);
 				}
 			} catch (Exception e) {
@@ -83,9 +83,8 @@ public class TipoCandaditoService implements Serializable{
 			TipoCandidato TipoCandidato = new TipoCandidato();
 			JSONObject jsonObject = null;
 			try {
-				TipoCandidato = tpcService.update(gen);
-				if( TipoCandidato != null) {
-					TipoCandidato = tpcService.finById(TipoCandidato.getTcaId());
+				if( gen != null) {
+					TipoCandidato = tpcService.update(TipoCandidato);
 					jsonObject = new JSONObject(TipoCandidato);
 				}
 			} catch (Exception e) {

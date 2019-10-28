@@ -11,7 +11,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -64,9 +63,8 @@ public class GeneroService implements Serializable{
 		Genero genero = new Genero();
 		JSONObject jsonObject = null;
 		try {
-			genero = generoService.save(gen);
-			if( genero != null) {
-				genero = generoService.finById(genero.getGenId());
+			if( gen != null) {
+				genero = generoService.save(genero);
 				jsonObject = new JSONObject(genero);
 			}
 		} catch (Exception e) {
@@ -81,8 +79,8 @@ public class GeneroService implements Serializable{
 		Genero genero = new Genero();
 		JSONObject jsonObject = null;
 		try {
-			genero = generoService.update(gen);
-			if( genero != null) {
+			if( gen != null) {
+				genero = generoService.update(gen);
 				genero = generoService.finById(genero.getGenId());
 				jsonObject = new JSONObject(genero);
 			}

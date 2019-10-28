@@ -56,7 +56,7 @@ public class TipoCandidatoImpl extends Conexion implements Service<TipoCandidato
 	@Override
 	public TipoCandidato save(TipoCandidato t) throws SQLException {
 		try {
-			String query = "{CALL SP_CREATE_TipoCandidato(?,?)}";
+			String query = "{CALL SP_CREATE_TIPOCANDIDATO(?,?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getTcaTipo());
 			stmt.registerOutParameter(2, Types.INTEGER);
@@ -73,7 +73,7 @@ public class TipoCandidatoImpl extends Conexion implements Service<TipoCandidato
 	@Override
 	public TipoCandidato update(TipoCandidato t) throws SQLException {
 		try {
-			String query = "{CALL SP_UPDATE_TipoCandidato(?,?,?)}";
+			String query = "{CALL SP_UPDATE_TIPOCANDIDATO(?,?,?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getTcaTipo());
 			stmt.setInt(2, t.getTcaId());
@@ -90,7 +90,7 @@ public class TipoCandidatoImpl extends Conexion implements Service<TipoCandidato
 
 	@Override
 	public Boolean delete(TipoCandidato t) throws SQLException {
-		// TODO Auto-generated method stub
+		//SP_DELETE_TIPOCANDIDATO
 		return null;
 	}
 
