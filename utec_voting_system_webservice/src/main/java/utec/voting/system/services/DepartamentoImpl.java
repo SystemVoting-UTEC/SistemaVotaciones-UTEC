@@ -3,6 +3,7 @@ package utec.voting.system.services;
 import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -24,20 +25,59 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 	
 	@Override
 	public ArrayList<Departamento> getAll() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Departamento g;
+		ArrayList<Departamento> l1 = new ArrayList<>();
+		try {
+			String query = "{CALL SP_READALL_DEPTO()}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			setRs(stmt.executeQuery());
+			if(getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					g = new Departamento(getRs().getInt(1), getRs().getString(2));
+					l1.add(g);
+				}
+			}
+			stmt.close();
+		} catch (Exception e) {
+			logger.error("Error: " + e);
+		}
+		return l1;
 	}
-
+	
 	@Override
 	public Departamento save(Departamento t) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			String query = "{CALL SP_CREATE_DEPTO(?,?)}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt.setString(1, t.getDepNombre());
+			stmt.registerOutParameter(2, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(2) > 0) {
+				t.setDepId(stmt.getInt(2));
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		}
+		return t;
 	}
 
 	@Override
 	public Departamento update(Departamento t) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			String query = "{CALL SP_UPDATE_DEPTO(?,?,?)}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt.setString(1, t.getDepNombre());
+			stmt.setInt(2, t.getDepId());
+			stmt.registerOutParameter(3, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(3) >= 1) {
+				logger.error("Actualizadoooo.............");
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		}
+		return t;
 	}
 
 	@Override
