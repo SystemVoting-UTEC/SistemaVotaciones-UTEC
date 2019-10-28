@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import utec.voting.system.entities.Genero;
 import utec.voting.system.entities.OptionMenu;
 import utec.voting.system.jdbc.Conexion;
 

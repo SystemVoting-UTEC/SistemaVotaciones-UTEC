@@ -11,8 +11,6 @@ import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 
-import utec.voting.system.services.TipoUsuarioImpl;
-
 /**
 *
 * @author Kevin Orellana
