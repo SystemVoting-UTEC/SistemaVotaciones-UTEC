@@ -9,6 +9,9 @@ public class Municipio {
 	private String munNombre;
 	private Departamento munDepId;
 
+	public Municipio() {
+	}
+	
 	/**
 	 * @param munId
 	 * @param munNombre
