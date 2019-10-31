@@ -49,9 +49,10 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 	@Override
 	public EstadoFamiliar finById(Integer id) throws SQLException {
 		EstadoFamiliar g =  null;
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_READ_ONE_ESTADOF(?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);
 			setRs(stmt.executeQuery());
 			if (getRs().next()) {
@@ -62,6 +63,8 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
+		}finally {
+			stmt.close();
 		}
 		return g;
 	}

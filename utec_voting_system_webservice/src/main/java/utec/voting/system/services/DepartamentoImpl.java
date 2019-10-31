@@ -27,9 +27,10 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 	public ArrayList<Departamento> getAll() throws SQLException {
 		Departamento g;
 		ArrayList<Departamento> l1 = new ArrayList<>();
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_READALL_DEPTO()}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			setRs(stmt.executeQuery());
 			if(getRs().next()) {
 				getRs().beforeFirst();
@@ -41,15 +42,18 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 			stmt.close();
 		} catch (Exception e) {
 			logger.error("Error: " + e);
+		}finally {
+			stmt.close();
 		}
 		return l1;
 	}
 	
 	@Override
 	public Departamento save(Departamento t) throws SQLException {
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_CREATE_DEPTO(?,?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getDepNombre());
 			stmt.registerOutParameter(2, Types.INTEGER);
 			stmt.execute();
@@ -58,15 +62,18 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
+		}finally {
+			stmt.close();
 		}
 		return t;
 	}
 
 	@Override
 	public Departamento update(Departamento t) throws SQLException {
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_UPDATE_DEPTO(?,?,?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getDepNombre());
 			stmt.setInt(2, t.getDepId());
 			stmt.registerOutParameter(3, Types.INTEGER);
@@ -76,6 +83,8 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
+		}finally {
+			stmt.close();
 		}
 		return t;
 	}
@@ -89,9 +98,10 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 	@Override
 	public Departamento finById(Integer id) throws SQLException {
 		Departamento g =  null;
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_READ_ONE_DEP(?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);
 			setRs(stmt.executeQuery());
 			if (getRs().next()) {
@@ -102,6 +112,8 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
+		}finally {
+			stmt.close();
 		}
 		return g;
 	}

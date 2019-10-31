@@ -49,9 +49,10 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 	@Override
 	public TipoUsuario finById(Integer id) throws SQLException {
 		TipoUsuario g =  null;
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_READ_ONE_TPUSU(?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);
 			setRs(stmt.executeQuery());
 			if (getRs().next()) {
@@ -62,6 +63,8 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
+		}finally {
+			stmt.close();
 		}
 		return g;
 	}

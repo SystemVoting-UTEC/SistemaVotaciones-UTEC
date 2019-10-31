@@ -87,9 +87,10 @@ private static final long serialVersionUID = 1L;
 
 	@Override
 	public Candidato save(Candidato t) throws SQLException {
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_CREATE_Candidato(?,?,?,?,?,?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getCanPerDui().getPerDui());
 			stmt.setInt(2, t.getCanParId().getParId());
 			stmt.setInt(3, t.getCanDepId().getDepId());
@@ -102,13 +103,15 @@ private static final long serialVersionUID = 1L;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
+		}finally {
+			stmt.close();
 		}
 		return t;
 	}
 
 	@Override
 	public Candidato update(Candidato t) throws SQLException {
-		CallableStatement stmt;
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_UPDATE_CANDIDATO(?,?,?,?,?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
@@ -126,6 +129,8 @@ private static final long serialVersionUID = 1L;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
+		}finally {
+			stmt.close();
 		}
 		return t;
 	}

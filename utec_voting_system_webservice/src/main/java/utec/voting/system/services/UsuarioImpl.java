@@ -1,5 +1,6 @@
 package utec.voting.system.services;
 
+import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,7 +17,12 @@ import utec.voting.system.jdbc.Conexion;
  * @version 1.0 Date: September 2019
  */
 
-public class UsuarioImpl extends Conexion implements Service<Usuario>{
+public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Variable de logueo para errores.
