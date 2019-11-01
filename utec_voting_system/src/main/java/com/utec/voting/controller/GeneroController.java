@@ -6,6 +6,7 @@ package com.utec.voting.controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,8 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.utec.voting.modelo.Genero;
 import com.utec.voting.modelo.Usuario;
 import com.utec.voting.util.ClientWebService;
@@ -37,7 +40,7 @@ public class GeneroController extends HttpServlet implements Serializable {
 	 */
 	static final Logger logger = Logger.getLogger(GeneroController.class);
 	
-	private Genero generoEdit = new  Genero();
+	private HashMap<String, Object> JSONROOT = new HashMap<String, Object>();
 	
 	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,38 +51,8 @@ public class GeneroController extends HttpServlet implements Serializable {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-	@SuppressWarnings({ "static-access", "unchecked" })
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String genId = request.getParameter("genId");
-		if(genId == null) {
-			Gson gson = new Gson();
-			List<Genero> genList =  new ArrayList<>();
-			Usuario usr = new Usuario(); 
-			HttpSession sesion = request.getSession(true);
-			usr = (Usuario) sesion.getAttribute("usuario");
-			try {
-				if (usr != null) {
-					Integer tipor = 1;
-					if (usr.getUsTusId().getTusId() == tipor) {
-						genList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero", "GET"), ArrayList.class);
-						sesion.setAttribute("genList", genList);
-						response.sendRedirect("mtmGenero.jsp");
-					} else {
-						sesion.setAttribute("usuario", usr);
-						response.sendRedirect("votante.jsp");
-					}
-				} else {
-					response.sendRedirect("graficoVotaciones.jsp");
-				}
-			} catch (Exception e) {
-				logger.error("Error en el servlet Autentificando en el método processRequest: ", e);
-				response.sendRedirect("graficoVotaciones.jsp");
-			}
-			
-		}else {
-			logger.error("Valor que trae yesss:: "+genId);
-		}
-		
+		doPost(request, response);
 	}
 
     /**
@@ -93,7 +66,7 @@ public class GeneroController extends HttpServlet implements Serializable {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+    	doPost(request, response);
     }
 
     /**
@@ -104,10 +77,64 @@ public class GeneroController extends HttpServlet implements Serializable {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+    	String action = request.getParameter("action");
+		List<Genero> genList = new ArrayList<Genero>();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		response.setContentType("application/json");
+
+		if (action != null) {
+			try {
+				if (action.equals("list")) {
+					// Fetch Data from Student Table
+					genList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero", "GET"), ArrayList.class);
+
+					// Return in the format required by jTable plugin
+					JSONROOT.put("Result", "OK");
+					JSONROOT.put("Records", genList);
+
+					// Convert Java Object to Json
+					String jsonArray = gson.toJson(JSONROOT);
+
+					response.getWriter().print(jsonArray);
+				} else if (action.equals("create") || action.equals("update")) {
+					Genero genero = new Genero();
+					if (request.getParameter("genId") != null) {
+						int genId = Integer.parseInt(request.getParameter("genId"));
+						genero.setGenId(genId);
+					}
+					if (request.getParameter("genGenero") != null) {
+						String genGenero = request.getParameter("genGenero");
+						genero.setGenGenero(genGenero);
+					}
+					JSONObject object = new JSONObject(genero);
+					if (action.equals("create")) {
+						// Create new record
+						genero = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "POST"), Genero.class);
+					} else if (action.equals("update")) {
+						genero = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "PUT"), Genero.class);
+					}
+					// Return in the format required by jTable plugin
+					JSONROOT.put("Result", "OK");
+					JSONROOT.put("Record", genero);
+
+					// Convert Java Object to Json
+					String jsonArray = gson.toJson(JSONROOT);
+					response.getWriter().print(jsonArray);
+				} else if (action.equals("delete")) {
+					
+				}
+			} catch (Exception ex) {
+				logger.error("Error en el metodo doPost: ",ex);
+				JSONROOT.put("Result", "ERROR");
+				JSONROOT.put("Message", ex.getMessage());
+				String error = gson.toJson(JSONROOT);
+				response.getWriter().print(error);
+			}
+		}
     }
 
     /**
@@ -119,16 +146,4 @@ public class GeneroController extends HttpServlet implements Serializable {
     public String getServletInfo() {
         return "Short description";
     }
-    
-    public void selectGenero(Integer id) {
-		logger.error("Valooor:::: "+id);
-	}
-    
-	public Genero getGeneroEdit() {
-		return generoEdit;
-	}
-
-	public void setGeneroEdit(Genero generoEdit) {
-		this.generoEdit = generoEdit;
-	}
 }
