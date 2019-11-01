@@ -33,4 +33,30 @@ public class ClientWebService {
 		resp = s.hasNext() ? s.next() : "";
 		return resp;
 	}
+	
+	public String clienteWS(String uri,String method) throws IOException {
+		String resp = null;
+		HttpURLConnection connection = null;
+		URL url = new URL(uri);
+		connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod(method);
+		connection.setDoInput(true);
+		connection.setDoOutput(true);
+		connection.setUseCaches(false);
+		connection.setRequestProperty("Content-Type", "application/json");
+		connection.setRequestProperty("Accept", "application/json");
+		
+		if (connection.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP Error code : " + connection.getResponseCode());
+		}
+		
+		InputStream xml = connection.getInputStream();
+
+		@SuppressWarnings("resource")
+		Scanner s = new Scanner(xml).useDelimiter("\\A");
+		resp = s.hasNext() ? s.next() : "";
+		
+		System.out.println(resp);
+		return resp;
+	}
 }

@@ -1,4 +1,4 @@
-package com.utec.voting.modelo;
+package utec.voting.system.entities;
 
 /**
  * @author Kevin Orellana
@@ -7,10 +7,10 @@ package com.utec.voting.modelo;
 public class Genero {
 	private Integer genId;
 	private String genGenero;
-
+	
 	public Genero() {
 	}
-	
+
 	/**
 	 * @param genId
 	 * @param genGenero

@@ -8,23 +8,22 @@
 <title>Sistema de votaciones</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<!-- <script src="js/Jquery3.1.1.js" type="text/javascript"></script> -->
+	<!-- Include one of jTable styles. -->
+<link href="css/metro/blue/jtable.css" rel="stylesheet" type="text/css" />
+<link href="css/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
+<!-- Include jTable script file. -->
+<!-- <script src="js/jquery-1.8.2.js" type="text/javascript"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="js/jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
+<script src="js/jquery.jtable.js" type="text/javascript"></script>
 <script src="js/jquery.validate.min.js" type="text/javascript"></script>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-
 <!-- hojas de estilo-->
 <link href="css/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="css/style.css">
 <link rel="shortcut icon" href="img/icono.ico">
 
-<script src="js/sweetalert.min.js" type="text/javascript"></script>
-<link href="css/sweetalert.css" rel="stylesheet" type="text/css" />
-
-<link href="css/form.css" rel="stylesheet" type="text/css" />
-<script src="js/jquery_v3.1.1.js" type="text/javascript"></script>
-<script src="js/jquery.validate.min.js"></script>
+<link rel="stylesheet" href="css/bootstrap.css">
 
 <script src="js/sweetalert.min.js" type="text/javascript"></script>
 <link href="css/sweetalert.css" rel="stylesheet" type="text/css" />
@@ -32,6 +31,8 @@
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/Estilos.css">
 <link rel="stylesheet" href="css/styleVotante.css">
+
+
 </head> 
 <body onkeydown="return showKeyCode(event)">
 	<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
@@ -119,6 +120,8 @@
 			<center><p id="copyright"><b><h6>Copyright 2019, Grupo 11-Ing. en Sistemas y computación.</h6></b></p></center>
 		</div>
 	</footer>
-	<script src="js/main.js" type="text/javascript"></script>
-</body>
+<!-- 	<script src="js/main.js" type="text/javascript"></script> -->
+<!-- 	<script src="http://code.jquery.com/jquery-latest.js"></script> -->
+	<script src="js/bootstrap.js"></script>
+	</body>
 </html>
