@@ -37,6 +37,8 @@ public class GeneroController extends HttpServlet implements Serializable {
 	 */
 	static final Logger logger = Logger.getLogger(GeneroController.class);
 	
+	private Genero generoEdit = new  Genero();
+	
 	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,28 +50,34 @@ public class GeneroController extends HttpServlet implements Serializable {
      */
 	@SuppressWarnings({ "static-access", "unchecked" })
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Gson gson = new Gson();
-		List<Genero> genList =  new ArrayList<>();
-		Usuario usr = new Usuario(); 
-		HttpSession sesion = request.getSession(true);
-		usr = (Usuario) sesion.getAttribute("usuario");
-		try {
-			if (usr != null) {
-				Integer tipor = 1;
-				if (usr.getUsTusId().getTusId() == tipor) {
-					genList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero", "GET"), ArrayList.class);
-					sesion.setAttribute("genList", genList);
-					response.sendRedirect("mtmGenero.jsp");
+		String genId = request.getParameter("genId");
+		if(genId == null) {
+			Gson gson = new Gson();
+			List<Genero> genList =  new ArrayList<>();
+			Usuario usr = new Usuario(); 
+			HttpSession sesion = request.getSession(true);
+			usr = (Usuario) sesion.getAttribute("usuario");
+			try {
+				if (usr != null) {
+					Integer tipor = 1;
+					if (usr.getUsTusId().getTusId() == tipor) {
+						genList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero", "GET"), ArrayList.class);
+						sesion.setAttribute("genList", genList);
+						response.sendRedirect("mtmGenero.jsp");
+					} else {
+						sesion.setAttribute("usuario", usr);
+						response.sendRedirect("votante.jsp");
+					}
 				} else {
-					sesion.setAttribute("usuario", usr);
-					response.sendRedirect("votante.jsp");
+					response.sendRedirect("graficoVotaciones.jsp");
 				}
-			} else {
+			} catch (Exception e) {
+				logger.error("Error en el servlet Autentificando en el método processRequest: ", e);
 				response.sendRedirect("graficoVotaciones.jsp");
 			}
-		} catch (Exception e) {
-			logger.error("Error en el servlet Autentificando en el método processRequest: ", e);
-			response.sendRedirect("graficoVotaciones.jsp");
+			
+		}else {
+			logger.error("Valor que trae yesss:: "+genId);
 		}
 		
 	}
@@ -111,4 +119,16 @@ public class GeneroController extends HttpServlet implements Serializable {
     public String getServletInfo() {
         return "Short description";
     }
+    
+    public void selectGenero(Integer id) {
+		logger.error("Valooor:::: "+id);
+	}
+    
+	public Genero getGeneroEdit() {
+		return generoEdit;
+	}
+
+	public void setGeneroEdit(Genero generoEdit) {
+		this.generoEdit = generoEdit;
+	}
 }
