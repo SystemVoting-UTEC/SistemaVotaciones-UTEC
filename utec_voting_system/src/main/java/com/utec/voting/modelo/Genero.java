@@ -8,6 +8,9 @@ public class Genero {
 	private Integer genId;
 	private String genGenero;
 
+	public Genero() {
+	}
+	
 	/**
 	 * @param genId
 	 * @param genGenero

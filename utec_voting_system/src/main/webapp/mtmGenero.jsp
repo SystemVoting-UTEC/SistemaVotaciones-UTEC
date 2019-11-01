@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" tagdir="/WEB-INF/tags"%>
 <%@include file="cache.jsp"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%
 	HttpSession sesion = request.getSession(true);
 	Object usuario = sesion.getAttribute("usuario") == null ? null : sesion.getAttribute("usuario");
@@ -9,36 +8,14 @@
 %>
 <t:template>
 	<jsp:body>
-	<a href="#" class="btn btn-primary btn-xs pull-right"><b>+</b>Nuevo</a>
-	<table class="table table-striped custab">
-		<thead>
-			<tr>
-			<th>ID</th>
-			<th>Nombre</th>
-			<th class="text-center">Acción</th>
-			</tr>
-		</thead>
-		<tbody>
-				<c:forEach var="gen" items="${genList}">
-					<tr>
-						<td>
-							<c:out value="${gen.genId}"/>
-						</td>
-						<td>
-							<c:out value="${gen.genGenero}"/>
-						</td>
-						<td class="text-center">
-							<a class='btn btn-info btn-xs' href="#">
-							<span class="glyphicon glyphicon-edit"></span> Editar</a>
-						</td>
-					</tr>
-				</c:forEach>
-		</tbody>
-	</table>
+				<script type="text/javascript" src="js/controller/GeneroController.js"></script>
+				<div style="width: 80%; margin-right: 10%; margin-left: 10%; text-align: center;">
+				<div id="GeneroTableContainer"></div>
+			</div>
 	</jsp:body>
 </t:template>
 <%
-	} else {
-		out.print("<script>location.replace('index.jsp')</script>");
-	}
+} else {
+	out.print("<script>location.replace('index.jsp')</script>");
+}
 %>
