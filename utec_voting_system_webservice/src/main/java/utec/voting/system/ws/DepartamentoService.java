@@ -99,5 +99,9 @@ private static final long serialVersionUID = 1L;
 		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 	}
 
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 
 }
