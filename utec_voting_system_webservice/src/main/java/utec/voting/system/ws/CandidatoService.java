@@ -78,9 +78,10 @@ public class CandidatoService implements Serializable{
 		Candidato Candidato = new Candidato();
 		JSONObject jsonObject = null;
 		try {
-			if( gen != null) {
-				Candidato = canService.update(Candidato);
-				jsonObject = new JSONObject(Candidato);
+			if(canService.update(gen)) {
+				jsonObject = new JSONObject(1);
+			}else {
+				jsonObject = new JSONObject(0);
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);

@@ -69,7 +69,7 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 	}
 
 	@Override
-	public Departamento update(Departamento t) throws SQLException {
+	public Boolean update(Departamento t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_UPDATE_DEPTO(?,?,?)}";
@@ -79,14 +79,14 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(3) >= 1) {
-				logger.error("Actualizadoooo.............");
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}finally {
 			stmt.close();
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override

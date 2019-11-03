@@ -35,7 +35,7 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 	}
 
 	@Override
-	public EstadoFamiliar update(EstadoFamiliar t) throws SQLException {
+	public Boolean update(EstadoFamiliar t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

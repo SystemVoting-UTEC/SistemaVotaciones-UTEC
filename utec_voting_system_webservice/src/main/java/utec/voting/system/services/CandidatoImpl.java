@@ -110,7 +110,7 @@ private static final long serialVersionUID = 1L;
 	}
 
 	@Override
-	public Candidato update(Candidato t) throws SQLException {
+	public Boolean update(Candidato t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_UPDATE_CANDIDATO(?,?,?,?,?,?,?,?)}";
@@ -125,14 +125,14 @@ private static final long serialVersionUID = 1L;
 			stmt.registerOutParameter(8, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(3) >= 1) {
-				logger.error("Actualizadoooo.............");
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}finally {
 			stmt.close();
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override

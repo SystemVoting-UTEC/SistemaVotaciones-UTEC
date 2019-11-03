@@ -83,9 +83,10 @@ public class TipoCandaditoService implements Serializable{
 			TipoCandidato TipoCandidato = new TipoCandidato();
 			JSONObject jsonObject = null;
 			try {
-				if( gen != null) {
-					TipoCandidato = tpcService.update(TipoCandidato);
-					jsonObject = new JSONObject(TipoCandidato);
+				if(tpcService.update(gen)) {
+					jsonObject = new JSONObject(1);
+				}else {
+					jsonObject = new JSONObject(0);
 				}
 			} catch (Exception e) {
 				logger.error("Error: ",e);

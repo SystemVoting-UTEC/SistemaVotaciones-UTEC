@@ -4,9 +4,14 @@
 package utec.voting.system.services;
 
 import java.io.Serializable;
+import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
+import utec.voting.system.entities.Genero;
 import utec.voting.system.entities.Partido;
 import utec.voting.system.jdbc.Conexion;
 
@@ -20,23 +25,76 @@ public class PartidoImpl extends Conexion implements Service<Partido>, Serializa
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	/**
+	 * Variable de logueo para errores.
+	 */
+	static final Logger logger = Logger.getLogger(GeneroImpl.class);
 
 	@Override
 	public ArrayList<Partido> getAll() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Partido g;
+		ArrayList<Partido> l1 = new ArrayList<>();
+		CallableStatement stmt = null;
+		try {
+			String query = "{CALL SP_READ_PARTIDOS()}";
+			stmt = getConnection().prepareCall(query);
+			setRs(stmt.executeQuery());
+			if(getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					g = new Partido(getRs().getInt(1), getRs().getString(2),getRs().getInt(3));
+					l1.add(g);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error: " + e);
+		}finally {
+			stmt.close();			
+		}
+		return l1;
 	}
 
 	@Override
 	public Partido save(Partido t) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		CallableStatement stmt = null;
+		try {
+			String query = "{CALL SP_CREATE_PARTIDO(?,?,?)}";
+			stmt = getConnection().prepareCall(query);
+			stmt.setString(1, t.getParNombre());
+			stmt.setInt(2, t.getEstado());
+			stmt.registerOutParameter(2, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(2) > 0) {
+				t.setParId(stmt.getInt(2));
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		}finally {
+			stmt.close();			
+		}
+		return t;
 	}
 
 	@Override
-	public Partido update(Partido t) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean update(Partido t) throws SQLException {
+		CallableStatement stmt = null;
+		try {
+			String query = "{CALL SP_UPDATE_PARTIDO(?,?,?)}";
+			stmt = getConnection().prepareCall(query);
+			stmt.setString(1, t.getParNombre());
+			stmt.setInt(2, t.getParId());
+			stmt.registerOutParameter(3, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(3) >= 1) {
+				return Boolean.TRUE;
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		}finally {
+			stmt.close();			
+		}
+		return Boolean.FALSE;
 	}
 
 	@Override
@@ -47,8 +105,25 @@ public class PartidoImpl extends Conexion implements Service<Partido>, Serializa
 
 	@Override
 	public Partido finById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		CallableStatement stmt = null;
+		Partido g =  null;
+		try {
+			String query = "{CALL SP_READ_ONE_PAR(?)}";
+			stmt = getConnection().prepareCall(query);
+			stmt.setInt(1, id);
+			setRs(stmt.executeQuery());
+			if (getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					g = new Partido(getRs().getInt(1), getRs().getString(2),getRs().getInt(3));
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		}finally {
+			stmt.close();
+		}
+		return g;
 	}
 
 	@Override

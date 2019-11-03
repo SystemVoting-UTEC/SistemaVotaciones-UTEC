@@ -13,10 +13,6 @@
         <servlet-class>com.utec.voting.controller.GeneroController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ControladorPartido</servlet-name>
-        <servlet-class>com.utec.voting.controller.PartidoController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>WebService</servlet-name>
         <servlet-class>com.utec.voting.controller.WebService</servlet-class>
     </servlet>
@@ -39,10 +35,6 @@
     <servlet-mapping>
         <servlet-name>ControladorDepartamento</servlet-name>
         <url-pattern>/ControladorDepartamento.do</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>ControladorPartido</servlet-name>
-        <url-pattern>/ControladorPartido.do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ControladorGenero</servlet-name>
