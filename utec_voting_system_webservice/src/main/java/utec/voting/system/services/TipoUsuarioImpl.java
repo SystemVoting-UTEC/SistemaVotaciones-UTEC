@@ -35,7 +35,7 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 	}
 
 	@Override
-	public TipoUsuario update(TipoUsuario t) throws SQLException {
+	public Boolean update(TipoUsuario t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

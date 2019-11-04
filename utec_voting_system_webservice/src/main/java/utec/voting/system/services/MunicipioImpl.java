@@ -34,7 +34,7 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 	}
 
 	@Override
-	public Municipio update(Municipio t) throws SQLException {
+	public Boolean update(Municipio t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}
