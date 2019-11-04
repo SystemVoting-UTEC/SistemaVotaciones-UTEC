@@ -92,9 +92,10 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 		Departamento depto = null;
 		Genero genero =  null;
 		EstadoFamiliar estadoF = null;
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_READ_ONE_PER(?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, id);
 			setRs(stmt.executeQuery());
 			if (getRs().next()) {
@@ -112,6 +113,8 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 			}
 		} catch (Exception e) {
 			System.out.println("Error en metodo finByIdPersona"+e);
+		}finally {
+			stmt.close();
 		}
 		return g;
 	}

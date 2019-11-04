@@ -30,10 +30,11 @@ public class OptionMenuImpl extends Conexion implements Service<OptionMenu>, Ser
 	
 	public ArrayList<OptionMenu> getAll(Integer dui) throws SQLException {
 		OptionMenu g;
+		CallableStatement stmt = null;
 		ArrayList<OptionMenu> l1 = new ArrayList<>();
 		try {
 			String query = "{CALL SP_READ_OPTION_MENU(?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, dui);
 			setRs(stmt.executeQuery());
 			if(getRs().next()) {
@@ -46,6 +47,8 @@ public class OptionMenuImpl extends Conexion implements Service<OptionMenu>, Ser
 			stmt.close();
 		} catch (Exception e) {
 			logger.error("Error: " + e);
+		}finally {
+			stmt.close();
 		}
 		return l1;
 	}

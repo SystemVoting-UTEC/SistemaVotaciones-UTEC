@@ -64,7 +64,7 @@ public class GeneroService implements Serializable{
 		JSONObject jsonObject = null;
 		try {
 			if( gen != null) {
-				genero = generoService.save(genero);
+				genero = generoService.save(gen);
 				jsonObject = new JSONObject(genero);
 			}
 		} catch (Exception e) {

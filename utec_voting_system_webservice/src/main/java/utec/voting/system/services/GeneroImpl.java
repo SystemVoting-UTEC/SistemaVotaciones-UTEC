@@ -32,9 +32,10 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 	public ArrayList<Genero> getAll() throws SQLException {
 		Genero g;
 		ArrayList<Genero> l1 = new ArrayList<>();
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_READ_GENEROS()}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			setRs(stmt.executeQuery());
 			if(getRs().next()) {
 				getRs().beforeFirst();
@@ -43,18 +44,20 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 					l1.add(g);
 				}
 			}
-			stmt.close();
 		} catch (Exception e) {
 			logger.error("Error: " + e);
+		}finally {
+			stmt.close();			
 		}
 		return l1;
 	}
 	
 	@Override
 	public Genero save(Genero t) throws SQLException {
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_CREATE_GENERO(?,?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getGenGenero());
 			stmt.registerOutParameter(2, Types.INTEGER);
 			stmt.execute();
@@ -63,15 +66,18 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
+		}finally {
+			stmt.close();			
 		}
 		return t;
 	}
 
 	@Override
 	public Genero update(Genero t) throws SQLException {
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_UPDATE_GENERO(?,?,?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getGenGenero());
 			stmt.setInt(2, t.getGenId());
 			stmt.registerOutParameter(3, Types.INTEGER);
@@ -81,6 +87,8 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
+		}finally {
+			stmt.close();			
 		}
 		return t;
 	}
@@ -93,10 +101,11 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 
 	@Override
 	public Genero finById(Integer id) throws SQLException {
+		CallableStatement stmt = null;
 		Genero g =  null;
 		try {
 			String query = "{CALL SP_READ_ONE_GEN(?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);
 			setRs(stmt.executeQuery());
 			if (getRs().next()) {
@@ -107,6 +116,8 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
+		}finally {
+			stmt.close();
 		}
 		return g;
 	}

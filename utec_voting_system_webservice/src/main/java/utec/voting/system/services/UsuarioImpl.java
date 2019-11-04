@@ -1,5 +1,6 @@
 package utec.voting.system.services;
 
+import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,7 +17,12 @@ import utec.voting.system.jdbc.Conexion;
  * @version 1.0 Date: September 2019
  */
 
-public class UsuarioImpl extends Conexion implements Service<Usuario>{
+public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
 	/**
 	 * Variable de logueo para errores.
@@ -67,18 +73,25 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>{
 		Usuario obj = null;
 		TipoUsuario tpusu = null;
 		Persona per = null;
-		String query = "{CALL SP_LOGIN(?,?)}";
-		CallableStatement stmt = getConnection().prepareCall(query);
-		stmt.setString(1, us.getUsPerDui().getPerDui());
-		stmt.setString(2, us.getUsPassword());
-		setRs(stmt.executeQuery());
-		if(getRs().next()) {
-			getRs().beforeFirst();
-			while (getRs().next()) {
-				per = personaService.finById(us.getUsPerDui().getPerDui());
-				tpusu = tipoUsuarioService.finById(getRs().getInt(3));
-				obj =  new Usuario(per, getRs().getString(2), tpusu);
-			}	
+		CallableStatement stmt = null;
+		try {
+			String query = "{CALL SP_LOGIN(?,?)}";
+			stmt = getConnection().prepareCall(query);
+			stmt.setString(1, us.getUsPerDui().getPerDui());
+			stmt.setString(2, us.getUsPassword());
+			setRs(stmt.executeQuery());
+			if(getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					per = personaService.finById(us.getUsPerDui().getPerDui());
+					tpusu = tipoUsuarioService.finById(getRs().getInt(3));
+					obj =  new Usuario(per, getRs().getString(2), tpusu);
+				}	
+			}
+		} catch (Exception e) {
+			logger.error("Al loginCredential: ",e);
+		}finally {
+			stmt.close();
 		}
 		return obj;
 	}

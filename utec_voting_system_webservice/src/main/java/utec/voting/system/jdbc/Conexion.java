@@ -1,5 +1,6 @@
 package utec.voting.system.jdbc;
 
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,13 +16,19 @@ import org.apache.log4j.Logger;
 *
 * @author Kevin Orellana
 */
-public class Conexion {
+public class Conexion implements Serializable{
+	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Variable de logueo para errores.
 	 */
 	static final Logger logger = Logger.getLogger(Conexion.class);
 	
-    private  Connection conecto;
+    private static Connection conecto ;
    
     private ResultSet rs;
     private PreparedStatement ps;
@@ -35,11 +42,13 @@ public class Conexion {
     
     public Connection getConnection() {
     	try {
-    		Context initCtx = new InitialContext();
-    		Context envCtx = (Context) initCtx.lookup("java:comp/env");
-    		DataSource ds = (DataSource)
-    		envCtx.lookup("jdbc/system_voting");
-            conecto = ds.getConnection();
+    		if(conecto == null) {
+    			Context initCtx = new InitialContext();
+    			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+    			DataSource ds = (DataSource)
+    			envCtx.lookup("jdbc/system_voting");
+    			conecto = ds.getConnection();
+    		}
         } catch (Exception e) {
         	logger.error("Al intentar conectar"+e);
         }
