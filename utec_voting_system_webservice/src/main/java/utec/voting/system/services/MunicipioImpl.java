@@ -4,6 +4,7 @@
 package utec.voting.system.services;
 
 import java.io.Serializable;
+import java.sql.CallableStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -23,8 +24,26 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 
 	@Override
 	public ArrayList<Municipio> getAll() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Municipio g;
+		ArrayList<Municipio> l1 = new ArrayList<>();
+		CallableStatement stmt = null;
+		try {
+			String query = "{CALL SP_READ_ALL_MUNICIPIO()}";
+			stmt = getConnection().prepareCall(query);
+			setRs(stmt.executeQuery());
+			if(getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					g = new Municipio();
+					l1.add(g);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error: " + e);
+		}finally {
+			stmt.close();			
+		}
+		return l1;
 	}
 
 	@Override
