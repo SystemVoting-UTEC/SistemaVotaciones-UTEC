@@ -11,15 +11,18 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+
+import com.utec.voting.modelo.Usuario;
 
 /**
  * @author Kevin Orellana
  *
  */
 @WebServlet(value = "/sufragio.do") 
-public class SufragioController extends HttpServlet implements Serializable {
+public class SufragioController extends HttpServlet  implements Serializable {
 
     /**
 	 * 
@@ -30,6 +33,7 @@ public class SufragioController extends HttpServlet implements Serializable {
 	 * Variable de logueo para errores.
 	 */
 	static final Logger logger = Logger.getLogger(SufragioController.class);
+	Usuario usr = new Usuario();
 	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,7 +44,21 @@ public class SufragioController extends HttpServlet implements Serializable {
      * @throws IOException if an I/O error occurs
      */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doPost(request, response);
+		HttpSession sesion = request.getSession(true);
+		try {
+			response.setContentType("text/html;charset=UTF-8");
+			usr = (Usuario) sesion.getAttribute("usuario");
+			if (usr != null) {
+				logger.error("Objeto"+usr);
+				response.sendRedirect("sufragio.jsp");
+			} else {
+				response.sendRedirect("graficoVotaciones.jsp");
+			}
+		} catch (Exception e) {
+			logger.error("Error en el servlet Autentificando en el método processRequest: ", e);
+			response.sendRedirect("graficoVotaciones.jsp");
+		}
+		
 	}
 
     /**
@@ -54,7 +72,7 @@ public class SufragioController extends HttpServlet implements Serializable {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	doPost(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -65,10 +83,10 @@ public class SufragioController extends HttpServlet implements Serializable {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @SuppressWarnings("unchecked")
-	@Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        processRequest(request, response);
     }
 
     /**
@@ -80,4 +98,18 @@ public class SufragioController extends HttpServlet implements Serializable {
     public String getServletInfo() {
         return "Short description";
     }
+
+	/**
+	 * @return the usr
+	 */
+	public Usuario getUsr() {
+		return usr;
+	}
+
+	/**
+	 * @param usr the usr to set
+	 */
+	public void setUsr(Usuario usr) {
+		this.usr = usr;
+	}
 }
