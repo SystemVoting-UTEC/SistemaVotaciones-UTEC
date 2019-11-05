@@ -79,10 +79,10 @@ public class GeneroService implements Serializable{
 		Genero genero = new Genero();
 		JSONObject jsonObject = null;
 		try {
-			if( gen != null) {
-				genero = generoService.update(gen);
-				genero = generoService.finById(genero.getGenId());
-				jsonObject = new JSONObject(genero);
+			if(generoService.update(gen)) {
+				jsonObject = new JSONObject(1);
+			}else {
+				jsonObject = new JSONObject(0);
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);

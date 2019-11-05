@@ -6,25 +6,28 @@ package com.utec.voting.controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
 import com.google.gson.Gson;
-import com.utec.voting.modelo.Genero;
-import com.utec.voting.modelo.Usuario;
+import com.google.gson.GsonBuilder;
+import com.utec.voting.modelo.Partido;
 import com.utec.voting.util.ClientWebService;
 
 /**
  * @author kevin_orellana
  *
  */
+@WebServlet(value = "/partido.do") 
 public class PartidoController extends HttpServlet implements Serializable {
 
     /**
@@ -37,6 +40,8 @@ public class PartidoController extends HttpServlet implements Serializable {
 	 */
 	static final Logger logger = Logger.getLogger(PartidoController.class);
 	
+	private HashMap<String, Object> JSONROOT = new HashMap<String, Object>();
+	
 	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -48,29 +53,6 @@ public class PartidoController extends HttpServlet implements Serializable {
      */
 	@SuppressWarnings("unchecked")
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Gson gson = new Gson();
-		List<Genero> optList =  new ArrayList<>();
-		Usuario usr = new Usuario(); 
-		HttpSession sesion = request.getSession(true);
-		usr = (Usuario) sesion.getAttribute("usuario");
-		try {
-			if (usr != null) {
-				Integer tipor = 1;
-				if (usr.getUsTusId().getTusId() == tipor) {
-					optList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero", "GET"), ArrayList.class);
-					sesion.setAttribute("genList", optList);
-					response.sendRedirect("mtmGenero.jsp");
-				} else {
-					sesion.setAttribute("usuario", usr);
-					response.sendRedirect("votante.jsp");
-				}
-			} else {
-				response.sendRedirect("graficoVotaciones.jsp");
-			}
-		} catch (Exception e) {
-			logger.error("Error en el servlet Autentificando en el método processRequest: ", e);
-			response.sendRedirect("graficoVotaciones.jsp");
-		}
 		
 	}
 
@@ -85,7 +67,7 @@ public class PartidoController extends HttpServlet implements Serializable {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+    	doPost(request, response);
     }
 
     /**
@@ -99,7 +81,60 @@ public class PartidoController extends HttpServlet implements Serializable {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+    	String action = request.getParameter("action");
+		List<Partido> genList = new ArrayList<Partido>();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		response.setContentType("application/json");
+
+		if (action != null) {
+			try {
+				if (action.equals("list")) {
+					// Fetch Data from Student Table
+					genList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido", "GET"), ArrayList.class);
+
+					// Return in the format required by jTable plugin
+					JSONROOT.put("Result", "OK");
+					JSONROOT.put("Records", genList);
+
+					// Convert Java Object to Json
+					String jsonArray = gson.toJson(JSONROOT);
+
+					response.getWriter().print(jsonArray);
+				} else if (action.equals("create") || action.equals("update")) {
+					Partido partido = new Partido();
+					if (request.getParameter("parId") != null) {
+						int genId = Integer.parseInt(request.getParameter("parId"));
+						partido.setParId(genId);
+					}
+					if (request.getParameter("parNombre") != null) {
+						String genGenero = request.getParameter("parNombre");
+						partido.setParNombre(genGenero);
+					}
+					JSONObject object = new JSONObject(partido);
+					if (action.equals("create")) {
+						// Create new record
+						partido = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido",object, "POST"), Partido.class);
+					} else if (action.equals("update")) {
+						partido = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido",object, "PUT"), Partido.class);
+					}
+					// Return in the format required by jTable plugin
+					JSONROOT.put("Result", "OK");
+					JSONROOT.put("Record", partido);
+
+					// Convert Java Object to Json
+					String jsonArray = gson.toJson(JSONROOT);
+					response.getWriter().print(jsonArray);
+				} else if (action.equals("delete")) {
+					
+				}
+			} catch (Exception ex) {
+				logger.error("Error en el metodo doPost: ",ex);
+				JSONROOT.put("Result", "ERROR");
+				JSONROOT.put("Message", ex.getMessage());
+				String error = gson.toJson(JSONROOT);
+				response.getWriter().print(error);
+			}
+		}
     }
 
     /**

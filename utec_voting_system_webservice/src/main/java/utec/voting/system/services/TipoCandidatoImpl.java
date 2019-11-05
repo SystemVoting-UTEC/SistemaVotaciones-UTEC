@@ -71,7 +71,8 @@ public class TipoCandidatoImpl extends Conexion implements Service<TipoCandidato
 	}
 
 	@Override
-	public TipoCandidato update(TipoCandidato t) throws SQLException {
+	public Boolean update(TipoCandidato t) throws SQLException {
+		
 		try {
 			String query = "{CALL SP_UPDATE_TIPOCANDIDATO(?,?,?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
@@ -80,12 +81,12 @@ public class TipoCandidatoImpl extends Conexion implements Service<TipoCandidato
 			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(3) >= 1) {
-				logger.error("Actualizadoooo.............");
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override
