@@ -5,6 +5,8 @@ package com.utec.voting.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +17,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.utec.voting.modelo.Partido;
 import com.utec.voting.modelo.Usuario;
+import com.utec.voting.util.ClientWebService;
 
 /**
  * @author Kevin Orellana
@@ -45,12 +51,17 @@ public class SufragioController extends HttpServlet  implements Serializable {
      */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sesion = request.getSession(true);
+		List<Partido> parList = new ArrayList<Partido>();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		try {
 			response.setContentType("text/html;charset=UTF-8");
 			usr = (Usuario) sesion.getAttribute("usuario");
 			if (usr != null) {
 				logger.error("Objeto"+usr);
 				response.sendRedirect("sufragio.jsp");
+				parList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido", "GET"), ArrayList.class);
+				sesion.setAttribute("parList", parList);
+
 			} else {
 				response.sendRedirect("graficoVotaciones.jsp");
 			}
