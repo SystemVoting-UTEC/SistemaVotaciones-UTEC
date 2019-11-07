@@ -13,11 +13,9 @@
 	<jsp:body>
 				<center>
 					<h1><span>Simulador</span> de votación por <c:out value="${sessionScope.usuario.usPerDui.perDepId.depNombre}"/></h1>
-				</center>
 				<br><br><br>
 				<h4>ELECCIÓN DE DIPUTADOS Y DIPUTADAS A LA ASAMBLEA LEGISLATIVA 2019</h4>
 				<br>
-				</header>
 				    <div id="mensaje" class="bien">
 				        <h3></h3>
 				        <a id="nuevo" href="#">NUEVA PAPELETA<br> INTENTELO DE NUEVO</a> 
@@ -32,15 +30,18 @@
 					</nav>
 					
 					 <c:forEach items="${sessionScope.parList}" var="par">
-						<ul id="${par.parId}">
+						<ul id="${par.parId}" class = "votando">
 							<li class="bandera"><span>${par.parNombre}</span></li>
 							<c:forEach items="${sessionScope.canList}" var="can">
-								<li class="rostro woman"><ol id="${can.canId}" class="ejerciendovotoCandidato" style="width: 100%;height: 100%;"> </ol><span style="margin-top:-60px;">${can.canPerDui.perPApellido}</span></li>
+								<c:if test="${can.canParId.parId eq par.parId}">
+									<li class="rostro woman"><ol id="${can.canId}" class="ejerciendovotoCandidato" style="width: 100%;height: 100%;"> </ol><span style="margin-top:-60px;">${can.canPerDui.perPNombre} ${can.canPerDui.perPApellido}</span></li>
+								</c:if>
 							</c:forEach>
 						</ul>
 					 </c:forEach>
 				
 				</div>
+				</center>
 				<input type="hidden" id="dui" value="${sessionScope.usuario.usPerDui.perDui}">
 				<footer class="flotar">
 					
@@ -50,11 +51,11 @@
 				<script type="text/javascript">
 				    $(document).ready(function(){
 				        var voto = [];
-				       $('ol').click(function(){
+				       $('.ejerciendovotoCandidato').click(function(){
 				          voto[voto.length] = $(this).attr('id');
 				
 				       });
-				       $('nav').click(function (){
+				       $('#btns').click(function (){
 				          var votos = voto.toString();
 				          var dui = document.getElementById("dui").value;
 				          $.ajax({

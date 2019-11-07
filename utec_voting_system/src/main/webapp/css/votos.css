@@ -1,21 +1,3 @@
-body, address, blockquote, div, dl, form, h1, h2, h3, h4, h5, h6, ol, p, pre, table, ul, dd, dt, li, tbody, td, tfoot, th, thead, tr, button, del, ins, map, object, a, abbr, acronym, b, bdo, big, br, cite, code, dfn, em, i, img, kbd, q, samp, small, span, strong, sub, sup, tt, var, legend, fieldset {
-	margin: 0;
-	padding: 0;
-}
-html, body{ height:100%;}
-body {background: #eff7ef url(../img/fondo.jpg) no-repeat center top;font-family: 'Hammersmith One', sans-serif;}
-
-body.inicio {background: #eff7ef url(../img/portada.jpg)}
-a {	text-decoration: none}
-img, fieldset {border: 0;}
-
-header{ text-align:center; padding:25px 0 5px 0;color:#006aa9; font-family: 'Lato', sans-serif; font-weight:300;}
-h1{font-weight:normal; font-size:44px; border-bottom:#baddea double 3px; display: inline-block; padding:30px 20px 10px 20px; margin-bottom:15px; text-transform:uppercase;}
-h1 span{font-family: 'Lato', sans-serif; font-weight:700}
-header p{ font-size:26px}
-h4{ color:#333;font-family: 'Lato', sans-serif; font-size:20px}
-h4 span{ color:#888}
-
 #papeleta {
 	width: 928px; /*928*/
 	border: #fff solid 2px;
@@ -28,24 +10,24 @@ h4 span{ color:#888}
 .municipal{background:url(../img/rosa.gif) !important;}
 .bandera{color:#474749; text-align:center; position:relative; text-transform:uppercase; border:#474749 solid 1px;}
 
-ul {list-style: none;float: left;margin: 0 0 0 10px;}
-ul li {	width: 103px; height: 74px;	margin: 10px 0 0 0;	border: #d5d5d5 solid 1px;	cursor: pointer; position:relative;
+ul.votando.votando {list-style: none;float: left;margin: 0 0 0 10px;}
+ul.votando {	width: 103px; height: 74px;	margin: 10px 0 0 0;	border: #d5d5d5 solid 1px;	cursor: pointer; position:relative;
 	background:rgba(233, 233, 233, 1) url(../img/man.png) bottom center no-repeat;
 	-webkit-transition: background .5s;
 	-moz-transition: background .5s;
 	-o-transition: background .5s;
 	transition: background .5s;
 }
-ul li.woman{ background:rgba(233, 233, 233, 1) url(../img/woman.png) bottom center no-repeat;
+ul.votando li.woman{ background:rgba(233, 233, 233, 1) url(../img/woman.png) bottom center no-repeat;
     -webkit-transition: background .5s;
     -moz-transition: background .5s;
     -o-transition: background .5s;
     transition: background .5s;
 }
 
-ul li:hover, .w_ac{ background:rgba(255, 255, 255, 1) url(../img/man.png) no-repeat bottom center; border:#d5d5d5 solid 1px}
-ul li.woman:hover, .m_ac{ background:rgba(255, 255, 255, 1) url(../img/woman.png) no-repeat bottom center; border:#d5d5d5 solid 1px}
-ul li span, .ban_muni span{display:block; height:100%; position:absolute; z-index:3}
+ul.votando li:hover, .w_ac{ background:rgba(255, 255, 255, 1) url(../img/man.png) no-repeat bottom center; border:#d5d5d5 solid 1px}
+ul.votando li.woman:hover, .m_ac{ background:rgba(255, 255, 255, 1) url(../img/woman.png) no-repeat bottom center; border:#d5d5d5 solid 1px}
+ul.votando li span, .ban_muni span{display:block; height:100%; position:absolute; z-index:3}
 
 .flotar{position: absolute;}
 
@@ -71,9 +53,9 @@ ul li span, .ban_muni span{display:block; height:100%; position:absolute; z-inde
 #mancha{position:absolute; z-index:4;width:100%; height:100%;}
 
 #noparti{ clear:both; overflow:hidden; display:table; margin:0 auto; padding:30px 0 0 0;}
-#noparti ul{ list-style:none; display:table-row; margin:20px 0}
-#noparti ul li{ float:left;display:table-cell; margin:0 14px 0 0; text-align:center; color:#000;}
-#noparti ul li:first-child{ border:none; background:none}
+#noparti ul.votando{ list-style:none; display:table-row; margin:20px 0}
+#noparti ul.votando li{ float:left;display:table-cell; margin:0 14px 0 0; text-align:center; color:#000;}
+#noparti ul.votando li:first-child{ border:none; background:none}
 
 hr{
 	border: 0; margin:0;
@@ -135,14 +117,10 @@ hr{
 .otros h3{background:#009ad5;}
 /*.mal h3:after{ content:'mal hecho'}*/
 
-ul li:first-child, .falsa{ background:#dedfe1;}
-ul li:first-child:hover, .falsa:hover{ border:#666 solid 1px;background:#dedfe1}
+ul.votando li.woman:first-child, .falsa{ background:#dedfe1;}
+ul.votando li.woman:first-child:hover, .falsa:hover{ border:#666 solid 1px;background:#dedfe1}
 
 .falsa{ float:left;}
-
-footer{ width:100%; font-family: 'Lato', sans-serif; font-weight:700;font-size:14px;padding-bottom:20px; padding-bottom:5px; text-align:center; padding:20px 0; margin-bottom:20px; clear:both}
-footer p{ color:#dcede5; font-size:12px; font-weight:300}/*#f0f7ef*/
-footer p span{ color:#dcede5; font-weight:700}
 
  .count {
     color:#485e88;

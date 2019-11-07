@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.utec.voting.modelo.Candidato;
 import com.utec.voting.modelo.Partido;
 import com.utec.voting.modelo.Usuario;
 import com.utec.voting.util.ClientWebService;
@@ -52,6 +53,7 @@ public class SufragioController extends HttpServlet  implements Serializable {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession sesion = request.getSession(true);
 		List<Partido> parList = new ArrayList<Partido>();
+		List<Candidato> canList = new ArrayList<Candidato>();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		try {
 			response.setContentType("text/html;charset=UTF-8");
@@ -60,8 +62,9 @@ public class SufragioController extends HttpServlet  implements Serializable {
 				logger.error("Objeto"+usr);
 				response.sendRedirect("sufragio.jsp");
 				parList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido", "GET"), ArrayList.class);
+				canList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/candidato/"+usr.getUsPerDui().getPerDepId().getDepId(), "GET"), ArrayList.class);
 				sesion.setAttribute("parList", parList);
-
+				sesion.setAttribute("canList", canList);
 			} else {
 				response.sendRedirect("graficoVotaciones.jsp");
 			}
