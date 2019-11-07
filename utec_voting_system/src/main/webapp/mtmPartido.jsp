@@ -10,7 +10,7 @@
 	<jsp:body>
 				<script type="text/javascript" src="js/controller/PartidoController.js"></script>
 				<div style="width: 80%; margin-right: 10%; margin-left: 10%; text-align: center;">
-				<div id="GeneroTableContainer"></div>
+				<div id="PartidoTableContainer"></div>
 			</div>
 	</jsp:body>
 </t:template>

@@ -32,7 +32,7 @@ public class DepartamentoService {
 	
 private static final long serialVersionUID = 1L;
 	
-	private DepartamentoImpl DepartamentoService = new DepartamentoImpl();
+	private DepartamentoImpl departamentoService = new DepartamentoImpl();
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -44,7 +44,7 @@ private static final long serialVersionUID = 1L;
 		List<Departamento> obj = null;
 		try {
 			obj =  new ArrayList<Departamento>();
-			obj = DepartamentoService.getAll();
+			obj = departamentoService.getAll();
 			jsArray = new JSONArray(obj);
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -59,7 +59,7 @@ private static final long serialVersionUID = 1L;
 		JSONObject jsonObject = null;
 		try {
 			if( gen != null) {
-				Departamento = DepartamentoService.save(Departamento);
+				Departamento = departamentoService.save(Departamento);
 				jsonObject = new JSONObject(Departamento);
 			}
 		} catch (Exception e) {
@@ -74,10 +74,10 @@ private static final long serialVersionUID = 1L;
 		Departamento Departamento = new Departamento();
 		JSONObject jsonObject = null;
 		try {
-			if( gen != null) {
-				Departamento = DepartamentoService.update(gen);
-				Departamento = DepartamentoService.finById(Departamento.getDepId());
-				jsonObject = new JSONObject(Departamento);
+			if(departamentoService.update(gen)) {
+				jsonObject = new JSONObject(1);
+			}else {
+				jsonObject = new JSONObject(0);
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -90,13 +90,17 @@ private static final long serialVersionUID = 1L;
 	public Response deleteDepartamento(Departamento gen) {
 		JSONObject jsonObject = new JSONObject("{\"result\": \"ok\"}");
 		try {
-			if(DepartamentoService.delete(gen)) {
+			if(departamentoService.delete(gen)) {
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
 			return Response.status(500).build();
 		}
 		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 
