@@ -49,30 +49,35 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 	@Override
 	public Municipio save(Municipio t) throws SQLException {
 		// TODO Auto-generated method stub
+		//SP_CREATE_MUNICIPIO
 		return null;
 	}
 
 	@Override
 	public Boolean update(Municipio t) throws SQLException {
 		// TODO Auto-generated method stub
+		//SP_UPDATE_MUNICIPIO
 		return null;
 	}
 
 	@Override
 	public Boolean delete(Municipio t) throws SQLException {
 		// TODO Auto-generated method stub
+		//SP_DELETE_MUNICIPIO
 		return null;
 	}
 
 	@Override
 	public Municipio finById(Integer id) throws SQLException {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
 	@Override
 	public Municipio finById(String id) throws SQLException {
 		// TODO Auto-generated method stub
+		//hace falta SP_READ_ONE_MUNICIPIO
 		return null;
 	}
 

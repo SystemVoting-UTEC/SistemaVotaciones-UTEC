@@ -71,7 +71,8 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 	public Boolean update(EstadoFamiliar t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			String query = "{CALL SP_UPDATE_GENERO(?,?,?)}";
+			// falta SP_UPDATE_ESTADO_FAMILIAR
+			String query = "{CALL SP_UPDATE_ESTADO_FAMILIAR(?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getEstEstado());
 			stmt.setInt(2, t.getEstId());
@@ -91,6 +92,7 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 	@Override
 	public Boolean delete(EstadoFamiliar t) throws SQLException {
 		// TODO Auto-generated method stub
+		//falta SP_DELETE_ESTADO_FAMILIAR
 		return null;
 	}
 
