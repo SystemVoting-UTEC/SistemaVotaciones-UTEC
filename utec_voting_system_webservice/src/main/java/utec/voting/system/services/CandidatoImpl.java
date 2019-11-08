@@ -42,7 +42,7 @@ private static final long serialVersionUID = 1L;
 	@Override
 	public ArrayList<Candidato> getAll() throws SQLException {
 		CallableStatement stmt = null;
-		Candidato g = null;
+		Candidato g = new Candidato();
 		Persona persona = new Persona();
 		Partido partido = new Partido();
 		Departamento departamento = new Departamento();
@@ -78,7 +78,7 @@ private static final long serialVersionUID = 1L;
 				}
 			}
 		} catch (Exception e) {
-			logger.error("Error: " + e);
+			logger.error("Error: " + e.getMessage());
 		}finally {
 			stmt.close();
 		}
