@@ -96,6 +96,7 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 	@Override
 	public Boolean delete(Genero t) throws SQLException {
 		// TODO Auto-generated method stub
+		// hace falta SP_DELETE_GENERO
 		return null;
 	}
 

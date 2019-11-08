@@ -26,7 +26,7 @@ public class Conexion implements Serializable{
 	/**
 	 * Variable de logueo para errores.
 	 */
-	static final Logger logger = Logger.getLogger(Conexion.class);
+	protected static final Logger logger = Logger.getLogger(Conexion.class);
 	
     private static Connection conecto ;
    
