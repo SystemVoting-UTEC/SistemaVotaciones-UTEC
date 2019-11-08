@@ -55,6 +55,7 @@ public class SufragioController extends HttpServlet  implements Serializable {
 		List<Partido> parList = new ArrayList<Partido>();
 		List<Candidato> canList = new ArrayList<Candidato>();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		String votos = request.getParameter("voto");
 		try {
 			response.setContentType("text/html;charset=UTF-8");
 			usr = (Usuario) sesion.getAttribute("usuario");
