@@ -89,7 +89,7 @@ private static final long serialVersionUID = 1L;
 	public Candidato save(Candidato t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			String query = "{CALL SP_CREATE_Candidato(?,?,?,?,?,?)}";
+			String query = "{CALL SP_CREATE_CANDIDATO(?,?,?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getCanPerDui().getPerDui());
 			stmt.setInt(2, t.getCanParId().getParId());
@@ -144,7 +144,7 @@ private static final long serialVersionUID = 1L;
 	@Override
 	public Candidato finById(Integer id) throws SQLException {
 		CallableStatement stmt = null;
-		Candidato g = null;
+		Candidato g = new Candidato();
 		Persona persona = new Persona();
 		Partido partido = new Partido();
 		Departamento departamento = new Departamento();
