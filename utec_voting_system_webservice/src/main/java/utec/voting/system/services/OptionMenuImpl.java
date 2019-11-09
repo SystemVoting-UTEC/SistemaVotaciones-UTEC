@@ -60,7 +60,7 @@ public class OptionMenuImpl extends Conexion implements Service<OptionMenu>, Ser
 	}
 
 	@Override
-	public OptionMenu update(OptionMenu t) throws SQLException {
+	public Boolean update(OptionMenu t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

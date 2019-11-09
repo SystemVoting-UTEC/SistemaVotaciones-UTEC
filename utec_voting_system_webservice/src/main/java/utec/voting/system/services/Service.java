@@ -27,7 +27,7 @@ public interface Service<T> {
 	 * @return Boolean True Or False
 	 * @throws SQLException
 	 */
-	T update(T t) throws SQLException;
+	Boolean update(T t) throws SQLException;
 
 	/**
 	 * @param t

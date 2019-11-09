@@ -73,7 +73,7 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 	}
 
 	@Override
-	public Genero update(Genero t) throws SQLException {
+	public Boolean update(Genero t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_UPDATE_GENERO(?,?,?)}";
@@ -83,19 +83,20 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(3) >= 1) {
-				logger.error("Actualizadoooo.............");
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}finally {
 			stmt.close();			
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override
 	public Boolean delete(Genero t) throws SQLException {
 		// TODO Auto-generated method stub
+		// hace falta SP_DELETE_GENERO
 		return null;
 	}
 
@@ -127,5 +128,4 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }

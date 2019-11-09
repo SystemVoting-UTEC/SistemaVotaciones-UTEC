@@ -110,9 +110,10 @@ private static final long serialVersionUID = 1L;
 	}
 
 	@Override
-	public Candidato update(Candidato t) throws SQLException {
+	public Boolean update(Candidato t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
+			// SP_UPDATE_CANDIDATO hace falta en los procedures
 			String query = "{CALL SP_UPDATE_CANDIDATO(?,?,?,?,?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, t.getCanId());
@@ -125,22 +126,23 @@ private static final long serialVersionUID = 1L;
 			stmt.registerOutParameter(8, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(3) >= 1) {
-				logger.error("Actualizadoooo.............");
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}finally {
 			stmt.close();
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override
 	public Boolean delete(Candidato t) throws SQLException {
-		//SP_DELETE_Candidato
+		//SP_DELETE_CANDIDATO
 		return null;
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public Candidato finById(Integer id) throws SQLException {
 		CallableStatement stmt = null;
@@ -151,6 +153,7 @@ private static final long serialVersionUID = 1L;
 		Municipio municipio = new Municipio();
 		TipoCandidato tipocandidato = new TipoCandidato();
 		try {
+			//SP_READ_ONE_CANDIDATO hace falta en los procedures
 			String query = "{CALL SP_READ_ONE_CANDIDATO(?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);

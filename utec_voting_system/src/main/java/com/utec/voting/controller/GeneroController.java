@@ -13,7 +13,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -21,7 +20,6 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.utec.voting.modelo.Genero;
-import com.utec.voting.modelo.Usuario;
 import com.utec.voting.util.ClientWebService;
 
 /**
@@ -102,6 +100,7 @@ public class GeneroController extends HttpServlet implements Serializable {
 					response.getWriter().print(jsonArray);
 				} else if (action.equals("create") || action.equals("update")) {
 					Genero genero = new Genero();
+					Integer res = null;
 					if (request.getParameter("genId") != null) {
 						int genId = Integer.parseInt(request.getParameter("genId"));
 						genero.setGenId(genId);
@@ -113,13 +112,13 @@ public class GeneroController extends HttpServlet implements Serializable {
 					JSONObject object = new JSONObject(genero);
 					if (action.equals("create")) {
 						// Create new record
-						genero = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "POST"), Genero.class);
+						res = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "POST"), Integer.class);
 					} else if (action.equals("update")) {
-						genero = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "PUT"), Genero.class);
+						res = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "PUT"), Integer.class);
 					}
 					// Return in the format required by jTable plugin
 					JSONROOT.put("Result", "OK");
-					JSONROOT.put("Record", genero);
+					JSONROOT.put("Record", res);
 
 					// Convert Java Object to Json
 					String jsonArray = gson.toJson(JSONROOT);
