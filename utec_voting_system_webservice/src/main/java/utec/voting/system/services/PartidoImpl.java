@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import utec.voting.system.entities.Genero;
 import utec.voting.system.entities.Partido;
 import utec.voting.system.jdbc.Conexion;
 
@@ -100,6 +99,7 @@ public class PartidoImpl extends Conexion implements Service<Partido>, Serializa
 	@Override
 	public Boolean delete(Partido t) throws SQLException {
 		// TODO Auto-generated method stub
+		//SP_DELETE_PARTIDO
 		return null;
 	}
 

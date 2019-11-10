@@ -37,7 +37,7 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 		EstadoFamiliar estadoF = null;
 		ArrayList<Persona> l1 = new ArrayList<>();
 		try {
-			String query = "{CALL SP_READ_PERSONAS()}";
+			String query = "{CALL SP_READ_ALL_PERSONA()}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			setRs(stmt.executeQuery());
 			if(getRs().next()) {
@@ -65,18 +65,21 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 	@Override
 	public Persona save(Persona t) throws SQLException {
 		// TODO Auto-generated method stub
+		//SP_CREATE_PERSONA
 		return null;
 	}
 
 	@Override
 	public Boolean update(Persona t) throws SQLException {
 		// TODO Auto-generated method stub
+		//SP_UPDATE_PERSONA
 		return null;
 	}
 
 	@Override
 	public Boolean delete(Persona t) throws SQLException {
 		// TODO Auto-generated method stub
+		//SP_DELETE_PERSONA
 		return null;
 	}
 
