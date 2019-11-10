@@ -147,7 +147,7 @@
 					<div class="modal-footer">
 						<input type="submit" class="btn btn-primary" id="BTN_Login"
 							value="Iniciar sesión">
-						<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-danger">Cancelar</button>
 					</div>
 				</div>
 			</div>
