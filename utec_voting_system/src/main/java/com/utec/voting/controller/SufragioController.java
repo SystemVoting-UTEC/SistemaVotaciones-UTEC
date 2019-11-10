@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.utec.voting.modelo.Candidato;
 import com.utec.voting.modelo.Partido;
+import com.utec.voting.modelo.Sufragio;
 import com.utec.voting.modelo.Usuario;
 import com.utec.voting.util.ClientWebService;
 
@@ -67,7 +68,13 @@ public class SufragioController extends HttpServlet implements Serializable {
 				String[] l1 = votos.split(",");
 				Double sufragio = new Double(1 / l1.length);
 				for (String voto: l1) {
-	                
+					Candidato can = getCandidato(Integer.parseUnsignedInt(voto),canList);
+					if(can != null) {
+						Sufragio sufra = new Sufragio();
+						sufra.setSufPerDui(usr.getUsPerDui());
+						sufra.setSufSufragio(sufragio);
+						sufra.setSufCanId(can);
+					}
 	            }
 			} else {
 				if (usr != null) {
@@ -85,6 +92,17 @@ public class SufragioController extends HttpServlet implements Serializable {
 			response.sendRedirect("graficoVotaciones.jsp");
 		}
 
+	}
+	
+	private Candidato getCandidato(Integer id, List<Candidato> ls) {
+		try {
+			for(Candidato can : ls)
+				if(id == can.getCanId())
+					return can;
+		} catch (Exception e) {
+			logger.error("Error en metodo getCandidato ", e);
+		}
+		return null;
 	}
 
 	/**
