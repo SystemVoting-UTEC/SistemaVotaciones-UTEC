@@ -1,6 +1,10 @@
 $(document).ready(function() {
 		$('#GeneroTableContainer').jtable({
 			title : 'Listado de generos',
+			paging: true, //Enable paging
+            pageSize: 10, //Set page size (default: 10)
+            sorting: true, //Enable sorting
+            defaultSorting: 'genId ASC',
 			actions : {
 				listAction : 'genero.do?action=list',
 				createAction : 'genero.do?action=create',

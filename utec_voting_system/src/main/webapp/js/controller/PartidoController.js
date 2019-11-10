@@ -1,6 +1,10 @@
 $(document).ready(function() {
 		$('#PartidoTableContainer').jtable({
 			title : 'Listado de generos',
+			paging: true, //Enable paging
+            pageSize: 10, //Set page size (default: 10)
+            sorting: true, //Enable sorting
+            defaultSorting: 'parId ASC',
 			actions : {
 				listAction : 'partido.do?action=list',
 				createAction : 'partido.do?action=create',

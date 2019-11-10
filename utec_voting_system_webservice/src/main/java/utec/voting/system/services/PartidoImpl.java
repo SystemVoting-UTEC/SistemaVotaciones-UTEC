@@ -108,7 +108,7 @@ public class PartidoImpl extends Conexion implements Service<Partido>, Serializa
 		CallableStatement stmt = null;
 		Partido g =  null;
 		try {
-			String query = "{CALL SP_READ_ONE_PAR(?)}";
+			String query = "{CALL SP_READ_ONE_PARTIDO(?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);
 			setRs(stmt.executeQuery());
