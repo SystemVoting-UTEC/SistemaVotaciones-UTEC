@@ -20,6 +20,8 @@ import utec.voting.system.jdbc.Conexion;
 
 public class VotanteImpl extends Conexion implements Service<Votante>, Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	static final Logger logger = Logger.getLogger(VotanteImpl.class);
 	
 	private PersonaImpl personaService = new PersonaImpl();
@@ -43,6 +45,12 @@ public class VotanteImpl extends Conexion implements Service<Votante>, Serializa
 					
 					persona = personaService.finById(getRs().getString(1));
 					
+					v.setVotPerDui(persona);
+					v.setVotFechaExp(getRs().getDate(3));
+					v.setVotFechaVence(getRs().getDate(2));
+					v.setEstado(getRs().getInt(4));
+					listaVotantes.add(v);
+					System.out.println(listaVotantes);
 					
 				}
 			}
