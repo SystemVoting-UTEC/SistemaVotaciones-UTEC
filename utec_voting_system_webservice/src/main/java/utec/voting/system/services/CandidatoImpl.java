@@ -10,7 +10,7 @@ import java.sql.Types;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
-
+//prueba
 import utec.voting.system.entities.Candidato;
 import utec.voting.system.entities.Departamento;
 import utec.voting.system.entities.Municipio;
