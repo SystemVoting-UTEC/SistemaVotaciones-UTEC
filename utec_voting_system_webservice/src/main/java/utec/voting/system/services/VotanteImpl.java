@@ -44,7 +44,7 @@ public class VotanteImpl extends Conexion implements Service<Votante>, Serializa
 					persona = new Persona();
 					
 					persona = personaService.finById(getRs().getString(1));
-					
+					System.out.println(persona);
 					v.setVotPerDui(persona);
 					v.setVotFechaExp(getRs().getDate(3));
 					v.setVotFechaVence(getRs().getDate(2));

@@ -13,6 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import utec.voting.system.entities.Candidato;
+import utec.voting.system.entities.OptionMenu;
 import utec.voting.system.services.CandidatoImpl;
 
 /**
@@ -103,6 +105,20 @@ public class CandidatoService implements Serializable{
 		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 	}
 
-
+	@GET
+	@Path("/{parId}")
+	public Response getCandidatosByDepartamento(@PathParam("parId") Integer parId) {
+		JSONArray jsArray;
+		List<Candidato> obj = null;
+		try {
+			obj =  new ArrayList<Candidato>();
+			obj = canService.getAll(parId);
+			jsArray = new JSONArray(obj);
+		} catch (Exception e) {
+			logger.error("Error: ",e);
+			return Response.status(500).build();
+		}
+		return Response.ok(jsArray.toString(),MediaType.APPLICATION_JSON).build();
+	}
 
 }

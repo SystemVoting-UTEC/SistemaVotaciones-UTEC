@@ -66,8 +66,13 @@ private static final long serialVersionUID = 1L;
 					partido = partidoService.finById(getRs().getInt(3));
 					departamento = departamentoService.finById(getRs().getInt(4));
 					municipio = municipioService.finById(getRs().getInt(5));
+<<<<<<< HEAD
 					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));				
 					
+=======
+					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));
+					g = new Candidato();
+>>>>>>> 729499d033ede4765b01ec6da1ca0ac5100b3480
 					g.setCanId(getRs().getInt(1));
 					g.setCanPerDui(persona);
 					g.setCanParId(partido);
@@ -146,7 +151,7 @@ private static final long serialVersionUID = 1L;
 	@Override
 	public Candidato finById(Integer id) throws SQLException {
 		CallableStatement stmt = null;
-		Candidato g = null;
+		Candidato g = new Candidato();
 		Persona persona = new Persona();
 		Partido partido = new Partido();
 		Departamento departamento = new Departamento();
@@ -172,7 +177,7 @@ private static final long serialVersionUID = 1L;
 					departamento = departamentoService.finById(getRs().getInt(4));
 					municipio = municipioService.finById(getRs().getInt(5));
 					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));
-					
+					g = new Candidato();
 					g.setCanId(getRs().getInt(1));
 					g.setCanPerDui(persona);
 					g.setCanParId(partido);
@@ -195,5 +200,49 @@ private static final long serialVersionUID = 1L;
 		return null;
 	}
 
-
+	public ArrayList<Candidato> getAll(Integer parId) throws SQLException {
+		CallableStatement stmt = null;
+		Candidato g = null;
+		Persona persona = new Persona();
+		Partido partido = new Partido();
+		Departamento departamento = new Departamento();
+		Municipio municipio = new Municipio();
+		TipoCandidato tipocandidato = new TipoCandidato();
+		ArrayList<Candidato> l1 = new ArrayList<>();
+		try {
+			String query = "{CALL SP_READ_CANDIDATOS_BY_DEPTO(?)}";
+			stmt = getConnection().prepareCall(query);
+			stmt.setInt(1, parId);
+			setRs(stmt.executeQuery());
+			if(getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					persona = new Persona();
+					partido = new Partido();
+					departamento = new Departamento();
+					municipio = new Municipio();
+					tipocandidato = new TipoCandidato();
+					
+					persona = personaService.finById(getRs().getString(2));
+					partido = partidoService.finById(getRs().getInt(3));
+					departamento = departamentoService.finById(getRs().getInt(4));
+					municipio = municipioService.finById(getRs().getInt(5));
+					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));
+					g = new Candidato();
+					g.setCanId(getRs().getInt(1));
+					g.setCanPerDui(persona);
+					g.setCanParId(partido);
+					g.setCanDepId(departamento);
+					g.setCanMunId(municipio);
+					g.setCanTcaId(tipocandidato);
+					l1.add(g);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error: " + e);
+		}finally {
+			stmt.close();
+		}
+		return l1;
+	}
 }

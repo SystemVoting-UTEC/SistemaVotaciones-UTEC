@@ -10,6 +10,9 @@ public class Sufragio {
 	private Candidato sufCanId;
 	private Double sufSufragio;
 	
+	public Sufragio() {
+	}
+	
 	/**
 	 * @param sufId
 	 * @param sufPerDui
