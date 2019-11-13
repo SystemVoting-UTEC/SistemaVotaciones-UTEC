@@ -30,28 +30,34 @@ import utec.voting.system.services.VotanteImpl;
 @Path("/votante")
 @Produces(MediaType.APPLICATION_JSON) 
 @Consumes(MediaType.APPLICATION_JSON)
-public class VotanteService implements Serializable {
+public class VotanteService{
 
 	private static final long serialVersionUID = 1L;
 
-	private VotanteImpl votanteService = new VotanteImpl();
+	private VotanteImpl vService = new VotanteImpl();
 	/**
 	 * Variable de logueo para errores.
 	 */
-	static final Logger logger = Logger.getLogger(CandidatoService.class);
+	static final Logger logger = Logger.getLogger(VotanteService.class);
 	
 	@GET
 	public Response findAll() throws SQLException {
 		JSONArray jsArray;
-		List<Votante> obj = null;
+		List<Votante> obj;
 		try {
+			
 			obj =  new ArrayList<Votante>();
-			obj = votanteService.getAll();
-			jsArray = new JSONArray(obj);
+			obj = vService.getAll();
+			System.out.println("Despues del getAll");
+			jsArray = new JSONArray(obj);			
 		} catch (Exception e) {
-			logger.error("Error: ",e);
+			logger.error("Error: " + e);
 			return Response.status(500).build();
 		}
 		return Response.ok(jsArray.toString(),MediaType.APPLICATION_JSON).build();
+	}
+	
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 }

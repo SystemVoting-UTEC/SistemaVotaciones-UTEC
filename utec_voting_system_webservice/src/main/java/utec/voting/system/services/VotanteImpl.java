@@ -29,36 +29,33 @@ public class VotanteImpl extends Conexion implements Service<Votante>, Serializa
 	@SuppressWarnings("null")
 	@Override
 	public ArrayList<Votante> getAll() throws SQLException {
-		CallableStatement stmt = null;
 		Votante v = new Votante();
 		Persona persona = new Persona();
-		
 		ArrayList<Votante> listaVotantes = new ArrayList<Votante>();
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_READ_VOTANTES()}";
-			stmt.getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			setRs(stmt.executeQuery());
 			if(getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					persona = new Persona();
-					
+					persona = new Persona();					
 					persona = personaService.finById(getRs().getString(1));
-					System.out.println(persona);
 					v.setVotPerDui(persona);
 					v.setVotFechaExp(getRs().getDate(3));
 					v.setVotFechaVence(getRs().getDate(2));
 					v.setEstado(getRs().getInt(4));
-					listaVotantes.add(v);
-					System.out.println(listaVotantes);
-					
+					listaVotantes.add(v);					
 				}
 			}
 		}catch (Exception e) {
-			logger.error("Error: " + e.getMessage());
+			logger.error("Error es: " + e.getMessage());
 		}finally {
+			
+			System.out.println(listaVotantes);
 			stmt.close();
-		}
+		}		
 		return listaVotantes;
 	}
 

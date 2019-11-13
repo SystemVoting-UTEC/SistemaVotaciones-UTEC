@@ -66,13 +66,10 @@ private static final long serialVersionUID = 1L;
 					partido = partidoService.finById(getRs().getInt(3));
 					departamento = departamentoService.finById(getRs().getInt(4));
 					municipio = municipioService.finById(getRs().getInt(5));
-<<<<<<< HEAD
 					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));				
 					
-=======
 					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));
 					g = new Candidato();
->>>>>>> 729499d033ede4765b01ec6da1ca0ac5100b3480
 					g.setCanId(getRs().getInt(1));
 					g.setCanPerDui(persona);
 					g.setCanParId(partido);
