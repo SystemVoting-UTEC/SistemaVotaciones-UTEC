@@ -115,7 +115,6 @@ private static final long serialVersionUID = 1L;
 	public Boolean update(Candidato t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			// SP_UPDATE_CANDIDATO hace falta en los procedures
 			String query = "{CALL SP_UPDATE_CANDIDATO(?,?,?,?,?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, t.getCanId());
@@ -155,7 +154,6 @@ private static final long serialVersionUID = 1L;
 		Municipio municipio = new Municipio();
 		TipoCandidato tipocandidato = new TipoCandidato();
 		try {
-			//SP_READ_ONE_CANDIDATO hace falta en los procedures
 			String query = "{CALL SP_READ_ONE_CANDIDATO(?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);

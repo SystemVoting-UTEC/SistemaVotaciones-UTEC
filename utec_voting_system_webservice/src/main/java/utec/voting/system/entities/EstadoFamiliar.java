@@ -18,6 +18,10 @@ public class EstadoFamiliar {
 		this.estEstado = estEstado;
 	}
 
+	public EstadoFamiliar() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @return the estId
 	 */
