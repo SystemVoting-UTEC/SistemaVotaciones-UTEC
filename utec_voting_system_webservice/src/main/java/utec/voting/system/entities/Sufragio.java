@@ -24,6 +24,10 @@ public class Sufragio {
 		this.sufSufragio = sufSufragio;
 	}
 
+	public Sufragio() {
+		// TODO Auto-generated constructor stub
+	}
+
 	/**
 	 * @return the sufId
 	 */

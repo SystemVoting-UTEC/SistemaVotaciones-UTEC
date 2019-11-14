@@ -2,6 +2,7 @@
  * 
  */
 package utec.voting.system.ws;
+
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -13,7 +14,6 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -22,33 +22,38 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import utec.voting.system.entities.Candidato;
-import utec.voting.system.services.CandidatoImpl;
+import utec.voting.system.entities.Sufragio;
+import utec.voting.system.services.SufragioImpl;
+
 
 /**
- * @author Manuel Cardona
+ * @author manuel
  *
  */
-@Path("/candidato")
+@Path("/sufragio")
 @Produces(MediaType.APPLICATION_JSON) 
 @Consumes(MediaType.APPLICATION_JSON)
-public class CandidatoService implements Serializable{
+
+public class SufragioService implements Serializable{
 	
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 1L;
 	
-	private CandidatoImpl canService = new CandidatoImpl();
+	private SufragioImpl SufragioService = new SufragioImpl();
 	/**
 	 * Variable de logueo para errores.
 	 */
-	static final Logger logger = Logger.getLogger(CandidatoService.class);
+	static final Logger logger = Logger.getLogger(SufragioService.class);
 	
 	@GET
 	public Response findAll() throws SQLException {
 		JSONArray jsArray;
-		List<Candidato> obj = null;
+		List<Sufragio> obj = null;
 		try {
-			obj =  new ArrayList<Candidato>();
-			obj = canService.getAll();
+			obj =  new ArrayList<Sufragio>();
+			obj = SufragioService.getAll();
 			jsArray = new JSONArray(obj);
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -58,14 +63,13 @@ public class CandidatoService implements Serializable{
 	}
 	
 	@POST
-	public Response addCandidato(Candidato gen) {
-		logger.error("Request>>>>>"+gen);
-		Candidato Candidato = new Candidato();
+	public Response addSufragio(Sufragio gen) {
+		Sufragio Sufragio = new Sufragio();
 		JSONObject jsonObject = null;
 		try {
 			if( gen != null) {
-				Candidato = canService.save(Candidato);
-				jsonObject = new JSONObject(Candidato);
+				Sufragio = SufragioService.save(gen);
+				jsonObject = new JSONObject(Sufragio);
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -75,11 +79,11 @@ public class CandidatoService implements Serializable{
 	}
 	
 	@PUT
-	public Response updCandidato(Candidato gen) {
-		Candidato Candidato = new Candidato();
+	public Response updSufragio(Sufragio gen) {
+		Sufragio Sufragio = new Sufragio();
 		JSONObject jsonObject = null;
 		try {
-			if(canService.update(gen)) {
+			if(SufragioService.update(gen)) {
 				jsonObject = new JSONObject(1);
 			}else {
 				jsonObject = new JSONObject(0);
@@ -92,10 +96,10 @@ public class CandidatoService implements Serializable{
 	}
 	
 	@DELETE
-	public Response deleteCandidato(Candidato gen) {
+	public Response deleteSufragio(Sufragio gen) {
 		JSONObject jsonObject = new JSONObject("{\"result\": \"ok\"}");
 		try {
-			if(canService.delete(gen)) {
+			if(SufragioService.delete(gen)) {
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -104,20 +108,5 @@ public class CandidatoService implements Serializable{
 		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 	}
 
-	@GET
-	@Path("/{parId}")
-	public Response getCandidatosByDepartamento(@PathParam("parId") Integer parId) {
-		JSONArray jsArray;
-		List<Candidato> obj = null;
-		try {
-			obj =  new ArrayList<Candidato>();
-			obj = canService.getAll(parId);
-			jsArray = new JSONArray(obj);
-		} catch (Exception e) {
-			logger.error("Error: ",e);
-			return Response.status(500).build();
-		}
-		return Response.ok(jsArray.toString(),MediaType.APPLICATION_JSON).build();
-	}
 
 }
