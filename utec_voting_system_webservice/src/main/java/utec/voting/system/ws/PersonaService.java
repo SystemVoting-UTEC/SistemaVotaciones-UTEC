@@ -44,64 +44,24 @@ private static final long serialVersionUID = 1L;
 	
 	@GET
 	public Response findAll() throws SQLException {
-		JSONArray jsArray;
-		List<Persona> obj = null;
-		try {
-			obj =  new ArrayList<Persona>();
-			obj = PersonaService.getAll();
-			jsArray = new JSONArray(obj);
-		} catch (Exception e) {
-			logger.error("Error: ",e);
-			return Response.status(500).build();
-		}
-		return Response.ok(jsArray.toString(),MediaType.APPLICATION_JSON).build();
-	}
+		return null;
+			}
 	@POST
 	public Response addPersona(Persona gen) {
-		logger.error("Request>>>>>"+gen);
-		Persona Persona = new Persona();
-		JSONObject jsonObject = null;
-		try {
-			if( gen != null) {
-				Persona = PersonaService.save(Persona);
-				jsonObject = new JSONObject(Persona);
-			}
-		} catch (Exception e) {
-			logger.error("Error: ",e);
-			return Response.status(500).build();
-		}
-		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+		return null;
+		
 	}
 	
 	@PUT
 	public Response updPersona(Persona gen) {
-		Persona Persona = new Persona();
-		JSONObject jsonObject = null;
-		try {
-			if(PersonaService.update(gen)) {
-				jsonObject = new JSONObject(1);
-			}else {
-				jsonObject = new JSONObject(0);
-			}
-		} catch (Exception e) {
-			logger.error("Error: ",e);
-			return Response.status(500).build();
-		}
-		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+		return null;
+		
 	}
 	
 	@DELETE
 	public Response deletePersona(Persona gen) {
-		JSONObject jsonObject = new JSONObject("{\"result\": \"ok\"}");
-		try {
-			if(PersonaService.delete(gen)) {
+		return null;
 			}
-		} catch (Exception e) {
-			logger.error("Error: ",e);
-			return Response.status(500).build();
-		}
-		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
-	}
 
 
 
