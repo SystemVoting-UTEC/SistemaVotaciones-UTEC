@@ -34,8 +34,39 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 
 	@Override
 	public ArrayList<Usuario> getAll() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		Usuario g;
+		Persona Persona = new Persona();
+		TipoUsuario TipoUsuario = new TipoUsuario();
+		ArrayList<Usuario> l1 = new ArrayList<>();
+		CallableStatement stmt = null;
+		try {
+			String query = "{CALL SP_READ_ALL_USUARIO()}";
+			stmt = getConnection().prepareCall(query);
+			setRs(stmt.executeQuery());
+			if(getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					
+					Persona = new Persona();
+					Persona = personaService.finById(getRs().getString(1));
+					
+					TipoUsuario = new TipoUsuario();
+					TipoUsuario = tipoUsuarioService.finById(getRs().getInt(3));
+					
+					g = new Usuario();
+					g.setUsPassword(getRs().getString(2));
+					g.setUsPerDui(Persona);
+					g.setUsTusId(TipoUsuario);
+					l1.add(g);
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error: " + e);
+		}finally {
+			stmt.close();			
+		}
+		return l1;
+	
 	}
 
 	@Override
