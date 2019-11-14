@@ -48,7 +48,6 @@ public class VotanteService{
 			
 			obj =  new ArrayList<Votante>();
 			obj = vService.getAll();
-			System.out.println("Despues del getAll");
 			jsArray = new JSONArray(obj);			
 		} catch (Exception e) {
 			logger.error("Error: " + e);

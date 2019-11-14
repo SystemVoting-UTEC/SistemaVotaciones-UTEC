@@ -52,8 +52,8 @@ public class SufragioImpl extends Conexion implements Service<Sufragio>, Seriali
 				while (getRs().next()) {
 					persona = PersonaService.finById(getRs().getInt("SUF_PER_DUI"));
 					candidato = CandidatoService.finById(getRs().getInt("SUF_CAN_ID"));
-					g = new Sufragio(getRs().getInt(1),persona,candidato, getRs().getString(2),getRs().getInt(3),getRs().getdouble(4));
-					l1.add(g);
+					//g = new Sufragio(getRs().getInt(1),persona,candidato, getRs().getString(2),getRs().getInt(3),getRs().getdouble(4));
+					//l1.add(g);
 				}
 			}
 		} catch (Exception e) {
@@ -70,12 +70,12 @@ public class SufragioImpl extends Conexion implements Service<Sufragio>, Seriali
 		try {
 			String query = "{CALL SP_CREATE_Sufragio(?,?)}";
 			stmt = getConnection().prepareCall(query);
-			stmt.setString(1, t.getGenSufragio());
+			/*stmt.setString(1, t.getGenSufragio());
 			stmt.registerOutParameter(2, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(2) > 0) {
 				t.setGenId(stmt.getInt(2));
-			}
+			}*/
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}finally {
@@ -90,8 +90,8 @@ public class SufragioImpl extends Conexion implements Service<Sufragio>, Seriali
 		try {
 			String query = "{CALL SP_UPDATE_Sufragio(?,?,?)}";
 			stmt = getConnection().prepareCall(query);
-			stmt.setString(1, t.getGenSufragio());
-			stmt.setInt(2, t.getGenId());
+			/*stmt.setString(1, t.getGenSufragio());
+			stmt.setInt(2, t.getGenId());*/
 			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(3) >= 1) {
@@ -124,7 +124,7 @@ public class SufragioImpl extends Conexion implements Service<Sufragio>, Seriali
 			if (getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					g = new Sufragio(getRs().getInt(1), getRs().getString(2));
+					//g = new Sufragio(getRs().getInt(1), getRs().getString(2));
 				}
 			}
 		} catch (Exception e) {

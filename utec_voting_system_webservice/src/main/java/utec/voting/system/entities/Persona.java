@@ -23,6 +23,7 @@ public class Persona {
 	private EstadoFamiliar perEstId;
 	private String perMadre;
 	private String perPadre;
+	private int estado;
 	
 	public Persona() {
 		
@@ -43,7 +44,7 @@ public class Persona {
 	 * @param perMadre
 	 * @param perPadre
 	 */
-	public Persona(String perDui, String perPNombre, String perSNombre, String perTNombre, String perPApellido, String perSApellido, Date perFechaNac, Integer perEdad, Genero perGenId, Departamento perDepId, EstadoFamiliar perEstId, String perMadre, String perPadre) {
+	public Persona(String perDui, String perPNombre, String perSNombre, String perTNombre, String perPApellido, String perSApellido, Date perFechaNac, Integer perEdad, Genero perGenId, Departamento perDepId, EstadoFamiliar perEstId, String perMadre, String perPadre, int estado) {
 		super();
 		this.perDui = perDui;
 		this.perPNombre = perPNombre;
@@ -58,6 +59,7 @@ public class Persona {
 		this.perEstId = perEstId;
 		this.perMadre = perMadre;
 		this.perPadre = perPadre;
+		this.estado = estado;
 	}
 
 	/**
