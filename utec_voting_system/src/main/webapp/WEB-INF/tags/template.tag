@@ -74,11 +74,22 @@
 									<div class="panel-body">
 										<table class="table">
 											<c:forEach items="${sessionScope.optList}" var="opt">
-												<tr>
-													<td><span
-														class="glyphicon glyphicon-pencil text-primary"></span><a
-														href="${opt.optURL}"> ${opt.optNombre}</a></td>
-												</tr>
+												<c:if test="${opt.optNombre eq 'Votar'}">
+														<c:if test="${sessionScope.eleccion != null}">
+															<tr>
+																<td><span
+																	class="glyphicon glyphicon-pencil text-primary"></span><a
+																	href="${opt.optURL}"> ${opt.optNombre}</a></td>
+															</tr>
+														</c:if>
+												</c:if>
+												<c:if test="${opt.optNombre ne 'Votar'}">
+													<tr>
+														<td><span
+															class="glyphicon glyphicon-pencil text-primary"></span><a
+															href="${opt.optURL}"> ${opt.optNombre}</a></td>
+													</tr>
+												</c:if>
 											</c:forEach>
 										</table>
 									</div>
@@ -98,11 +109,22 @@
 									<c:if test="${sessionScope.usuario != null}">
 										<c:if test="${sessionScope.usuario.usTusId.tusId eq 2}">
 											<c:forEach items="${sessionScope.optList}" var="opt">
-												<tr>
-													<td><span
-														class="glyphicon glyphicon-pencil text-primary"></span><a
-														href="${opt.optURL}"> ${opt.optNombre}</a></td>
-												</tr>
+												<c:if test="${opt.optNombre eq 'Votar'}">
+														<c:if test="${sessionScope.eleccion != null}">
+															<tr>
+																<td><span
+																	class="glyphicon glyphicon-pencil text-primary"></span><a
+																	href="${opt.optURL}"> ${opt.optNombre}</a></td>
+															</tr>
+														</c:if>
+												</c:if>
+												<c:if test="${opt.optNombre ne 'Votar'}">
+													<tr>
+														<td><span
+															class="glyphicon glyphicon-pencil text-primary"></span><a
+															href="${opt.optURL}"> ${opt.optNombre}</a></td>
+													</tr>
+												</c:if>
 											</c:forEach>
 										</c:if>
 									</c:if>

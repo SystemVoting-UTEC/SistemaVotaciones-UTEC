@@ -2,7 +2,11 @@ package com.utec.voting.controller;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -15,10 +19,12 @@ import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.utec.voting.modelo.Eleccion;
+import com.utec.voting.modelo.OptionMenu;
 import com.utec.voting.modelo.Persona;
 import com.utec.voting.modelo.TipoUsuario;
 import com.utec.voting.modelo.Usuario;
-import com.utec.voting.modelo.OptionMenu;
 import com.utec.voting.util.ClientWebService;
 import com.utec.voting.util.Encriptar;
 
@@ -50,9 +56,13 @@ public class Autentificando extends HttpServlet implements Serializable {
 	@SuppressWarnings({ "static-access", "unchecked" })
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Encriptar enc = new Encriptar();
-		Gson gson = new Gson();
+		 Gson gson =  new GsonBuilder().setDateFormat(DateFormat.LONG).create();
+		 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
+		 Timestamp today = new Timestamp(new Date().getTime());
 		try {
+			HttpSession sesion;
 			Persona pers = new Persona();
+			Eleccion eleccion = null;
 			TipoUsuario tpu = new TipoUsuario();
 			List<OptionMenu> optList =  new ArrayList<>();
 			response.setContentType("text/html;charset=UTF-8");
@@ -65,22 +75,32 @@ public class Autentificando extends HttpServlet implements Serializable {
 			JSONObject object = new JSONObject(usr);
 			usr = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/login", object, "POST"), Usuario.class);
 			if (usr != null) {
+				object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/eleccion", "GET"));
+				eleccion = new Eleccion();
+				Timestamp timestampIni = new Timestamp(dateFormat.parse(object.get("elcFechaInicio").toString()).getTime());
+				Timestamp timestampFin = new Timestamp(dateFormat.parse(object.get("elcFechaFin").toString()).getTime());
+				eleccion.setElcFechaInicio(timestampIni);
+				eleccion.setElcFechaFin(timestampFin);
+				eleccion.setElcDescripcion(object.get("elcDescripcion").toString());
+				eleccion.setElcId(Integer.parseInt(object.get("elcId").toString()));
+				eleccion.setElcEstado(Integer.parseInt(object.get("elcEstado").toString()));
 				Integer tipor = 1;
 				if (usr.getUsTusId().getTusId() == tipor) {
 					optList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/option_menu/"+usr.getUsTusId().getTusId(), "GET"), ArrayList.class);
-					HttpSession sesion = request.getSession(true);
+					sesion = request.getSession(true);
 					sesion.setAttribute("usuario", usr);
 					sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
 					sesion.setAttribute("optList", optList);
-//					request.setAttribute("mosDepa", departamentoService.getAll());
-//					request.setAttribute("mosEsta", estadoFamiliarService.getAll());
-//					request.setAttribute("mosGene", generoService.getAll());
+					logger.error("Fecha de hoy: "+today.getTime()+" Ini: "+eleccion.getElcFechaInicio().getTime()+" Fin: "+eleccion.getElcFechaFin().getTime());
+					
+					if (today.after(eleccion.getElcFechaInicio()) && today.before(eleccion.getElcFechaFin()))
+						sesion.setAttribute("eleccion", eleccion);
 					response.sendRedirect("administracion.jsp");
 				} else {
-					HttpSession sesion = request.getSession(true);
-//					sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
+					sesion = request.getSession(true);
 					sesion.setAttribute("usuario", usr);
-//					sesion.setAttribute("diputado", usr);
+					if (today.compareTo(eleccion.getElcFechaInicio()) == -1 && today.compareTo(eleccion.getElcFechaFin()) == 1 || (today.compareTo(eleccion.getElcFechaInicio())==0 || today.compareTo(eleccion.getElcFechaFin())==0))
+						sesion.setAttribute("eleccion", eleccion);
 					response.sendRedirect("votante.jsp");
 				}
 			} else {

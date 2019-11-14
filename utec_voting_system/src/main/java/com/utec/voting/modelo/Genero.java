@@ -7,18 +7,20 @@ package com.utec.voting.modelo;
 public class Genero {
 	private Integer genId;
 	private String genGenero;
-
+	private String genNombre;
+	
 	public Genero() {
 	}
-	
+
 	/**
 	 * @param genId
 	 * @param genGenero
+	 * @param genNombre
 	 */
-	public Genero(Integer genId, String genGenero) {
-		super();
+	public Genero(Integer genId, String genGenero, String genNombre) {
 		this.genId = genId;
 		this.genGenero = genGenero;
+		this.genNombre = genNombre;
 	}
 
 	/**
@@ -49,8 +51,22 @@ public class Genero {
 		this.genGenero = genGenero;
 	}
 
+	/**
+	 * @return the genNombre
+	 */
+	public String getGenNombre() {
+		return genNombre;
+	}
+
+	/**
+	 * @param genNombre the genNombre to set
+	 */
+	public void setGenNombre(String genNombre) {
+		this.genNombre = genNombre;
+	}
+
 	@Override
 	public String toString() {
-		return "Genero [genId=" + genId + ", genGenero=" + genGenero + "]";
+		return "Genero [genId=" + genId + ", genGenero=" + genGenero + ", genNombre=" + genNombre + "]";
 	}
 }
