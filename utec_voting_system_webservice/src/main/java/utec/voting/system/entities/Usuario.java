@@ -8,9 +8,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 public class Usuario {
-	private Persona usPerDui;
-	private String usPassword;
-	private TipoUsuario usTusId;
+	private Persona usPerDui; //string
+	private String usPassword;//string
+	private TipoUsuario usTusId;//int
 	
 	public Usuario() {
 		

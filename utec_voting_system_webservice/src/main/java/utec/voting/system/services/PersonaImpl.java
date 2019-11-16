@@ -88,17 +88,65 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 	}
 
 	@Override
-	public Persona save(Persona t) throws SQLException {
-		// TODO Auto-generated method stub
-		//SP_CREATE_PERSONA
+	public Persona save(Persona persona) throws SQLException {
+		CallableStatement statement  = null;
+		
+		try {
+			String query = "{CALL SP_CREATE_PERSONA(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+			statement = getConnection().prepareCall(query);
+			
+			statement.setString(1, persona.getPerDui());
+			statement.setString(2, persona.getPerPNombre());
+			statement.setString(3, persona.getPerSNombre());
+			statement.setString(4, persona.getPerTNombre());
+			statement.setString(5, persona.getPerPApellido());
+			statement.setString(6, persona.getPerSApellido());
+			statement.setDate(7, persona.getPerFechaNac());
+			statement.setInt(9,persona.getPerGenId().getGenId());
+			statement.setInt(10,persona.getPerDepId().getDepId());
+			statement.setInt(8,persona.getPerEdad());
+			statement.setInt(11,persona.getPerEstId().getEstId());
+			statement.setString(12, persona.getPerMadre());
+			statement.setString(13, persona.getPerPadre());
+			statement.setInt(14,persona.getEstado());
+			
+			statement.execute();
+		} catch (Exception e) {
+			logger.error("Error: " + e.getMessage());
+		}finally {
+			
+		}
 		return null;
 	}
 
 	@Override
-	public Boolean update(Persona t) throws SQLException {
-		// TODO Auto-generated method stub
-		//SP_UPDATE_PERSONA
-		return null;
+	public Boolean update(Persona persona) throws SQLException {
+		CallableStatement statement = null;
+		
+		try {
+			String query = "{CALL SP_UPDATE_PERSONA(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+			statement = getConnection().prepareCall(query);
+			
+			statement.setString(1, persona.getPerDui());
+			statement.setString(2, persona.getPerPNombre());
+			statement.setString(3, persona.getPerSNombre());
+			statement.setString(4, persona.getPerTNombre());
+			statement.setString(5, persona.getPerPApellido());
+			statement.setString(6, persona.getPerSApellido());
+			statement.setDate(7, persona.getPerFechaNac());
+			statement.setInt(8, persona.getPerEdad());
+			statement.setInt(9, persona.getPerGenId().getGenId());
+			statement.setInt(10, persona.getPerDepId().getDepId());
+			statement.setInt(11, persona.getPerEstId().getEstId());
+			statement.setString(12, persona.getPerMadre());
+			statement.setString(13, persona.getPerPadre());
+			statement.setInt(14, persona.getEstado());
+		} catch (Exception e) {
+			logger.error("Error: " + e.getMessage());
+		}finally {
+			statement.close();
+		}
+		return true;
 	}
 
 	@Override

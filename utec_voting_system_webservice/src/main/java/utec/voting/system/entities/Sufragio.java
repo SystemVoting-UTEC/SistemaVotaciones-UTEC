@@ -88,4 +88,5 @@ public class Sufragio {
 	public String toString() {
 		return "Sufragio [sufId=" + sufId + ", sufPerDui=" + sufPerDui + ", sufCanId=" + sufCanId + ", sufSufragio=" + sufSufragio + "]";
 	}
-}
+
+	}

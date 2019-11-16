@@ -2,25 +2,13 @@
  * 
  */
 package utec.voting.system.services;
-import java.io.Serializable;
-import java.sql.CallableStatement;
-import java.sql.SQLException;
-import java.sql.Types;
-import java.util.ArrayList;
-
-import org.apache.log4j.Logger;
-
-import utec.voting.system.entities.Candidato;
-import utec.voting.system.entities.Departamento;
-import utec.voting.system.entities.Persona;
-import utec.voting.system.entities.Sufragio;
-import utec.voting.system.jdbc.Conexion;
 
 
 /**
  * @author manuel cardona
  *
  */
+<<<<<<< HEAD
 public class SufragioImpl extends Conexion implements Service<Sufragio>, Serializable {
 	
 	/**
@@ -141,5 +129,6 @@ public class SufragioImpl extends Conexion implements Service<Sufragio>, Seriali
 		return null;
 	}
 
+=======
+>>>>>>> 02c9eb2e0b5f2f108fc4324a58f0dc67875f69db
 
-}

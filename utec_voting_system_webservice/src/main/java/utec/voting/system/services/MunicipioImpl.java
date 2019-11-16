@@ -45,7 +45,6 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 				getRs().beforeFirst();
 				while (getRs().next()) {
 					departamento = new Departamento();
-					
 					departamento = DepartamentoService.finById(getRs().getInt(3));
 					
 					g = new Municipio();
@@ -68,7 +67,7 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 		// TODO Auto-generated method stub
 		CallableStatement stmt = null;
 		try {
-			String query = "{CALL SP_CREATE_Municipio(?,?,?)}";
+			String query = "{CALL SP_CREATE_MUNICIPIO(?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getMunNombre());
 			stmt.registerOutParameter(2, Types.INTEGER);
@@ -89,7 +88,7 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 		// TODO Auto-generated method stub
 		CallableStatement stmt = null;
 		try {
-			String query = "{CALL SP_UPDATE_Municipio(?,?,?)}";
+			String query = "{CALL SP_UPDATE_MUNICIPIO(?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getMunNombre());
 			stmt.setInt(2, t.getMunId());
@@ -119,7 +118,7 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 		CallableStatement stmt = null;
 		Municipio g =  null;
 		try {
-			String query = "{CALL SP_READ_ONE_Municipio(?)}";
+			String query = "{CALL SP_READ_ONE_MUNICIPIO(?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);
 			setRs(stmt.executeQuery());

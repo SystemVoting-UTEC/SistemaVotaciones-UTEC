@@ -59,7 +59,7 @@ public class Persona {
 		this.perEstId = perEstId;
 		this.perMadre = perMadre;
 		this.perPadre = perPadre;
-		this.estado = estado;
+		this.setEstado(estado);
 	}
 
 	/**
@@ -242,6 +242,14 @@ public class Persona {
 	 */
 	public void setPerPadre(String perPadre) {
 		this.perPadre = perPadre;
+	}
+
+	public int getEstado() {
+		return estado;
+	}
+
+	public void setEstado(int estado) {
+		this.estado = estado;
 	}
 
 	@Override
