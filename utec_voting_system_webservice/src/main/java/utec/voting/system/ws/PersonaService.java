@@ -52,26 +52,48 @@ public class PersonaService implements Serializable {
 			obj = personaService.getAll();
 			jsArray = new JSONArray(obj);
 		} catch (Exception e) {
-			logger.error("Error: " +  e.getMessage());
+			logger.error("Error: " + e.getMessage());
 			return Response.status(500).build();
 		}
 		return Response.ok(jsArray.toString(), MediaType.APPLICATION_JSON).build();
 	}
 
 	@POST
-	public Response addPersona(Persona gen) {
-		return null;
-
+	public Response addPersona(Persona p) {
+		logger.error("Request>>>>>" + p);
+		Persona persona = new Persona();
+		JSONObject jsonObject = null;
+		try {
+			if (p != null) {
+				persona = personaService.save(persona);
+				jsonObject = new JSONObject(persona);
+			}
+		} catch (Exception e) {
+			logger.error("Error: " + e.getMessage());
+			return Response.status(500).build();
+		}
+		return Response.ok(jsonObject.toString(), MediaType.APPLICATION_JSON).build();
 	}
 
 	@PUT
-	public Response updPersona(Persona gen) {
-		return null;
-
+	public Response updPersona(Persona p) {
+		Persona persona = new Persona();
+		JSONObject jsonObject = null;
+		try {
+			if(personaService.update(p)) {
+				jsonObject = new JSONObject(1);
+			}else {
+				jsonObject = new JSONObject(0);
+			}
+		} catch (Exception e) {
+			logger.error("Error: " + e.getMessage());
+			return Response.status(500).build();
+		}
+		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 	}
 
 	@DELETE
-	public Response deletePersona(Persona gen) {
+	public Response deletePersona(Persona p) {
 		return null;
 	}
 
