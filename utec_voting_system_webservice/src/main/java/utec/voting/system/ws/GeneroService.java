@@ -24,7 +24,7 @@ import utec.voting.system.services.GeneroImpl;
 
 /**
  * @author Kevin Orellana
- * @version 1.0 Date: September 2019
+ * 
  */
 
 @Path("/genero")

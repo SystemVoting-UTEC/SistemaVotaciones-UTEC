@@ -13,6 +13,12 @@ public class Votante {
 	private int estado;
 	
 	/**
+	 * 
+	 */
+	public Votante() {
+	}
+
+	/**
 	 * @param votPerDui
 	 * @param votFechaVence
 	 * @param votFechaExp

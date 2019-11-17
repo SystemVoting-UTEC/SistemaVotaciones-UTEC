@@ -9,6 +9,12 @@ public class EstadoFamiliar {
 	private String estEstado;
 	
 	/**
+	 * 
+	 */
+	public EstadoFamiliar() {
+	}
+
+	/**
 	 * @param estId
 	 * @param estEstado
 	 */

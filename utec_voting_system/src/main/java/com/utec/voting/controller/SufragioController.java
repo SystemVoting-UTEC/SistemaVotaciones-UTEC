@@ -108,7 +108,7 @@ public class SufragioController extends HttpServlet implements Serializable {
 			canList = (List<Candidato>) sesion.getAttribute("canList");
 			if (dui != null && votos != null && elc != null) {
 				String[] l1 = votos.split(",");
-				double sufragio = (1 / l1.length);
+				double sufragio = 1 / l1.length;
 				for (String voto: l1) {
 					Candidato can = getCandidato(new Double(voto).intValue());
 					if(can != null) {
@@ -118,7 +118,13 @@ public class SufragioController extends HttpServlet implements Serializable {
 						sufra.setSufCanId(can);
 						sufra.setElcId(elc);
 						JSONObject object = new JSONObject(sufra);
-						res = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/voto",object, "POST"), Integer.class);
+						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/voto",object, "POST"));
+						res = Integer.parseInt(object.get("response").toString());
+						if(res == 1) {
+							response.setStatus(HttpServletResponse.SC_OK);
+						}else {
+							response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ocurrió un problema, favor intentar mas tarde!");
+						}
 					}
 	            }
 			} else {
