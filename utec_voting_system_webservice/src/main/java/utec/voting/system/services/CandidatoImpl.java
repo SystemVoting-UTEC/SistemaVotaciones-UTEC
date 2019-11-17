@@ -66,6 +66,8 @@ private static final long serialVersionUID = 1L;
 					partido = partidoService.finById(getRs().getInt(3));
 					departamento = departamentoService.finById(getRs().getInt(4));
 					municipio = municipioService.finById(getRs().getInt(5));
+					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));				
+					
 					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));
 					g = new Candidato();
 					g.setCanId(getRs().getInt(1));
@@ -78,7 +80,7 @@ private static final long serialVersionUID = 1L;
 				}
 			}
 		} catch (Exception e) {
-			logger.error("Error: " + e);
+			logger.error("Error: " + e.getMessage());
 		}finally {
 			stmt.close();
 		}
@@ -113,7 +115,6 @@ private static final long serialVersionUID = 1L;
 	public Boolean update(Candidato t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			// SP_UPDATE_CANDIDATO hace falta en los procedures
 			String query = "{CALL SP_UPDATE_CANDIDATO(?,?,?,?,?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, t.getCanId());
@@ -153,7 +154,6 @@ private static final long serialVersionUID = 1L;
 		Municipio municipio = new Municipio();
 		TipoCandidato tipocandidato = new TipoCandidato();
 		try {
-			//SP_READ_ONE_CANDIDATO hace falta en los procedures
 			String query = "{CALL SP_READ_ONE_CANDIDATO(?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, id);

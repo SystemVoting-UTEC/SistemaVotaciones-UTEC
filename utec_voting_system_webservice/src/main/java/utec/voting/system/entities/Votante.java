@@ -10,18 +10,14 @@ public class Votante {
 	private Persona votPerDui;
 	private Date votFechaVence;
 	private Date votFechaExp;
+	private int estado;
 	
 	/**
 	 * 
 	 */
 	public Votante() {
 	}
-
-	/**
-	 * @param votPerDui
-	 * @param votFechaVence
-	 * @param votFechaExp
-	 */
+	
 	public Votante(Persona votPerDui, Date votFechaVence, Date votFechaExp) {
 		super();
 		this.votPerDui = votPerDui;
@@ -74,5 +70,13 @@ public class Votante {
 	@Override
 	public String toString() {
 		return "Votante [votPerDui=" + votPerDui + ", votFechaVence=" + votFechaVence + ", votFechaExp=" + votFechaExp + "]";
+	}
+
+	public int getEstado() {
+		return estado;
+	}
+
+	public void setEstado(int estado) {
+		this.estado = estado;
 	}
 }

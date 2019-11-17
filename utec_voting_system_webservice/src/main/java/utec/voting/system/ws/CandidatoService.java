@@ -23,7 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import utec.voting.system.entities.Candidato;
-import utec.voting.system.entities.OptionMenu;
 import utec.voting.system.services.CandidatoImpl;
 
 /**

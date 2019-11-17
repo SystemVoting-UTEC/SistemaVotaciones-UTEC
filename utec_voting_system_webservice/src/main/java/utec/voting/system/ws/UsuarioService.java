@@ -3,6 +3,7 @@
  */
 package utec.voting.system.ws;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,30 +22,38 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import utec.voting.system.entities.Departamento;
-import utec.voting.system.services.DepartamentoImpl;
+import utec.voting.system.entities.Usuario;
+import utec.voting.system.services.UsuarioImpl;
 
-@Path("/departamento")
+
+/**
+ * @author manuel
+ *
+ */
+@Path("/Usuario")
 @Produces(MediaType.APPLICATION_JSON) 
 @Consumes(MediaType.APPLICATION_JSON)
 
-public class DepartamentoService {
+public class UsuarioService implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-private static final long serialVersionUID = 1L;
-	
-	private DepartamentoImpl departamentoService = new DepartamentoImpl();
+	private UsuarioImpl UsuarioService = new UsuarioImpl();
 	/**
 	 * Variable de logueo para errores.
 	 */
-	static final Logger logger = Logger.getLogger(DepartamentoService.class);
+	static final Logger logger = Logger.getLogger(UsuarioService.class);
 	
 	@GET
 	public Response findAll() throws SQLException {
 		JSONArray jsArray;
-		List<Departamento> obj = null;
+		List<Usuario> obj = null;
 		try {
-			obj =  new ArrayList<Departamento>();
-			obj = departamentoService.getAll();
+			obj =  new ArrayList<Usuario>();
+			obj = UsuarioService.getAll();
 			jsArray = new JSONArray(obj);
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -54,13 +63,13 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	@POST
-	public Response addDepartamento(Departamento gen) {
-		Departamento Departamento = new Departamento();
+	public Response addUsuario(Usuario gen) {
+		Usuario Usuario = new Usuario();
 		JSONObject jsonObject = null;
 		try {
 			if( gen != null) {
-				Departamento = departamentoService.save(Departamento);
-				jsonObject = new JSONObject(Departamento);
+				Usuario = UsuarioService.save(gen);
+				jsonObject = new JSONObject(Usuario);
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -70,11 +79,11 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	@PUT
-	public Response updDepartamento(Departamento gen) {
-		Departamento Departamento = new Departamento();
+	public Response updUsuario(Usuario gen) {
+		Usuario Usuario = new Usuario();
 		JSONObject jsonObject = null;
 		try {
-			if(departamentoService.update(gen)) {
+			if(UsuarioService.update(gen)) {
 				jsonObject = new JSONObject(1);
 			}else {
 				jsonObject = new JSONObject(0);
@@ -87,10 +96,10 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	@DELETE
-	public Response deleteDepartamento(Departamento gen) {
+	public Response deleteUsuario(Usuario gen) {
 		JSONObject jsonObject = new JSONObject("{\"result\": \"ok\"}");
 		try {
-			if(departamentoService.delete(gen)) {
+			if(UsuarioService.delete(gen)) {
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -98,15 +107,4 @@ private static final long serialVersionUID = 1L;
 		}
 		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public static Departamento finById(int int1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
 }

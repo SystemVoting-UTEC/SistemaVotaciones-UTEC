@@ -31,8 +31,6 @@ public class Sufragio {
 		this.elcId = elcId;
 	}
 
-
-
 	/**
 	 * @return the sufId
 	 */
@@ -108,4 +106,5 @@ public class Sufragio {
 		return "Sufragio [sufId=" + sufId + ", sufPerDui=" + sufPerDui + ", sufCanId=" + sufCanId + ", sufSufragio="
 				+ sufSufragio + ", elcId=" + elcId + "]";
 	}
-}
+
+	}

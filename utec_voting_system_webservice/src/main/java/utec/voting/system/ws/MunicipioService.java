@@ -3,6 +3,7 @@
  */
 package utec.voting.system.ws;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,30 +22,36 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import utec.voting.system.entities.Departamento;
-import utec.voting.system.services.DepartamentoImpl;
+import utec.voting.system.entities.Municipio;
+import utec.voting.system.services.MunicipioImpl;
 
-@Path("/departamento")
+/**
+ * @author Manuel Cardona
+ *
+ */
+@Path("/municipio")
 @Produces(MediaType.APPLICATION_JSON) 
 @Consumes(MediaType.APPLICATION_JSON)
+public class MunicipioService implements Serializable{
 
-public class DepartamentoService {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	
-private static final long serialVersionUID = 1L;
-	
-	private DepartamentoImpl departamentoService = new DepartamentoImpl();
+	private MunicipioImpl MunicipioService = new MunicipioImpl();
 	/**
 	 * Variable de logueo para errores.
 	 */
-	static final Logger logger = Logger.getLogger(DepartamentoService.class);
+	static final Logger logger = Logger.getLogger(MunicipioService.class);
 	
 	@GET
 	public Response findAll() throws SQLException {
 		JSONArray jsArray;
-		List<Departamento> obj = null;
+		List<Municipio> obj = null;
 		try {
-			obj =  new ArrayList<Departamento>();
-			obj = departamentoService.getAll();
+			obj =  new ArrayList<Municipio>();
+			obj = MunicipioService.getAll();
 			jsArray = new JSONArray(obj);
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -54,13 +61,13 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	@POST
-	public Response addDepartamento(Departamento gen) {
-		Departamento Departamento = new Departamento();
+	public Response addMunicipio(Municipio gen) {
+		Municipio Municipio = new Municipio();
 		JSONObject jsonObject = null;
 		try {
 			if( gen != null) {
-				Departamento = departamentoService.save(Departamento);
-				jsonObject = new JSONObject(Departamento);
+				Municipio = MunicipioService.save(gen);
+				jsonObject = new JSONObject(Municipio);
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -70,11 +77,11 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	@PUT
-	public Response updDepartamento(Departamento gen) {
-		Departamento Departamento = new Departamento();
+	public Response updMunicipio(Municipio gen) {
+		Municipio Municipio = new Municipio();
 		JSONObject jsonObject = null;
 		try {
-			if(departamentoService.update(gen)) {
+			if(MunicipioService.update(gen)) {
 				jsonObject = new JSONObject(1);
 			}else {
 				jsonObject = new JSONObject(0);
@@ -87,10 +94,10 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	@DELETE
-	public Response deleteDepartamento(Departamento gen) {
+	public Response deleteMunicipio(Municipio gen) {
 		JSONObject jsonObject = new JSONObject("{\"result\": \"ok\"}");
 		try {
-			if(departamentoService.delete(gen)) {
+			if(MunicipioService.delete(gen)) {
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -98,15 +105,6 @@ private static final long serialVersionUID = 1L;
 		}
 		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
-	public static Departamento finById(int int1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
+	
 }
+

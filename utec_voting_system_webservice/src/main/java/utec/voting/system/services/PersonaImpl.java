@@ -2,6 +2,7 @@ package utec.voting.system.services;
 
 import java.io.Serializable;
 import java.sql.CallableStatement;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -32,48 +33,120 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 	@Override
 	public ArrayList<Persona> getAll() throws SQLException {
 		Persona g;
+		String PER_DUI;
+		String PER_P_NOMBRE;
+		String PER_S_NOMBRE;
+		String PER_T_NOMBRE;
+		String PER_P_APELLIDO;
+		String PER_S_APELLIDO;
+		Date PER_FECHA_NAC;
+		int PER_EDAD;
+		String PER_MADRE;
+		String PER_PADRE;
+		int ESTADO;
+		
 		Departamento depto = null;
 		Genero genero =  null;
 		EstadoFamiliar estadoF = null;
 		ArrayList<Persona> l1 = new ArrayList<>();
+		
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_READ_ALL_PERSONA()}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			setRs(stmt.executeQuery());
 			if(getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
+					PER_DUI = getRs().getString(1);
+					PER_P_NOMBRE = getRs().getString(2);
+					PER_S_NOMBRE = getRs().getString(3);
+					PER_T_NOMBRE = getRs().getString(4);
+					PER_P_APELLIDO = getRs().getString(5);
+					PER_S_APELLIDO = getRs().getString(6);
+					PER_FECHA_NAC = getRs().getDate(7);
+					PER_EDAD = getRs().getInt(8);
 					genero = generoService.finById(getRs().getInt("PER_GEN_ID"));
 					depto = departamentoService.finById(getRs().getInt("PER_DEP_ID"));
 					estadoF =  estadoFamiliarService.finById(getRs().getInt("PER_EST_ID"));
-					g = new Persona(getRs().getString(1),getRs().getString(2),getRs().getString(3),
-							getRs().getString(4),getRs().getString(5)
-							,getRs().getString(6),getRs().getDate(7),
-							getRs().getInt(8)
-							,genero,depto, estadoF,getRs().getString(12),getRs().getString(13));
+					PER_MADRE = getRs().getString(12);
+					PER_PADRE = getRs().getString(13);
+					ESTADO = getRs().getInt(14);
+					
+					g = new Persona(PER_DUI, PER_P_NOMBRE, PER_S_NOMBRE, PER_T_NOMBRE, PER_P_APELLIDO
+							, PER_S_APELLIDO, PER_FECHA_NAC, PER_EDAD, genero, depto, estadoF, 
+							PER_MADRE, PER_PADRE, ESTADO);
 					l1.add(g);
 				}
 			}
 		} catch (Exception e) {
-			logger.error("Error: " + e);
+			logger.error("Error: " + e.getMessage());
 		} finally {
-			getPs().close();
+			stmt.close();
 		}
 		return l1;
 	}
 
 	@Override
-	public Persona save(Persona t) throws SQLException {
-		// TODO Auto-generated method stub
-		//SP_CREATE_PERSONA
+	public Persona save(Persona persona) throws SQLException {
+		CallableStatement statement  = null;
+		
+		try {
+			String query = "{CALL SP_CREATE_PERSONA(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+			statement = getConnection().prepareCall(query);
+			
+			statement.setString(1, persona.getPerDui());
+			statement.setString(2, persona.getPerPNombre());
+			statement.setString(3, persona.getPerSNombre());
+			statement.setString(4, persona.getPerTNombre());
+			statement.setString(5, persona.getPerPApellido());
+			statement.setString(6, persona.getPerSApellido());
+			statement.setDate(7, persona.getPerFechaNac());
+			statement.setInt(9,persona.getPerGenId().getGenId());
+			statement.setInt(10,persona.getPerDepId().getDepId());
+			statement.setInt(8,persona.getPerEdad());
+			statement.setInt(11,persona.getPerEstId().getEstId());
+			statement.setString(12, persona.getPerMadre());
+			statement.setString(13, persona.getPerPadre());
+			statement.setInt(14,persona.getEstado());
+			
+			statement.execute();
+		} catch (Exception e) {
+			logger.error("Error: " + e.getMessage());
+		}finally {
+			
+		}
 		return null;
 	}
 
 	@Override
-	public Boolean update(Persona t) throws SQLException {
-		// TODO Auto-generated method stub
-		//SP_UPDATE_PERSONA
-		return null;
+	public Boolean update(Persona persona) throws SQLException {
+		CallableStatement statement = null;
+		
+		try {
+			String query = "{CALL SP_UPDATE_PERSONA(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+			statement = getConnection().prepareCall(query);
+			
+			statement.setString(1, persona.getPerDui());
+			statement.setString(2, persona.getPerPNombre());
+			statement.setString(3, persona.getPerSNombre());
+			statement.setString(4, persona.getPerTNombre());
+			statement.setString(5, persona.getPerPApellido());
+			statement.setString(6, persona.getPerSApellido());
+			statement.setDate(7, persona.getPerFechaNac());
+			statement.setInt(8, persona.getPerEdad());
+			statement.setInt(9, persona.getPerGenId().getGenId());
+			statement.setInt(10, persona.getPerDepId().getDepId());
+			statement.setInt(11, persona.getPerEstId().getEstId());
+			statement.setString(12, persona.getPerMadre());
+			statement.setString(13, persona.getPerPadre());
+			statement.setInt(14, persona.getEstado());
+		} catch (Exception e) {
+			logger.error("Error: " + e.getMessage());
+		}finally {
+			statement.close();
+		}
+		return true;
 	}
 
 	@Override
@@ -111,7 +184,7 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 							getRs().getString(4),getRs().getString(5)
 							,getRs().getString(6),getRs().getDate(7),
 							getRs().getInt(8)
-							,genero,depto, estadoF,getRs().getString(12),getRs().getString(13));
+							,genero,depto, estadoF,getRs().getString(12),getRs().getString(13), getRs().getInt(14));
 				}
 			}
 		} catch (Exception e) {
