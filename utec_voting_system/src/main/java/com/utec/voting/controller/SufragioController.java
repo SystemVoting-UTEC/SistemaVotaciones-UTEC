@@ -118,7 +118,6 @@ public class SufragioController extends HttpServlet implements Serializable {
 						sufra.setSufCanId(can);
 						sufra.setElcId(elc);
 						JSONObject object = new JSONObject(sufra);
-						parList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido", "GET"),Partido[].class);
 						res = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/voto",object, "POST"), Integer.class);
 					}
 	            }

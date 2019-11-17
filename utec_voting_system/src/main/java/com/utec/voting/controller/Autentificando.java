@@ -79,10 +79,6 @@ public class Autentificando extends HttpServlet implements Serializable {
 				if(object.get("elcId").toString().equals("0")) {
 					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/eleccion", "GET"));
 					eleccion = new Eleccion();
-					Timestamp timestampIni = new Timestamp(dateFormat.parse(object.get("elcFechaInicio").toString()).getTime());
-					Timestamp timestampFin = new Timestamp(dateFormat.parse(object.get("elcFechaFin").toString()).getTime());
-					eleccion.setElcFechaInicio(timestampIni);
-					eleccion.setElcFechaFin(timestampFin);
 					eleccion.setElcDescripcion(object.get("elcDescripcion").toString());
 					eleccion.setElcId(Integer.parseInt(object.get("elcId").toString()));
 					eleccion.setElcEstado(Integer.parseInt(object.get("elcEstado").toString()));

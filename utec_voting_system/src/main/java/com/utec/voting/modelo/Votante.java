@@ -11,13 +11,20 @@ public class Votante {
 	private Date votFechaVence;
 	private Date votFechaExp;
 	
+	
+	
+	/**
+	 * 
+	 */
+	public Votante() {
+	}
+
 	/**
 	 * @param votPerDui
 	 * @param votFechaVence
 	 * @param votFechaExp
 	 */
 	public Votante(Persona votPerDui, Date votFechaVence, Date votFechaExp) {
-		super();
 		this.votPerDui = votPerDui;
 		this.votFechaVence = votFechaVence;
 		this.votFechaExp = votFechaExp;

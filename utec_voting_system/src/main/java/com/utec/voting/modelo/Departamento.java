@@ -8,6 +8,14 @@ public class Departamento {
 	private Integer depId;
 	private String depNombre;
 	
+	
+	/**
+	 * 
+	 */
+	public Departamento() {
+		super();
+	}
+
 	/**
 	 * @param depId
 	 * @param depNombre
