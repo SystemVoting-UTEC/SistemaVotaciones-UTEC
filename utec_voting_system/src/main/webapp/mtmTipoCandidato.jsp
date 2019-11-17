@@ -13,9 +13,9 @@
 					<c:redirect url="index.jsp"></c:redirect>
 				</c:if>
 				<c:if test="${sessionScope.usuario ne null}">
-					<script type="text/javascript" src="js/controller/PartidoController.js"></script>
+					<script type="text/javascript" src="js/controller/TipoCandidatoController.js"></script>
 						<div style="width: 80%; margin-right: 10%; margin-left: 10%; text-align: center;">
-							<div id="PartidoTableContainer"></div>
+							<div id="TipoCandidatoTableContainer"></div>
 						</div>
 				</c:if>
 	</jsp:body>

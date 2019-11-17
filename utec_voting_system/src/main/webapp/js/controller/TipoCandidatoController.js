@@ -1,15 +1,15 @@
 $(document).ready(function() {
-		$('#PartidoTableContainer').jtable({
-			title : 'Listado de Partidos',
+		$('#TipoCandidatoTableContainer').jtable({
+			title : 'Listado de Tipo de candidatos',
 			paging: true, //Enable paging
             pageSize: 10, //Set page size (default: 10)
             sorting: true, //Enable sorting
-            defaultSorting: 'parId ASC',
+            defaultSorting: 'tcaId ASC',
 			actions : {
-				listAction : 'partido.do?action=list',
-				createAction : 'partido.do?action=create',
-				updateAction : 'partido.do?action=update',
-				deleteAction : 'partido.do?action=delete'
+				listAction : 'TipoCandidato.do?action=list',
+				createAction : 'TipoCandidato.do?action=create',
+				updateAction : 'TipoCandidato.do?action=update',
+				deleteAction : 'TipoCandidato.do?action=delete'
 			},
 			fields : {
 				parId : {
@@ -21,7 +21,7 @@ $(document).ready(function() {
 					create : false
 				},
 				parNombre : {
-					title : 'Partido',
+					title : 'Tipo de Candidato',
 					width : '30%',
 					edit : true
 				},
@@ -32,5 +32,5 @@ $(document).ready(function() {
 				}
 			}
 		});
-		$('#PartidoTableContainer').jtable('load');
+		$('#TipoCandidatoTableContainer').jtable('load');
 	});
