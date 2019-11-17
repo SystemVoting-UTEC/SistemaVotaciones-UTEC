@@ -35,6 +35,10 @@ public class ClientWebService {
 		connection.setRequestProperty("Content-Type", "application/json");
 		connection.setRequestProperty("Accept", "application/json");
 		
+		if (connection.getResponseCode() != 200) {
+			throw new RuntimeException("Failed : HTTP Error code : " + connection.getResponseCode());
+		}
+		
 		OutputStream output = new BufferedOutputStream(connection.getOutputStream());
 		output.write(object.toString().getBytes());
 		output.flush();

@@ -97,12 +97,12 @@ public class SufragioController extends HttpServlet implements Serializable {
 		HttpSession sesion ;
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		response.setContentType("application/json");
-		String votos = request.getParameter("voto");
-		String dui = request.getParameter("dui");
 		Eleccion elc = new Eleccion();
 		Integer res;
 		try {
 			sesion = request.getSession(true);
+			String votos = request.getParameter("voto");
+			String dui = request.getParameter("dui");
 			usr = (Usuario) sesion.getAttribute("usuario");
 			elc = (Eleccion) sesion.getAttribute("eleccion");
 			canList = (List<Candidato>) sesion.getAttribute("canList");
@@ -118,6 +118,7 @@ public class SufragioController extends HttpServlet implements Serializable {
 						sufra.setSufCanId(can);
 						sufra.setElcId(elc);
 						JSONObject object = new JSONObject(sufra);
+						parList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido", "GET"),Partido[].class);
 						res = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/voto",object, "POST"), Integer.class);
 					}
 	            }

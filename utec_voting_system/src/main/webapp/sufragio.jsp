@@ -58,16 +58,17 @@
 						 var votos = voto.toString();
 				          var dui = document.getElementById("dui").value;
 				          $.ajax({
-				                         type: "GET",
-				                         contentType: "application/json",
-				                         url: "/utec_voting_system/sufragio.do",
-				                         data : {voto: votos, dui: dui},
-				                         //data : JSON.stringify({voto: voto.toString(), dui: dui}),
-				                         success: function(data){
-				                             alert("Gracias por su voto, bye!");
-				                             window.location.replace("index.jsp");
-				                         }
-				          });
+				        	    url: '/utec_voting_system/sufragio.do',
+				        	    type: 'POST',
+				        	    data: jQuery.param({voto: votos, dui: dui}) ,
+				        	    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+				        	    success: function (response) {
+				        	        alert(response.status);
+				        	    },
+				        	    error: function () {
+				        	        alert("error");
+				        	    }
+				        	});
 					});
 					</script>
 				</c:if>
