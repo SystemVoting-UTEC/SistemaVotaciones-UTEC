@@ -49,9 +49,9 @@ public class SufragioService implements Serializable{
 		JSONObject jsonObject = null;
 		try {
 			if(sufragioService.insertSufragio(suf)) {
-				jsonObject = new JSONObject(1);
+				jsonObject = new JSONObject("{\"response\":1}");
 			}else {
-				jsonObject = new JSONObject(0);
+				jsonObject = new JSONObject("{\"response\":0}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
