@@ -10,7 +10,7 @@
 			<div  class="container-fluid">
 				<div class="row">
 					<div class="col-xs-12">
-						Panel de control
+						Bienvenid@ <c:out value="${sessionScope.usuario.usPerDui.perPNombre}"></c:out>
 					</div>
 				</div>			
 			</div>

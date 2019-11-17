@@ -6,11 +6,23 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+
 public class ClientWebService {
+	
+	
+	/**
+	 * 
+	 */
+	public ClientWebService() {
+	}
+
 	public String clienteWS(String uri, JSONObject object,String method) throws IOException {
 		String resp = null;
 		HttpURLConnection connection = null;
@@ -55,8 +67,11 @@ public class ClientWebService {
 		@SuppressWarnings("resource")
 		Scanner s = new Scanner(xml).useDelimiter("\\A");
 		resp = s.hasNext() ? s.next() : "";
-		
-		System.out.println(resp);
 		return resp;
+	}
+	
+	public static <T> List<T> stringToArray(String s, Class<T[]> clazz) {
+	    T[] arr = new Gson().fromJson(s, clazz);
+	    return Arrays.asList(arr); 
 	}
 }

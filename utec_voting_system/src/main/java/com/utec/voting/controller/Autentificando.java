@@ -75,15 +75,20 @@ public class Autentificando extends HttpServlet implements Serializable {
 			JSONObject object = new JSONObject(usr);
 			usr = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/login", object, "POST"), Usuario.class);
 			if (usr != null) {
-				object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/eleccion", "GET"));
-				eleccion = new Eleccion();
-				Timestamp timestampIni = new Timestamp(dateFormat.parse(object.get("elcFechaInicio").toString()).getTime());
-				Timestamp timestampFin = new Timestamp(dateFormat.parse(object.get("elcFechaFin").toString()).getTime());
-				eleccion.setElcFechaInicio(timestampIni);
-				eleccion.setElcFechaFin(timestampFin);
-				eleccion.setElcDescripcion(object.get("elcDescripcion").toString());
-				eleccion.setElcId(Integer.parseInt(object.get("elcId").toString()));
-				eleccion.setElcEstado(Integer.parseInt(object.get("elcEstado").toString()));
+				object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/eleccion/"+usr.getUsPerDui().getPerDui(), "GET"));
+				if(object.get("elcId").toString().equals("0")) {
+					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/eleccion", "GET"));
+					eleccion = new Eleccion();
+					Timestamp timestampIni = new Timestamp(dateFormat.parse(object.get("elcFechaInicio").toString()).getTime());
+					Timestamp timestampFin = new Timestamp(dateFormat.parse(object.get("elcFechaFin").toString()).getTime());
+					eleccion.setElcFechaInicio(timestampIni);
+					eleccion.setElcFechaFin(timestampFin);
+					eleccion.setElcDescripcion(object.get("elcDescripcion").toString());
+					eleccion.setElcId(Integer.parseInt(object.get("elcId").toString()));
+					eleccion.setElcEstado(Integer.parseInt(object.get("elcEstado").toString()));
+					sesion = request.getSession(true);
+					sesion.setAttribute("eleccion", eleccion);
+				}
 				Integer tipor = 1;
 				if (usr.getUsTusId().getTusId() == tipor) {
 					optList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/option_menu/"+usr.getUsTusId().getTusId(), "GET"), ArrayList.class);
@@ -91,16 +96,10 @@ public class Autentificando extends HttpServlet implements Serializable {
 					sesion.setAttribute("usuario", usr);
 					sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
 					sesion.setAttribute("optList", optList);
-					logger.error("Fecha de hoy: "+today.getTime()+" Ini: "+eleccion.getElcFechaInicio().getTime()+" Fin: "+eleccion.getElcFechaFin().getTime());
-					
-					if (today.after(eleccion.getElcFechaInicio()) && today.before(eleccion.getElcFechaFin()))
-						sesion.setAttribute("eleccion", eleccion);
 					response.sendRedirect("administracion.jsp");
 				} else {
 					sesion = request.getSession(true);
 					sesion.setAttribute("usuario", usr);
-					if (today.compareTo(eleccion.getElcFechaInicio()) == -1 && today.compareTo(eleccion.getElcFechaFin()) == 1 || (today.compareTo(eleccion.getElcFechaInicio())==0 || today.compareTo(eleccion.getElcFechaFin())==0))
-						sesion.setAttribute("eleccion", eleccion);
 					response.sendRedirect("votante.jsp");
 				}
 			} else {

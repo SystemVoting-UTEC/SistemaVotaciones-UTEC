@@ -20,6 +20,7 @@ public class Sufragio {
 	 * @param sufCanId
 	 * @param sufSufragio
 	 * @param elcId
+	 * @param sufActivo
 	 */
 	public Sufragio(Integer sufId, Persona sufPerDui, Candidato sufCanId, Double sufSufragio, Eleccion elcId) {
 		super();
@@ -29,6 +30,8 @@ public class Sufragio {
 		this.sufSufragio = sufSufragio;
 		this.elcId = elcId;
 	}
+
+
 
 	/**
 	 * @return the sufId
@@ -98,5 +101,11 @@ public class Sufragio {
 	 */
 	public void setElcId(Eleccion elcId) {
 		this.elcId = elcId;
+	}
+
+	@Override
+	public String toString() {
+		return "Sufragio [sufId=" + sufId + ", sufPerDui=" + sufPerDui + ", sufCanId=" + sufCanId + ", sufSufragio="
+				+ sufSufragio + ", elcId=" + elcId + "]";
 	}
 }
