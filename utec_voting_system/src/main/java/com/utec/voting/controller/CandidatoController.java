@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,15 +19,16 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.utec.voting.modelo.Partido;
+import com.utec.voting.modelo.Persona;
+import com.utec.voting.modelo.Candidato;
 import com.utec.voting.util.ClientWebService;
 
 /**
- * @author kevin_orellana
+ * @author manuel cardona
  *
  */
-@WebServlet(value = "/partido.do") 
-public class PartidoController extends HttpServlet implements Serializable {
+public class CandidatoController extends HttpServlet implements Serializable {
+	Persona Persona=new Persona();
 
     /**
 	 * 
@@ -38,7 +38,7 @@ public class PartidoController extends HttpServlet implements Serializable {
 	/**
 	 * Variable de logueo para errores.
 	 */
-	static final Logger logger = Logger.getLogger(PartidoController.class);
+	static final Logger logger = Logger.getLogger(GeneroController.class);
 	
 	private HashMap<String, Object> JSONROOT = new HashMap<String, Object>();
 	
@@ -52,7 +52,7 @@ public class PartidoController extends HttpServlet implements Serializable {
      * @throws IOException if an I/O error occurs
      */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		doPost(request, response);
 	}
 
     /**
@@ -82,7 +82,7 @@ public class PartidoController extends HttpServlet implements Serializable {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     	String action = request.getParameter("action");
-		List<Partido> genList = new ArrayList<Partido>();
+		List<Candidato> genList = new ArrayList<Candidato>();
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		response.setContentType("application/json");
 
@@ -90,7 +90,7 @@ public class PartidoController extends HttpServlet implements Serializable {
 			try {
 				if (action.equals("list")) {
 					// Fetch Data from Student Table
-					genList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido", "GET"), ArrayList.class);
+					genList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/candidato", "GET"), ArrayList.class);
 
 					// Return in the format required by jTable plugin
 					JSONROOT.put("Result", "OK");
@@ -101,25 +101,27 @@ public class PartidoController extends HttpServlet implements Serializable {
 
 					response.getWriter().print(jsonArray);
 				} else if (action.equals("create") || action.equals("update")) {
-					Partido partido = new Partido();
-					if (request.getParameter("parId") != null) {
-						int genId = Integer.parseInt(request.getParameter("parId"));
-						partido.setParId(genId);
+					Candidato candidato = new Candidato();
+					Persona persona=new Persona();
+					Integer res = null;
+					if (request.getParameter("canId") != null) {
+						int canId = Integer.parseInt(request.getParameter("canId"));
+						candidato.setCanId(canId);
 					}
-					if (request.getParameter("parNombre") != null) {
-						String genGenero = request.getParameter("parNombre");
-						partido.setParNombre(genGenero);
+					if (request.getParameter("canPerDui") != null) {
+						persona.setPerDui(request.getParameter("canPerDui"));
+						candidato.setCanPerDui(persona);
 					}
-					JSONObject object = new JSONObject(partido);
+					JSONObject object = new JSONObject(candidato);
 					if (action.equals("create")) {
 						// Create new record
-						partido = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido",object, "POST"), Partido.class);
+						res = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "POST"), Integer.class);
 					} else if (action.equals("update")) {
-						partido = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido",object, "PUT"), Partido.class);
+						res = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "PUT"), Integer.class);
 					}
 					// Return in the format required by jTable plugin
 					JSONROOT.put("Result", "OK");
-					JSONROOT.put("Record", partido);
+					JSONROOT.put("Record", res);
 
 					// Convert Java Object to Json
 					String jsonArray = gson.toJson(JSONROOT);

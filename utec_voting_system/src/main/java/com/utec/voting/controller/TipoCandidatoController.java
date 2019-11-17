@@ -102,12 +102,12 @@ public class TipoCandidatoController extends HttpServlet implements Serializable
 					TipoCandidato TipoCandidato = new TipoCandidato();
 					Integer res = null;
 					if (request.getParameter("tcaId") != null) {
-						int genId = Integer.parseInt(request.getParameter("genId"));
-						TipoCandidato.setTcaId(genId);
+						int tcaId = Integer.parseInt(request.getParameter("tcaId"));
+						TipoCandidato.setTcaId(tcaId);
 					}
 					if (request.getParameter("tcaTipo") != null) {
-						String genGenero = request.getParameter("genGenero");
-						TipoCandidato.setTcaTipo(genGenero);
+						String tcaTipo = request.getParameter("tcaTipo");
+						TipoCandidato.setTcaTipo(tcaTipo);
 					}
 					JSONObject object = new JSONObject(TipoCandidato);
 					if (action.equals("create")) {

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -42,8 +43,7 @@ public class EleccionService implements Serializable{
 	 */
 	static final Logger logger = Logger.getLogger(EleccionService.class);
 	
-	
-	
+
 	@GET
 	public Response findAll() throws SQLException {
 		JSONObject jsonObject = null;
@@ -51,6 +51,25 @@ public class EleccionService implements Serializable{
 		try {
 			obj =  new Eleccion();
 			obj = eleccionService.eleccionIsActive();
+			jsonObject = new JSONObject(obj);
+		} catch (Exception e) {
+			logger.error("Error: ",e);
+			return Response.status(500).build();
+		}
+		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+	}
+	
+	@GET
+	@Path("/{dui}")
+	public Response findAll(@PathParam("dui") String dui) throws SQLException {
+		JSONObject jsonObject = null;
+		Eleccion obj = new Eleccion();
+		try {
+			obj = eleccionService.eleccionIsActive(dui);
+			if (obj == null) {
+				obj= new Eleccion();
+				obj.setElcId(0);
+			}
 			jsonObject = new JSONObject(obj);
 		} catch (Exception e) {
 			logger.error("Error: ",e);

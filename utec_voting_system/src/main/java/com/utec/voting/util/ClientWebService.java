@@ -58,10 +58,6 @@ public class ClientWebService {
 		connection.setRequestProperty("Content-Type", "application/json");
 		connection.setRequestProperty("Accept", "application/json");
 		
-		if (connection.getResponseCode() != 200) {
-			throw new RuntimeException("Failed : HTTP Error code : " + connection.getResponseCode());
-		}
-		
 		InputStream xml = connection.getInputStream();
 
 		@SuppressWarnings("resource")

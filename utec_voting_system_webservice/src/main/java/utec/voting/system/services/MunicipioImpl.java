@@ -31,6 +31,7 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 
 	@SuppressWarnings("unused")
 	private DepartamentoImpl departamentoService = new DepartamentoImpl();
+	
 
 	@Override
 	public ArrayList<Municipio> getAll() throws SQLException {

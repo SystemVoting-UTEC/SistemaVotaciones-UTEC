@@ -3,6 +3,7 @@ package utec.voting.system.services;
 import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -73,6 +74,23 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 	public Usuario save(Usuario t) throws SQLException {
 		// TODO Auto-generated method stub
 
+		CallableStatement stmt = null;
+		try {
+			String query = "{CALL SP_CREATE_USUARIO(?,?,?,?}";
+			stmt = getConnection().prepareCall(query);
+			stmt.setString(1, t.getUsPerDui().getPerDui());
+			stmt.setString(2, t.getUsPassword());
+			stmt.setInt(3, t.getUsTusId().getTusId());
+			stmt.registerOutParameter(4, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(4) > 0) {
+//				t.setUsTusId(stmt.getInt(34);
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		}finally {
+			stmt.close();			
+		}
 		return t;
 	}
 
