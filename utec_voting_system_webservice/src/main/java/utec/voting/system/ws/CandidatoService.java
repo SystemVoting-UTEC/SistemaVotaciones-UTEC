@@ -76,6 +76,7 @@ public class CandidatoService implements Serializable{
 	
 	@PUT
 	public Response updCandidato(Candidato gen) {
+		@SuppressWarnings("unused")
 		Candidato Candidato = new Candidato();
 		JSONObject jsonObject = null;
 		try {

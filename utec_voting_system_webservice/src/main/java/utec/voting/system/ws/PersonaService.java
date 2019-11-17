@@ -77,6 +77,7 @@ public class PersonaService implements Serializable {
 
 	@PUT
 	public Response updPersona(Persona p) {
+		@SuppressWarnings("unused")
 		Persona persona = new Persona();
 		JSONObject jsonObject = null;
 		try {

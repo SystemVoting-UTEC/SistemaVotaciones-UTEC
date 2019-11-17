@@ -76,6 +76,7 @@ public class GeneroService implements Serializable{
 	
 	@PUT
 	public Response updGenero(Genero gen) {
+		@SuppressWarnings("unused")
 		Genero genero = new Genero();
 		JSONObject jsonObject = null;
 		try {

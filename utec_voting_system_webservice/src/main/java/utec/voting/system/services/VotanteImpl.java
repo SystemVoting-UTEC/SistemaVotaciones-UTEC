@@ -3,7 +3,6 @@ package utec.voting.system.services;
 import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -26,7 +25,6 @@ public class VotanteImpl extends Conexion implements Service<Votante>, Serializa
 	
 	private PersonaImpl personaService = new PersonaImpl();
 	
-	@SuppressWarnings("null")
 	@Override
 	public ArrayList<Votante> getAll() throws SQLException {
 		Votante v = new Votante();

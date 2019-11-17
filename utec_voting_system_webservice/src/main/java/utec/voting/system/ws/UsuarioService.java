@@ -80,6 +80,7 @@ public class UsuarioService implements Serializable{
 	
 	@PUT
 	public Response updUsuario(Usuario gen) {
+		@SuppressWarnings("unused")
 		Usuario Usuario = new Usuario();
 		JSONObject jsonObject = null;
 		try {

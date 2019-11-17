@@ -73,6 +73,7 @@ public class OptionMenuService implements Serializable{
 	
 	@PUT
 	public Response updOptionMenu(OptionMenu gen) {
+		@SuppressWarnings("unused")
 		OptionMenu OptionMenu = new OptionMenu();
 		JSONObject jsonObject = null;
 		try {

@@ -31,12 +31,12 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 	
 	private PersonaImpl personaService = new PersonaImpl();
 	private TipoUsuarioImpl tipoUsuarioService = new TipoUsuarioImpl();
+	Persona Persona = new Persona();
+	TipoUsuario TipoUsuario = new TipoUsuario();
 
 	@Override
 	public ArrayList<Usuario> getAll() throws SQLException {
 		Usuario g;
-		Persona Persona = new Persona();
-		TipoUsuario TipoUsuario = new TipoUsuario();
 		ArrayList<Usuario> l1 = new ArrayList<>();
 		CallableStatement stmt = null;
 		try {
@@ -72,7 +72,8 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 	@Override
 	public Usuario save(Usuario t) throws SQLException {
 		// TODO Auto-generated method stub
-		return null;
+
+		return t;
 	}
 
 	@Override

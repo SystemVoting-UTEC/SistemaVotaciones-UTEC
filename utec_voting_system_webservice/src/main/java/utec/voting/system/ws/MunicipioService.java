@@ -78,6 +78,7 @@ public class MunicipioService implements Serializable{
 	
 	@PUT
 	public Response updMunicipio(Municipio gen) {
+		@SuppressWarnings("unused")
 		Municipio Municipio = new Municipio();
 		JSONObject jsonObject = null;
 		try {

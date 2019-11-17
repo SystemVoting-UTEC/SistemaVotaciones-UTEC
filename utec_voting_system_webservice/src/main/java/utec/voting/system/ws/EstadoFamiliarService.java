@@ -80,6 +80,7 @@ public class EstadoFamiliarService implements Serializable{
 		
 		@PUT
 		public Response updEstadoFamiliar(EstadoFamiliar gen) {
+			@SuppressWarnings("unused")
 			EstadoFamiliar EstadoFamiliar = new EstadoFamiliar();
 			JSONObject jsonObject = null;
 			try {

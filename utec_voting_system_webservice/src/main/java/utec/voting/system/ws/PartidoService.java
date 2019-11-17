@@ -78,6 +78,7 @@ public class PartidoService implements Serializable{
 	
 	@PUT
 	public Response updPartido(Partido gen) {
+		@SuppressWarnings("unused")
 		Partido Partido = new Partido();
 		JSONObject jsonObject = null;
 		try {

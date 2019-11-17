@@ -80,6 +80,7 @@ public class TipoCandaditoService implements Serializable{
 		
 		@PUT
 		public Response updTipoCandidato(TipoCandidato gen) {
+			@SuppressWarnings("unused")
 			TipoCandidato TipoCandidato = new TipoCandidato();
 			JSONObject jsonObject = null;
 			try {

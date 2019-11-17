@@ -51,6 +51,7 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 	@Override
 	public TipoUsuario save(TipoUsuario t) throws SQLException {
 		try {
+			//falta sp
 			String query = "{CALL SP_CREATE_TIPOUSUARIO(?,?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getTusTipo());
@@ -68,6 +69,7 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 	@Override
 	public Boolean update(TipoUsuario t) throws SQLException {
 		try {
+			//falta sp
 			String query = "{CALL SP_UPDATE_TIPOUSUARIO(?,?,?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getTusTipo());

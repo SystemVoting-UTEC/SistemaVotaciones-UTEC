@@ -71,6 +71,7 @@ private static final long serialVersionUID = 1L;
 	
 	@PUT
 	public Response updDepartamento(Departamento gen) {
+		@SuppressWarnings("unused")
 		Departamento Departamento = new Departamento();
 		JSONObject jsonObject = null;
 		try {

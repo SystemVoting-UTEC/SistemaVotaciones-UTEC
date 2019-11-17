@@ -29,6 +29,7 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 	
 	static final Logger logger = Logger.getLogger(MunicipioImpl.class);
 
+	@SuppressWarnings("unused")
 	private DepartamentoImpl departamentoService = new DepartamentoImpl();
 
 	@Override
@@ -126,7 +127,8 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 				getRs().beforeFirst();
 				while (getRs().next()) {
 					Municipio Municipio= new Municipio();
-					((Service<utec.voting.system.entities.Municipio>) Municipio).finById(getRs().getInt(2));
+					extracted(Municipio);
+					DepartamentoService.finById(getRs().getInt(2));
 					g = new Municipio();
 					g.setMunId(getRs().getInt(1));
 					
@@ -141,10 +143,14 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 
 	}
 
+	private DepartamentoService extracted(Municipio municipio) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public Municipio finById(String id) throws SQLException {
 		// TODO Auto-generated method stub
-		//hace falta SP_READ_ONE_Municipio
 		return null;
 	}
 

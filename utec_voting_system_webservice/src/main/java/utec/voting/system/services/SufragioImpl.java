@@ -3,12 +3,24 @@
  */
 package utec.voting.system.services;
 
+import java.io.Serializable;
+import java.sql.CallableStatement;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.ArrayList;
+import utec.voting.system.jdbc.Conexion;
+
+import org.apache.log4j.Logger;
+
+import utec.voting.system.entities.Candidato;
+import utec.voting.system.entities.Persona;
+import utec.voting.system.entities.Sufragio;
 
 /**
  * @author manuel cardona
  *
  */
-<<<<<<< HEAD
+
 public class SufragioImpl extends Conexion implements Service<Sufragio>, Serializable {
 	
 	/**
@@ -26,8 +38,11 @@ public class SufragioImpl extends Conexion implements Service<Sufragio>, Seriali
 	
 	@Override
 	public ArrayList<Sufragio> getAll() throws SQLException {
-		Sufragio g;
+		@SuppressWarnings("unused")
+		Sufragio g=new Sufragio();
+		@SuppressWarnings("unused")
 		Candidato candidato = null;
+		@SuppressWarnings("unused")
 		Persona persona = null;
 		ArrayList<Sufragio> l1 = new ArrayList<>();
 		CallableStatement stmt = null;
@@ -128,7 +143,5 @@ public class SufragioImpl extends Conexion implements Service<Sufragio>, Seriali
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-=======
->>>>>>> 02c9eb2e0b5f2f108fc4324a58f0dc67875f69db
+}
 
