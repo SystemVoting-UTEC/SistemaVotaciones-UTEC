@@ -12,6 +12,12 @@ public class Votante {
 	private Date votFechaExp;
 	
 	/**
+	 * 
+	 */
+	public Votante() {
+	}
+
+	/**
 	 * @param votPerDui
 	 * @param votFechaVence
 	 * @param votFechaExp

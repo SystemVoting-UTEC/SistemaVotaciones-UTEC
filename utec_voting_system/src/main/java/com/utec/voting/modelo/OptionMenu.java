@@ -5,6 +5,9 @@ public class OptionMenu {
 	private String optNombre;
 	private String optURL;
 	
+	public OptionMenu() {
+	}
+	
 	/**
 	 * @param optId
 	 * @param optNombre
@@ -16,8 +19,6 @@ public class OptionMenu {
 		this.optURL = optURL;
 	}
 	
-	public OptionMenu() {
-	}
 	
 	/**
 	 * @return the optId

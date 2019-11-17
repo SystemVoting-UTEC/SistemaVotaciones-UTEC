@@ -12,6 +12,12 @@ public class Candidato {
 	private TipoCandidato canTcaId;
 	
 	/**
+	 * 
+	 */
+	public Candidato() {
+	}
+
+	/**
 	 * @param canId
 	 * @param canPerDui
 	 * @param canParId
