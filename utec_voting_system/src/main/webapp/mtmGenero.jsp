@@ -98,12 +98,7 @@
 										<div class="form-group">
 											<label>Nombre</label>
 											<input type="text" class="form-control" required maxlength="100" id="genNombreEdi" name="genNombreEdi">
-										</div>	
-										
-										<div class="form-group">
-											<label>Estado</label>
-											<input type="text" class="form-control" required id="estadoEdi" name="estadoEdi" maxlength="100">
-										</div>			
+										</div>		
 									</div>
 									<div class="modal-footer">
 										<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
