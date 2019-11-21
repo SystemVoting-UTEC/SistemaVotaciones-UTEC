@@ -31,14 +31,6 @@ public class Sufragio {
 		this.elcId = elcId;
 	}
 
-<<<<<<< HEAD
-	public Sufragio() {
-		// TODO Auto-generated constructor stub
-	}
-=======
-
->>>>>>> origin/developer
-
 	/**
 	 * @return the sufId
 	 */

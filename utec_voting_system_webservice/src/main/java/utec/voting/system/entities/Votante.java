@@ -17,14 +17,6 @@ public class Votante {
 	 */
 	public Votante() {
 	}
-
-	/**
-	 * @param votPerDui
-	 * @param votFechaVence
-	 * @param votFechaExp
-	 */
-	public Votante() {		
-	}
 	
 	public Votante(Persona votPerDui, Date votFechaVence, Date votFechaExp) {
 		super();

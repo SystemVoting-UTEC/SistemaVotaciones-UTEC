@@ -71,9 +71,7 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 	}
 
 	@Override
-	public Usuario save(Usuario t) throws SQLException {
-		// TODO Auto-generated method stub
-
+	public Boolean save(Usuario t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_CREATE_USUARIO(?,?,?,?}";
@@ -84,14 +82,14 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 			stmt.registerOutParameter(4, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(4) > 0) {
-//				t.setUsTusId(stmt.getInt(34);
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}finally {
 			stmt.close();			
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override

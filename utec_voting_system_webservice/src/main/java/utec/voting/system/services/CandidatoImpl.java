@@ -88,7 +88,7 @@ private static final long serialVersionUID = 1L;
 	}
 
 	@Override
-	public Candidato save(Candidato t) throws SQLException {
+	public Boolean save(Candidato t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_CREATE_CANDIDATO(?,?,?,?,?,?)}";
@@ -100,15 +100,15 @@ private static final long serialVersionUID = 1L;
 			stmt.setInt(5, t.getCanTcaId().getTcaId());
 			stmt.registerOutParameter(6, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(2) > 0) {
-//				t.setTcaId(stmt.getInt(2));
+			if (stmt.getInt(2) >= 1) {
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}finally {
-			stmt.close();
+			stmt.close();			
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override

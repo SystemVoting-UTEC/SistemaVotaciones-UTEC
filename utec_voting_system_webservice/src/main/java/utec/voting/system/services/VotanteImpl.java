@@ -3,6 +3,7 @@ package utec.voting.system.services;
 import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -38,6 +39,7 @@ public class VotanteImpl extends Conexion implements Service<Votante>, Serializa
 			if(getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
+					v = new Votante();
 					persona = new Persona();					
 					persona = personaService.finById(getRs().getString(1));
 					v.setVotPerDui(persona);
@@ -58,24 +60,27 @@ public class VotanteImpl extends Conexion implements Service<Votante>, Serializa
 	}
 
 	@Override
-	public Votante save(Votante votante) throws SQLException {
+	public Boolean save(Votante votante) throws SQLException {
 		CallableStatement statement = null;
 		try {
-			String query = "{CALL SP_CREATE_VOTANTE(?,?,?,?)}";
+			String query = "{CALL SP_CREATE_VOTANTE(?,?,?,?,?)}";
 			statement = getConnection().prepareCall(query);
 			
 			statement.setString(1, votante.getVotPerDui().getPerDui());
 			statement.setDate(2, votante.getVotFechaVence());
 			statement.setDate(3, votante.getVotFechaExp());
 			statement.setInt(4, votante.getEstado());
-			
+			statement.registerOutParameter(5, Types.INTEGER);
 			statement.execute();
+			if (statement.getInt(5) >= 1) {
+				return Boolean.TRUE;
+			}
 		} catch (Exception e) {
-			logger.error("Error: " + e.getMessage());
+			logger.error("Error" + e);
 		}finally {
-			statement.close();
+			statement.close();			
 		}
-		return votante;
+		return Boolean.FALSE;
 	}
 
 	@Override

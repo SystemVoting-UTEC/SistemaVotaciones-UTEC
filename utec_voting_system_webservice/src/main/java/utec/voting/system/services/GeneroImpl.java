@@ -53,7 +53,7 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 	}
 	
 	@Override
-	public Genero save(Genero t) throws SQLException {
+	public Boolean save(Genero t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_CREATE_GENERO(?,?,?)}";
@@ -63,14 +63,12 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(3) > 0) {
-				t.setGenId(stmt.getInt(3));
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
-		}finally {
-			stmt.close();			
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override

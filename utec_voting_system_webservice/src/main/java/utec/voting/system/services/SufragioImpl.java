@@ -31,10 +31,6 @@ public class SufragioImpl extends Conexion implements Serializable{
 	 */
 	static final Logger logger = Logger.getLogger(SufragioImpl.class);
 	
-	private CandidatoImpl CandidatoService =  new CandidatoImpl();
-	private PersonaImpl PersonaService =  new PersonaImpl();
-	
-	
 	public Boolean insertSufragio(Sufragio suf) {
 		try {
 			String query = "{CALL SP_CREATE_SUFRAGIO(?, ?, ?, ?,?)}";

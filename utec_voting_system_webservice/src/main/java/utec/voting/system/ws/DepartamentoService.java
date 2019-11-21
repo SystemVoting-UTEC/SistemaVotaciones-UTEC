@@ -55,12 +55,12 @@ private static final long serialVersionUID = 1L;
 	
 	@POST
 	public Response addDepartamento(Departamento gen) {
-		Departamento Departamento = new Departamento();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
-			if( gen != null) {
-				Departamento = departamentoService.save(Departamento);
-				jsonObject = new JSONObject(Departamento);
+			if(departamentoService.save(gen)) {
+				jsonObject = new JSONObject("{\"response\":2}");
+			}else {
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -71,14 +71,12 @@ private static final long serialVersionUID = 1L;
 	
 	@PUT
 	public Response updDepartamento(Departamento gen) {
-		@SuppressWarnings("unused")
-		Departamento Departamento = new Departamento();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
 			if(departamentoService.update(gen)) {
-				jsonObject = new JSONObject(1);
+				jsonObject = new JSONObject("{\"response\":2}");
 			}else {
-				jsonObject = new JSONObject(0);
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);

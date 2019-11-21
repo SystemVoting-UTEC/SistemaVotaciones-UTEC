@@ -54,20 +54,23 @@ public class TipoCandidatoImpl extends Conexion implements Service<TipoCandidato
 	}
 
 	@Override
-	public TipoCandidato save(TipoCandidato t) throws SQLException {
+	public Boolean save(TipoCandidato t) throws SQLException {
+		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_CREATE_TIPOCANDIDATO(?,?)}";
-			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getTcaTipo());
 			stmt.registerOutParameter(2, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(2) > 0) {
-				t.setTcaId(stmt.getInt(2));
+			if (stmt.getInt(2) >= 1) {
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
+		}finally {
+			stmt.close();			
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override

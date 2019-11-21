@@ -62,12 +62,12 @@ public class MunicipioService implements Serializable{
 	
 	@POST
 	public Response addMunicipio(Municipio gen) {
-		Municipio Municipio = new Municipio();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
-			if( gen != null) {
-				Municipio = MunicipioService.save(gen);
-				jsonObject = new JSONObject(Municipio);
+			if(MunicipioService.save(gen)) {
+				jsonObject = new JSONObject("{\"response\":2}");
+			}else {
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -78,14 +78,12 @@ public class MunicipioService implements Serializable{
 	
 	@PUT
 	public Response updMunicipio(Municipio gen) {
-		@SuppressWarnings("unused")
-		Municipio Municipio = new Municipio();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
 			if(MunicipioService.update(gen)) {
-				jsonObject = new JSONObject(1);
+				jsonObject = new JSONObject("{\"response\":2}");
 			}else {
-				jsonObject = new JSONObject(0);
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);

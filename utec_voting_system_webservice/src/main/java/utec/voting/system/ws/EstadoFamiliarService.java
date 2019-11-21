@@ -63,13 +63,12 @@ public class EstadoFamiliarService implements Serializable{
 		
 		@POST
 		public Response addEstadoFamiliar(EstadoFamiliar gen) {
-			logger.error("Request>>>>>"+gen);
-			EstadoFamiliar EstadoFamiliar = new EstadoFamiliar();
-			JSONObject jsonObject = null;
+			JSONObject jsonObject = new JSONObject("{\"response\":0}");
 			try {
-				if( gen != null) {
-					EstadoFamiliar = tpcService.save(EstadoFamiliar);
-					jsonObject = new JSONObject(EstadoFamiliar);
+				if(tpcService.save(gen)) {
+					jsonObject = new JSONObject("{\"response\":2}");
+				}else {
+					jsonObject = new JSONObject("{\"response\":3}");
 				}
 			} catch (Exception e) {
 				logger.error("Error: ",e);
@@ -80,14 +79,12 @@ public class EstadoFamiliarService implements Serializable{
 		
 		@PUT
 		public Response updEstadoFamiliar(EstadoFamiliar gen) {
-			@SuppressWarnings("unused")
-			EstadoFamiliar EstadoFamiliar = new EstadoFamiliar();
-			JSONObject jsonObject = null;
+			JSONObject jsonObject = new JSONObject("{\"response\":0}");
 			try {
 				if(tpcService.update(gen)) {
-					jsonObject = new JSONObject(1);
+					jsonObject = new JSONObject("{\"response\":2}");
 				}else {
-					jsonObject = new JSONObject(0);
+					jsonObject = new JSONObject("{\"response\":3}");
 				}
 			} catch (Exception e) {
 				logger.error("Error: ",e);

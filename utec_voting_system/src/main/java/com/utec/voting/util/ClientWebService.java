@@ -13,6 +13,7 @@ import java.util.Scanner;
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class ClientWebService {
 	
@@ -67,7 +68,8 @@ public class ClientWebService {
 	}
 	
 	public static <T> List<T> stringToArray(String s, Class<T[]> clazz) {
-	    T[] arr = new Gson().fromJson(s, clazz);
+		Gson gson=  new GsonBuilder().setDateFormat("YYYY-MM-DD").create();
+	    T[] arr = gson.fromJson(s, clazz);
 	    return Arrays.asList(arr); 
 	}
 }

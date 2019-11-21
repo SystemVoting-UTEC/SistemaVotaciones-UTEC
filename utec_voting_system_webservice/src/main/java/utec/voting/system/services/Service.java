@@ -20,7 +20,7 @@ public interface Service<T> {
 	 * @return Boolean True Or False
 	 * @throws SQLException
 	 */
-	T save(T t) throws SQLException;
+	Boolean save(T t) throws SQLException;
 
 	/**
 	 * @param t
