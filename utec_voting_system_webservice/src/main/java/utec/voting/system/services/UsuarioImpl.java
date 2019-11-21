@@ -70,7 +70,7 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 	}
 
 	@Override
-	public Usuario save(Usuario t) throws SQLException {
+	public Boolean save(Usuario t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

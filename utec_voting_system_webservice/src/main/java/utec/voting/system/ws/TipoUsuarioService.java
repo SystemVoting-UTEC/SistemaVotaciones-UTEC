@@ -62,12 +62,12 @@ public class TipoUsuarioService implements Serializable{
 	
 	@POST
 	public Response addTipoUsuario(TipoUsuario gen) {
-		TipoUsuario TipoUsuario = new TipoUsuario();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
-			if( gen != null) {
-				TipoUsuario = TipoUsuarioService.save(gen);
-				jsonObject = new JSONObject(TipoUsuario);
+			if(TipoUsuarioService.save(gen)) {
+				jsonObject = new JSONObject("{\"response\":2}");
+			}else {
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -78,13 +78,12 @@ public class TipoUsuarioService implements Serializable{
 	
 	@PUT
 	public Response updTipoUsuario(TipoUsuario gen) {
-		TipoUsuario TipoUsuario = new TipoUsuario();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
 			if(TipoUsuarioService.update(gen)) {
-				jsonObject = new JSONObject(1);
+				jsonObject = new JSONObject("{\"response\":2}");
 			}else {
-				jsonObject = new JSONObject(0);
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);

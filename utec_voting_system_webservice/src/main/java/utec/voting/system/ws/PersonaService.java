@@ -60,33 +60,31 @@ public class PersonaService implements Serializable {
 
 	@POST
 	public Response addPersona(Persona p) {
-		logger.error("Request>>>>>" + p);
-		Persona persona = new Persona();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
-			if (p != null) {
-				persona = personaService.save(persona);
-				jsonObject = new JSONObject(persona);
+			if(personaService.save(p)) {
+				jsonObject = new JSONObject("{\"response\":2}");
+			}else {
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
-			logger.error("Error: " + e.getMessage());
+			logger.error("Error: ",e);
 			return Response.status(500).build();
 		}
-		return Response.ok(jsonObject.toString(), MediaType.APPLICATION_JSON).build();
+		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 	}
 
 	@PUT
 	public Response updPersona(Persona p) {
-		Persona persona = new Persona();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
 			if(personaService.update(p)) {
-				jsonObject = new JSONObject(1);
+				jsonObject = new JSONObject("{\"response\":2}");
 			}else {
-				jsonObject = new JSONObject(0);
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
-			logger.error("Error: " + e.getMessage());
+			logger.error("Error: ",e);
 			return Response.status(500).build();
 		}
 		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();

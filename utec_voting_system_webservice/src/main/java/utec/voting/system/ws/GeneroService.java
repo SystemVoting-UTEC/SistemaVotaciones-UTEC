@@ -60,29 +60,29 @@ public class GeneroService implements Serializable{
 	
 	@POST
 	public Response addGenero(Genero gen) {
-		Genero genero = new Genero();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
 			if( gen != null) {
-				genero = generoService.save(gen);
-				jsonObject = new JSONObject(genero);
+				if(generoService.save(gen)) {
+					jsonObject = new JSONObject("{\"response\":1}");
+				}else {
+					jsonObject = new JSONObject("{\"response\":3}");
+				}
 			}
 		} catch (Exception e) {
-			logger.error("Error: ",e);
-			return Response.status(500).build();
+			return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 		}
 		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 	}
 	
 	@PUT
 	public Response updGenero(Genero gen) {
-		Genero genero = new Genero();
 		JSONObject jsonObject = null;
 		try {
 			if(generoService.update(gen)) {
-				jsonObject = new JSONObject(1);
+				jsonObject = new JSONObject("{\"response\":2}");
 			}else {
-				jsonObject = new JSONObject(0);
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);

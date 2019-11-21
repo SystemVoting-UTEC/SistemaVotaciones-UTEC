@@ -63,24 +63,24 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 	}
 
 	@Override
-	public Municipio save(Municipio t) throws SQLException {
-		// TODO Auto-generated method stub
+	public Boolean save(Municipio t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			String query = "{CALL SP_CREATE_MUNICIPIO(?,?,?)}";
+			String query = "{CALL SP_CREATE_MUNICIPIO(?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getMunNombre());
-			stmt.registerOutParameter(2, Types.INTEGER);
+			stmt.setInt(2, t.getMunDepId().getDepId());
+			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(2) > 0) {
-				t.setMunId(stmt.getInt(2));
+			if (stmt.getInt(3) >= 1) {
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}finally {
 			stmt.close();			
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override

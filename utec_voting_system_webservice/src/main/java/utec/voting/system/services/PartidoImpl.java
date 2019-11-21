@@ -55,24 +55,24 @@ public class PartidoImpl extends Conexion implements Service<Partido>, Serializa
 	}
 
 	@Override
-	public Partido save(Partido t) throws SQLException {
+	public Boolean save(Partido t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_CREATE_PARTIDO(?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getParNombre());
 			stmt.setInt(2, t.getEstado());
-			stmt.registerOutParameter(2, Types.INTEGER);
+			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(2) > 0) {
-				t.setParId(stmt.getInt(2));
+			if (stmt.getInt(3) >= 1) {
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}finally {
 			stmt.close();			
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override

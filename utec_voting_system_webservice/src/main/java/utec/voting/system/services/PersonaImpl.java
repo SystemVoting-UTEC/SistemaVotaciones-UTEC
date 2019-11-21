@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -88,11 +89,11 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 	}
 
 	@Override
-	public Persona save(Persona persona) throws SQLException {
+	public Boolean save(Persona persona) throws SQLException {
 		CallableStatement statement  = null;
 		
 		try {
-			String query = "{CALL SP_CREATE_PERSONA(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+			String query = "{CALL SP_CREATE_PERSONA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 			statement = getConnection().prepareCall(query);
 			
 			statement.setString(1, persona.getPerDui());
@@ -109,14 +110,17 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 			statement.setString(12, persona.getPerMadre());
 			statement.setString(13, persona.getPerPadre());
 			statement.setInt(14,persona.getEstado());
-			
+			statement.registerOutParameter(15, Types.INTEGER);
 			statement.execute();
+			if (statement.getInt(5) >= 1) {
+				return Boolean.TRUE;
+			}
 		} catch (Exception e) {
-			logger.error("Error: " + e.getMessage());
+			logger.error("Error" + e);
 		}finally {
-			
+			statement.close();			
 		}
-		return null;
+		return Boolean.FALSE;
 	}
 
 	@Override
