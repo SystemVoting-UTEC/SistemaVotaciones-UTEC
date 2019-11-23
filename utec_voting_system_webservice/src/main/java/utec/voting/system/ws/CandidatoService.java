@@ -62,7 +62,7 @@ public class CandidatoService implements Serializable{
 		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
 			if(canService.save(gen)) {
-				jsonObject = new JSONObject("{\"response\":2}");
+				jsonObject = new JSONObject("{\"response\":1}");
 			}else {
 				jsonObject = new JSONObject("{\"response\":3}");
 			}

@@ -143,7 +143,6 @@ private static final long serialVersionUID = 1L;
 		return null;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public Candidato finById(Integer id) throws SQLException {
 		CallableStatement stmt = null;

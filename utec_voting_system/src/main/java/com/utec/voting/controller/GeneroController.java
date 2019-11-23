@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import com.utec.voting.util.ClientWebService;
  * @author kevin_orellana
  *
  */
+@WebServlet(name = "genero.do", urlPatterns = { "/genero.do" })
 public class GeneroController extends HttpServlet implements Serializable {
 
     /**

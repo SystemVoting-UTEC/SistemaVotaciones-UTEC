@@ -6,10 +6,11 @@ package com.utec.voting.controller;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,6 +27,7 @@ import com.utec.voting.util.ClientWebService;
  * @author manuel cardona
  *
  */
+@WebServlet(name = "tipoCandidato.do", urlPatterns = { "/tipoCandidato.do" })
 public class TipoCandidatoController extends HttpServlet implements Serializable {
 
     /**
@@ -36,10 +38,9 @@ public class TipoCandidatoController extends HttpServlet implements Serializable
 	/**
 	 * Variable de logueo para errores.
 	 */
-	static final Logger logger = Logger.getLogger(GeneroController.class);
+	static final Logger logger = Logger.getLogger(TipoCandidatoController.class);
 	
-	private HashMap<String, Object> JSONROOT = new HashMap<String, Object>();
-	
+	private List<TipoCandidato> tpcList = new ArrayList<TipoCandidato>();
 	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -75,64 +76,56 @@ public class TipoCandidatoController extends HttpServlet implements Serializable
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @SuppressWarnings("unchecked")
 	@Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-    	String action = request.getParameter("action");
-		List<TipoCandidato> genList = new ArrayList<TipoCandidato>();
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		RequestDispatcher res=null;
+		TipoCandidato tpcSelected=null;
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		response.setContentType("application/json");
-
-		if (action != null) {
-			try {
-				if (action.equals("list")) {
-					// Fetch Data from Student Table
-					genList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/tipo_candidato", "GET"), ArrayList.class);
-
-					// Return in the format required by jTable plugin
-					JSONROOT.put("Result", "OK");
-					JSONROOT.put("Records", genList);
-
-					// Convert Java Object to Json
-					String jsonArray = gson.toJson(JSONROOT);
-
-					response.getWriter().print(jsonArray);
-				} else if (action.equals("create") || action.equals("update")) {
-					TipoCandidato TipoCandidato = new TipoCandidato();
-					Integer res = null;
-					if (request.getParameter("tcaId") != null) {
-						int tcaId = Integer.parseInt(request.getParameter("tcaId"));
-						TipoCandidato.setTcaId(tcaId);
+		try {
+			 if(request.getParameter("btnModificar")!=null){
+				 if(request.getParameter("tcaIdEdi") != null && request.getParameter("tcaTipoEdi") != null) {
+					 TipoCandidato tpcEdit = new TipoCandidato();
+					 tpcEdit.setTcaId(Integer.parseInt(request.getParameter("tcaIdEdi")));
+					 tpcEdit.setTcaTipo(request.getParameter("tcaTipoEdi"));
+					 JSONObject object = new JSONObject(tpcEdit);
+					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/tipo_candidato",object, "PUT"));
+					Integer resp = Integer.parseInt(object.get("response").toString());
+					request.setAttribute("msj",resp);
+					 
+				 }
+			 }
+			 
+			 if(request.getParameter("btnInsertarTipoCandidato")!=null){
+				 if(request.getParameter("tcaTipo") != null) {
+					 TipoCandidato tpcInsert = new TipoCandidato();
+					 tpcInsert.setTcaTipo(request.getParameter("tcaTipo"));
+					 JSONObject object = new JSONObject(tpcInsert);
+					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/tipo_candidato",object, "POST"));
+					Integer resp = Integer.parseInt(object.get("response").toString());
+					request.setAttribute("msj",resp);
+				 }
+			 }
+			
+			if(request.getParameter("id") == null) {
+				tpcList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/tipo_candidato", "GET"),TipoCandidato[].class);
+				request.setAttribute("tpcList", tpcList);
+				res=request.getRequestDispatcher("mtmTipoCandidato.jsp");
+				res.forward(request, response);
+			} else {
+				for (TipoCandidato tpc : tpcList) {
+					if(tpc.getTcaId() == Integer.parseInt(request.getParameter("id"))) {
+						tpcSelected = new TipoCandidato(); 
+						tpcSelected.setTcaId(tpc.getTcaId());
+						tpcSelected.setTcaTipo(tpc.getTcaTipo());
+						
 					}
-					if (request.getParameter("tcaTipo") != null) {
-						String tcaTipo = request.getParameter("tcaTipo");
-						TipoCandidato.setTcaTipo(tcaTipo);
-					}
-					JSONObject object = new JSONObject(TipoCandidato);
-					if (action.equals("create")) {
-						// Create new record
-						res = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "POST"), Integer.class);
-					} else if (action.equals("update")) {
-						res = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "PUT"), Integer.class);
-					}
-					// Return in the format required by jTable plugin
-					JSONROOT.put("Result", "OK");
-					JSONROOT.put("Record", res);
-
-					// Convert Java Object to Json
-					String jsonArray = gson.toJson(JSONROOT);
-					response.getWriter().print(jsonArray);
-				} else if (action.equals("delete")) {
-					
 				}
-			} catch (Exception ex) {
-				logger.error("Error en el metodo doPost: ",ex);
-				JSONROOT.put("Result", "ERROR");
-				JSONROOT.put("Message", ex.getMessage());
-				String error = gson.toJson(JSONROOT);
-				response.getWriter().print(error);
+				String jsonArray = gson.toJson(tpcSelected);
+				response.getWriter().print(jsonArray);
 			}
+		} catch (Exception e) {
+			logger.error("Error en el metodo doPost()");
 		}
     }
 
@@ -145,4 +138,18 @@ public class TipoCandidatoController extends HttpServlet implements Serializable
     public String getServletInfo() {
         return "Short description";
     }
+    /**
+	 * @return the genList
+	 */
+	public List<TipoCandidato> getTpcList() {
+		return tpcList;
+	}
+
+	/**
+	 * @param tpcList the tpcList to set
+	 */
+	public void setTpcList(List<TipoCandidato> tpcList) {
+		this.tpcList = tpcList;
+	}
+
 }
