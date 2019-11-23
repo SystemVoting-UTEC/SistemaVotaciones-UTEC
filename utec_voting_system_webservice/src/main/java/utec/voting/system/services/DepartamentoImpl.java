@@ -74,8 +74,8 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 		try {
 			String query = "{CALL SP_UPDATE_DEPTO(?,?,?)}";
 			stmt = getConnection().prepareCall(query);
-			stmt.setString(1, t.getDepNombre());
-			stmt.setInt(2, t.getDepId());
+			stmt.setString(2, t.getDepNombre());
+			stmt.setInt(1, t.getDepId());
 			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(3) >= 1) {
