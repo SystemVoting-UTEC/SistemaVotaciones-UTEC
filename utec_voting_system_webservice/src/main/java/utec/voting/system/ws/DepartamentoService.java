@@ -58,7 +58,7 @@ private static final long serialVersionUID = 1L;
 		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
 			if(departamentoService.save(gen)) {
-				jsonObject = new JSONObject("{\"response\":2}");
+				jsonObject = new JSONObject("{\"response\":1}");
 			}else {
 				jsonObject = new JSONObject("{\"response\":3}");
 			}

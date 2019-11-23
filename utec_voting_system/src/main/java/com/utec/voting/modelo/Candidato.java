@@ -10,6 +10,8 @@ public class Candidato {
 	private Partido canParId;
 	private Departamento canDepId;
 	private TipoCandidato canTcaId;
+	private Municipio canMunId;
+	private Integer canEstado;
 	
 	/**
 	 * 
@@ -23,15 +25,22 @@ public class Candidato {
 	 * @param canParId
 	 * @param canDepId
 	 * @param canTcaId
+	 * @param canMunId
+	 * @param canEstado
 	 */
-	public Candidato(Integer canId, Persona canPerDui, Partido canParId, Departamento canDepId, TipoCandidato canTcaId) {
+	public Candidato(Integer canId, Persona canPerDui, Partido canParId, Departamento canDepId, TipoCandidato canTcaId,
+			Municipio canMunId, Integer canEstado) {
 		super();
 		this.canId = canId;
 		this.canPerDui = canPerDui;
 		this.canParId = canParId;
 		this.canDepId = canDepId;
 		this.canTcaId = canTcaId;
+		this.canMunId = canMunId;
+		this.canEstado = canEstado;
 	}
+
+
 
 	/**
 	 * @return the canId
@@ -103,8 +112,37 @@ public class Candidato {
 		this.canTcaId = canTcaId;
 	}
 
+	/**
+	 * @return the canMunId
+	 */
+	public Municipio getCanMunId() {
+		return canMunId;
+	}
+
+	/**
+	 * @param canMunId the canMunId to set
+	 */
+	public void setCanMunId(Municipio canMunId) {
+		this.canMunId = canMunId;
+	}
+
+	/**
+	 * @return the canEstado
+	 */
+	public Integer getCanEstado() {
+		return canEstado;
+	}
+
+	/**
+	 * @param canEstado the canEstado to set
+	 */
+	public void setCanEstado(Integer canEstado) {
+		this.canEstado = canEstado;
+	}
+
 	@Override
 	public String toString() {
-		return "Candidato [canId=" + canId + ", canPerDui=" + canPerDui + ", canParId=" + canParId + ", canDepId=" + canDepId + ", canTcaId=" + canTcaId + "]";
+		return "Candidato [canId=" + canId + ", canPerDui=" + canPerDui + ", canParId=" + canParId + ", canDepId="
+				+ canDepId + ", canTcaId=" + canTcaId + ", canMunId=" + canMunId + ", canEstado=" + canEstado + "]";
 	}
 }

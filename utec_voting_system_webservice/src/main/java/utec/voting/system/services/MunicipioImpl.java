@@ -29,7 +29,6 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 	
 	static final Logger logger = Logger.getLogger(MunicipioImpl.class);
 
-	@SuppressWarnings("unused")
 	private DepartamentoImpl departamentoService = new DepartamentoImpl();
 	
 
@@ -47,8 +46,7 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 				getRs().beforeFirst();
 				while (getRs().next()) {
 					departamento = new Departamento();
-					departamento = DepartamentoService.finById(getRs().getInt(3));
-					
+					departamento = departamentoService.finById(getRs().getInt(3));
 					g = new Municipio();
 					g.setMunId(getRs().getInt(1));
 					g.setMunNombre(getRs().getString(2));
@@ -87,7 +85,7 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 
 	@Override
 	public Boolean update(Municipio t) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_UPDATE_MUNICIPIO(?,?,?)}";
@@ -109,14 +107,14 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 
 	@Override
 	public Boolean delete(Municipio t) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		//SP_DELETE_Municipio
 		return null;
 	}
 
 	@Override
 	public Municipio finById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		CallableStatement stmt = null;
 		Municipio g =  null;
 		try {
@@ -127,11 +125,11 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 			if (getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					Municipio Municipio= new Municipio();
-					extracted(Municipio);
-					DepartamentoService.finById(getRs().getInt(2));
+					Departamento depto= new Departamento();
+					depto = departamentoService.finById(getRs().getInt(3));
 					g = new Municipio();
 					g.setMunId(getRs().getInt(1));
+					g.setMunNombre(getRs().getString(2));
 					
 				}
 			}
@@ -144,14 +142,8 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 
 	}
 
-	private DepartamentoService extracted(Municipio municipio) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	@Override
 	public Municipio finById(String id) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

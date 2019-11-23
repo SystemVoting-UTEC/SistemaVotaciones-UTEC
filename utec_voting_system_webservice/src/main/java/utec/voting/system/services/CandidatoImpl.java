@@ -38,7 +38,6 @@ private static final long serialVersionUID = 1L;
 	private MunicipioImpl municipioService = new MunicipioImpl();
 	private TipoCandidatoImpl tipoCandidatoService = new  TipoCandidatoImpl();
 	
-	@SuppressWarnings("null")
 	@Override
 	public ArrayList<Candidato> getAll() throws SQLException {
 		CallableStatement stmt = null;
@@ -67,7 +66,6 @@ private static final long serialVersionUID = 1L;
 					departamento = departamentoService.finById(getRs().getInt(4));
 					municipio = municipioService.finById(getRs().getInt(5));
 					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));				
-					
 					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));
 					g = new Candidato();
 					g.setCanId(getRs().getInt(1));
@@ -76,6 +74,7 @@ private static final long serialVersionUID = 1L;
 					g.setCanDepId(departamento);
 					g.setCanMunId(municipio);
 					g.setCanTcaId(tipocandidato);
+					g.setCanEstado(getRs().getInt(7));
 					l1.add(g);
 				}
 			}
@@ -229,6 +228,7 @@ private static final long serialVersionUID = 1L;
 					g.setCanDepId(departamento);
 					g.setCanMunId(municipio);
 					g.setCanTcaId(tipocandidato);
+					g.setCanEstado(getRs().getInt(7));
 					l1.add(g);
 				}
 			}
