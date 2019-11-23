@@ -20,6 +20,7 @@ import com.google.gson.GsonBuilder;
 import com.utec.voting.modelo.Persona;
 import com.utec.voting.modelo.Votante;
 import com.utec.voting.util.ClientWebService;
+import com.utec.voting.util.Formateador;
 
 /**
  * Servlet implementation class VotanteController
@@ -58,23 +59,41 @@ public class VotanteController extends HttpServlet implements Serializable {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher res=null;
+		new Formateador();
 		Votante votanteSelected=null;
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		response.setContentType("application/json");
 		try {
-			 if(request.getParameter("btnModificarVotante")!=null){
-				 
-			 }
-			 
+			if(request.getParameter("btnModificarVotante")!=null){
+				if(request.getParameter("votPerDuiEdi") != null && request.getParameter("votFechaVenceEdi") != null && request.getParameter("votFechaExpEdi") != null && request.getParameter("estadoEdi") != null) {
+					Votante votanteInsert = new Votante();
+					Persona personaInert = new Persona();
+					personaInert.setPerDui(request.getParameter("votPerDuiEdi"));
+					votanteInsert.setVotPerDui(personaInert);
+					votanteInsert.setVotFechaExp(request.getParameter("votFechaExpEdi"));
+					votanteInsert.setVotFechaVence(request.getParameter("votFechaVenceEdi"));
+					votanteInsert.setEstado(Integer.parseInt(request.getParameter("estadoEdi")));
+					JSONObject object = new JSONObject(votanteInsert);
+					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/votante", object, "PUT"));
+					Integer resp = Integer.parseInt(object.get("response").toString());
+					request.setAttribute("msj", resp);
+				}
+			}
+			
 			if (request.getParameter("btnInsertarVotante") != null) {
-				Votante votanteInsert = new Votante();
-				Persona personaInert = new Persona();
-				personaInert.setPerDui(request.getParameter("votPerDui"));
-				votanteInsert.setVotPerDui(personaInert);
-				JSONObject object = new JSONObject(votanteInsert);
-				object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/votante", object, "POST"));
-				Integer resp = Integer.parseInt(object.get("response").toString());
-				request.setAttribute("msj", resp);
+				if(request.getParameter("votPerDui") != null && request.getParameter("votFechaVence") != null && request.getParameter("votFechaExp") != null && request.getParameter("estado") != null) {
+					Votante votanteInsert = new Votante();
+					Persona personaInert = new Persona();
+					personaInert.setPerDui(request.getParameter("votPerDui"));
+					votanteInsert.setVotPerDui(personaInert);
+					votanteInsert.setVotFechaExp( request.getParameter("votFechaExp"));
+					votanteInsert.setVotFechaVence(request.getParameter("votFechaVence"));
+					votanteInsert.setEstado(Integer.parseInt(request.getParameter("estado")));
+					JSONObject object = new JSONObject(votanteInsert);
+					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/votante", object, "POST"));
+					Integer resp = Integer.parseInt(object.get("response").toString());
+					request.setAttribute("msj", resp);
+				}
 			}
 			
 			if(request.getParameter("id") == null) {
@@ -84,21 +103,24 @@ public class VotanteController extends HttpServlet implements Serializable {
 				request.setAttribute("perList", perList);
 				res=request.getRequestDispatcher("mtmVotante.jsp");
 				res.forward(request, response);
-			} else {
-				String voto = request.getParameter("id");
+			} 
+
+			if(request.getParameter("id") != null){
 				for (Votante v : votList) {
 					if(v.getVotPerDui().getPerDui().equals(request.getParameter("id"))) {
 						votanteSelected = new Votante(); 
 						votanteSelected.setVotFechaExp(v.getVotFechaExp());
 						votanteSelected.setVotFechaVence(v.getVotFechaVence());
 						votanteSelected.setVotPerDui(v.getVotPerDui());
+						votanteSelected.setEstado(v.getEstado());
 					}
 				}
 				String jsonArray = gson.toJson(votanteSelected);
 				response.getWriter().print(jsonArray);
 			}
 		} catch (Exception e) {
-			logger.error("Error en el metodo doPost()");
+			logger.error("Error en el metodo doPost(): "+e);
+			request.setAttribute("msj", 0);
 		}
 	}
 

@@ -1,16 +1,14 @@
 package com.utec.voting.modelo;
 
-import java.sql.Date;
-
 /**
  * @author Kevin Orellana
  * @version 1.0 Date: September 2019
  */
 public class Votante {
 	private Persona votPerDui;
-	private Date votFechaVence;
-	private Date votFechaExp;
-	
+	private String votFechaVence;
+	private String votFechaExp;
+	private int estado;
 	
 	
 	/**
@@ -19,16 +17,6 @@ public class Votante {
 	public Votante() {
 	}
 
-	/**
-	 * @param votPerDui
-	 * @param votFechaVence
-	 * @param votFechaExp
-	 */
-	public Votante(Persona votPerDui, Date votFechaVence, Date votFechaExp) {
-		this.votPerDui = votPerDui;
-		this.votFechaVence = votFechaVence;
-		this.votFechaExp = votFechaExp;
-	}
 
 	/**
 	 * @return the votPerDui
@@ -36,6 +24,7 @@ public class Votante {
 	public Persona getVotPerDui() {
 		return votPerDui;
 	}
+
 
 	/**
 	 * @param votPerDui the votPerDui to set
@@ -47,33 +36,54 @@ public class Votante {
 	/**
 	 * @return the votFechaVence
 	 */
-	public Date getVotFechaVence() {
+	public String getVotFechaVence() {
 		return votFechaVence;
 	}
+
 
 	/**
 	 * @param votFechaVence the votFechaVence to set
 	 */
-	public void setVotFechaVence(Date votFechaVence) {
+	public void setVotFechaVence(String votFechaVence) {
 		this.votFechaVence = votFechaVence;
 	}
+
 
 	/**
 	 * @return the votFechaExp
 	 */
-	public Date getVotFechaExp() {
+	public String getVotFechaExp() {
 		return votFechaExp;
 	}
+
 
 	/**
 	 * @param votFechaExp the votFechaExp to set
 	 */
-	public void setVotFechaExp(Date votFechaExp) {
+	public void setVotFechaExp(String votFechaExp) {
 		this.votFechaExp = votFechaExp;
 	}
 
+
+	/**
+	 * @return the estado
+	 */
+	public int getEstado() {
+		return estado;
+	}
+
+
+	/**
+	 * @param estado the estado to set
+	 */
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}
+
+
 	@Override
 	public String toString() {
-		return "Votante [votPerDui=" + votPerDui + ", votFechaVence=" + votFechaVence + ", votFechaExp=" + votFechaExp + "]";
+		return "Votante [votPerDui=" + votPerDui + ", votFechaVence=" + votFechaVence + ", votFechaExp=" + votFechaExp
+				+ ", estado=" + estado + "]";
 	}
 }

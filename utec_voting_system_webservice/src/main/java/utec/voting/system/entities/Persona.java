@@ -1,14 +1,9 @@
 package utec.voting.system.entities;
 
-import java.sql.Date;
-
-import javax.xml.bind.annotation.XmlRootElement;
-
 /**
  * @author Kevin Orellana
  * @version 1.0 Date: September 2019
  */
-@XmlRootElement
 public class Persona {
 	private String perDui;
 	private String perPNombre;
@@ -16,19 +11,19 @@ public class Persona {
 	private String perTNombre;
 	private String perPApellido;
 	private String perSApellido;
-	private Date perFechaNac;
+	private String perFechaNac;
 	private Integer perEdad;
 	private Genero perGenId;
 	private Departamento perDepId;
 	private EstadoFamiliar perEstId;
 	private String perMadre;
 	private String perPadre;
-	private int estado;
+	private Integer perEstado;
 	
 	public Persona() {
 		
 	}
-	
+
 	/**
 	 * @param perDui
 	 * @param perPNombre
@@ -43,8 +38,11 @@ public class Persona {
 	 * @param perEstId
 	 * @param perMadre
 	 * @param perPadre
+	 * @param perEstado
 	 */
-	public Persona(String perDui, String perPNombre, String perSNombre, String perTNombre, String perPApellido, String perSApellido, Date perFechaNac, Integer perEdad, Genero perGenId, Departamento perDepId, EstadoFamiliar perEstId, String perMadre, String perPadre, int estado) {
+	public Persona(String perDui, String perPNombre, String perSNombre, String perTNombre, String perPApellido,
+			String perSApellido, String perFechaNac, Integer perEdad, Genero perGenId, Departamento perDepId,
+			EstadoFamiliar perEstId, String perMadre, String perPadre, Integer perEstado) {
 		super();
 		this.perDui = perDui;
 		this.perPNombre = perPNombre;
@@ -59,7 +57,7 @@ public class Persona {
 		this.perEstId = perEstId;
 		this.perMadre = perMadre;
 		this.perPadre = perPadre;
-		this.setEstado(estado);
+		this.perEstado = perEstado;
 	}
 
 	/**
@@ -149,14 +147,14 @@ public class Persona {
 	/**
 	 * @return the perFechaNac
 	 */
-	public Date getPerFechaNac() {
+	public String getPerFechaNac() {
 		return perFechaNac;
 	}
 
 	/**
 	 * @param perFechaNac the perFechaNac to set
 	 */
-	public void setPerFechaNac(Date perFechaNac) {
+	public void setPerFechaNac(String perFechaNac) {
 		this.perFechaNac = perFechaNac;
 	}
 
@@ -244,16 +242,17 @@ public class Persona {
 		this.perPadre = perPadre;
 	}
 
-	public int getEstado() {
-		return estado;
+	/**
+	 * @return the perEstado
+	 */
+	public Integer getPerEstado() {
+		return perEstado;
 	}
 
-	public void setEstado(int estado) {
-		this.estado = estado;
-	}
-
-	@Override
-	public String toString() {
-		return "Persona [perDui=" + perDui + ", perPNombre=" + perPNombre + ", perSNombre=" + perSNombre + ", perTNombre=" + perTNombre + ", perPApellido=" + perPApellido + ", perSApellido=" + perSApellido + ", perFechaNac=" + perFechaNac + ", perEdad=" + perEdad + ", perGenId=" + perGenId + ", perDepId=" + perDepId + ", perEstId=" + perEstId + ", perMadre=" + perMadre + ", perPadre=" + perPadre + "]";
+	/**
+	 * @param perEstado the perEstado to set
+	 */
+	public void setPerEstado(Integer perEstado) {
+		this.perEstado = perEstado;
 	}
 }

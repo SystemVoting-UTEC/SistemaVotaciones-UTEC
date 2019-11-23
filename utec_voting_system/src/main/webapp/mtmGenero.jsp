@@ -127,7 +127,7 @@
 					       	    }
 							});
 						}
- 	</script>
+ 					</script>
 				</c:if>
 	</jsp:body>
 </t:template>
