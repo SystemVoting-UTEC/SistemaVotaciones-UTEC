@@ -63,7 +63,7 @@
 									<h4 class="panel-title">
 										<a data-toggle="collapse" data-parent="#accordion"
 											href="#collapseOne"><span
-											class="glyphicon glyphicon-folder-close"> </span>
+											class="glyphicon glyphicon-cog"> </span>
 											Mantenimiento</a>
 									</h4>
 								</div>
@@ -75,16 +75,16 @@
 														<c:if test="${sessionScope.eleccion != null}">
 															<tr>
 																<td><span
-																	class="glyphicon glyphicon-pencil text-primary"></span><a
-																	href="${opt.optURL}"> ${opt.optNombre}</a></td>
+																	class="${opt.optIcono} text-primary"></span><a
+																	href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
 															</tr>
 														</c:if>
 												</c:if>
 												<c:if test="${opt.optNombre ne 'Votar'}">
 													<tr>
 														<td><span
-															class="glyphicon glyphicon-pencil text-primary"></span><a
-															href="${opt.optURL}"> ${opt.optNombre}</a></td>
+															class="${opt.optIcono} text-primary"></span><a
+															href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
 													</tr>
 												</c:if>
 											</c:forEach>
@@ -110,16 +110,16 @@
 														<c:if test="${sessionScope.eleccion != null}">
 															<tr>
 																<td><span
-																	class="glyphicon glyphicon-pencil text-primary"></span><a
-																	href="${opt.optURL}"> ${opt.optNombre}</a></td>
+																	class="${opt.optIcono} text-primary"></span><a
+																	href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
 															</tr>
 														</c:if>
 												</c:if>
 												<c:if test="${opt.optNombre ne 'Votar'}">
 													<tr>
 														<td><span
-															class="glyphicon glyphicon-pencil text-primary"></span><a
-															href="${opt.optURL}"> ${opt.optNombre}</a></td>
+															class="${opt.optIcono} text-primary"></span><a
+															href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
 													</tr>
 												</c:if>
 											</c:forEach>
@@ -128,7 +128,7 @@
 									<tr>
 										<td><span
 											class="glyphicon glyphicon-eye-open text-primary"></span><a
-											href="#"> Gráficos en linea</a></td>
+											href="#">&nbsp;&nbsp; Gráficos en linea</a></td>
 									</tr>
 								</table>
 							</div>

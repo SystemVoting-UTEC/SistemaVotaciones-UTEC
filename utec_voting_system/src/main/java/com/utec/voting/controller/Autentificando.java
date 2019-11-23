@@ -57,8 +57,6 @@ public class Autentificando extends HttpServlet implements Serializable {
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Encriptar enc = new Encriptar();
 		 Gson gson =  new GsonBuilder().setDateFormat(DateFormat.LONG).create();
-		 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSS");
-		 Timestamp today = new Timestamp(new Date().getTime());
 		try {
 			HttpSession sesion;
 			Persona pers = new Persona();

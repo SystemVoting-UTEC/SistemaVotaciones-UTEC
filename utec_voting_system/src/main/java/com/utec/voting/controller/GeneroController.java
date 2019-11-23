@@ -13,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.utec.voting.modelo.Genero;
+import com.utec.voting.modelo.Usuario;
 import com.utec.voting.util.ClientWebService;
 
 /**
@@ -81,51 +83,58 @@ public class GeneroController extends HttpServlet implements Serializable {
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		response.setContentType("application/json");
 		try {
-			 if(request.getParameter("btnModificar")!=null){
-				 if(request.getParameter("genIdEdi") != null && request.getParameter("genGeneroEdi") != null  && request.getParameter("genNombreEdi") != null) {
-					 Genero generoEdit = new Genero();
-					 generoEdit.setGenId(Integer.parseInt(request.getParameter("genIdEdi")));
-					 generoEdit.setGenGenero(request.getParameter("genGeneroEdi"));
-					 generoEdit.setGenNombre(request.getParameter("genNombreEdi"));
-					 JSONObject object = new JSONObject(generoEdit);
-					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "PUT"));
-					Integer resp = Integer.parseInt(object.get("response").toString());
-					request.setAttribute("msj",resp);
-					 
+			HttpSession sesion = request.getSession(true);
+			Usuario us = (Usuario) sesion.getAttribute("usuario");
+			//Validando si existe la variable de sesion principal
+			if(us != null) {
+				if(request.getParameter("btnModificar")!=null){
+					 if(request.getParameter("genIdEdi") != null && request.getParameter("genGeneroEdi") != null  && request.getParameter("genNombreEdi") != null) {
+						 Genero generoEdit = new Genero();
+						 generoEdit.setGenId(Integer.parseInt(request.getParameter("genIdEdi")));
+						 generoEdit.setGenGenero(request.getParameter("genGeneroEdi"));
+						 generoEdit.setGenNombre(request.getParameter("genNombreEdi"));
+						 JSONObject object = new JSONObject(generoEdit);
+						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "PUT"));
+						Integer resp = Integer.parseInt(object.get("response").toString());
+						request.setAttribute("msj",resp);
+						 
+					 }
 				 }
-			 }
-			 
-			 if(request.getParameter("btnInsertarGenero")!=null){
-				 if(request.getParameter("genGenero") != null  && request.getParameter("genNombre") != null) {
-					 Genero generoInsert = new Genero();
-					 generoInsert.setGenGenero(request.getParameter("genGenero"));
-					 generoInsert.setGenNombre(request.getParameter("genNombre"));
-					 JSONObject object = new JSONObject(generoInsert);
-					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "POST"));
-					Integer resp = Integer.parseInt(object.get("response").toString());
-					request.setAttribute("msj",resp);
+				 
+				 if(request.getParameter("btnInsertarGenero")!=null){
+					 if(request.getParameter("genGenero") != null  && request.getParameter("genNombre") != null) {
+						 Genero generoInsert = new Genero();
+						 generoInsert.setGenGenero(request.getParameter("genGenero"));
+						 generoInsert.setGenNombre(request.getParameter("genNombre"));
+						 JSONObject object = new JSONObject(generoInsert);
+						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "POST"));
+						Integer resp = Integer.parseInt(object.get("response").toString());
+						request.setAttribute("msj",resp);
+					 }
 				 }
-			 }
-			
-			if(request.getParameter("id") == null) {
-				genList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero", "GET"),Genero[].class);
-				request.setAttribute("genList", genList);
-				res=request.getRequestDispatcher("mtmGenero.jsp");
-				res.forward(request, response);
-			} else {
-				for (Genero gen : genList) {
-					if(gen.getGenId() == Integer.parseInt(request.getParameter("id"))) {
-						generoSelected = new Genero(); 
-						generoSelected.setGenId(gen.getGenId());
-						generoSelected.setGenGenero(gen.getGenGenero());
-						generoSelected.setGenNombre(gen.getGenNombre());
+				
+				if(request.getParameter("id") == null) {
+					genList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero", "GET"),Genero[].class);
+					request.setAttribute("genList", genList);
+					res=request.getRequestDispatcher("mtmGenero.jsp");
+					res.forward(request, response);
+				} else {
+					for (Genero gen : genList) {
+						if(gen.getGenId() == Integer.parseInt(request.getParameter("id"))) {
+							generoSelected = new Genero(); 
+							generoSelected.setGenId(gen.getGenId());
+							generoSelected.setGenGenero(gen.getGenGenero());
+							generoSelected.setGenNombre(gen.getGenNombre());
+						}
 					}
+					String jsonArray = gson.toJson(generoSelected);
+					response.getWriter().print(jsonArray);
 				}
-				String jsonArray = gson.toJson(generoSelected);
-				response.getWriter().print(jsonArray);
+			}else {
+				response.sendRedirect("index.jsp");
 			}
 		} catch (Exception e) {
-			logger.error("Error en el metodo doPost()");
+			logger.error("Error en el metodo doPost()",e);
 		}
     }
 

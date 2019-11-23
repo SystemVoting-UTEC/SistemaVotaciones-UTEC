@@ -46,7 +46,6 @@ public class LoginService implements Serializable{
 			obj =  new Usuario();
 			obj = usuarioImpl.loginCredential(us);
 			jsonObject = new JSONObject(obj);
-		System.out.println("Response: "+jsonObject.toString());
 		} catch (Exception e) {
 			logger.error("Error: ",e);
 			return Response.status(500).build();

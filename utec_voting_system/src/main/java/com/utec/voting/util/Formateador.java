@@ -3,9 +3,9 @@
  */
 package com.utec.voting.util;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author Kevin Orellana
