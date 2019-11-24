@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 import utec.voting.system.entities.Departamento;
 import utec.voting.system.entities.Municipio;
 import utec.voting.system.jdbc.Conexion;
-import utec.voting.system.ws.DepartamentoService;
 
 /**
  * @author Manuel Cardona
@@ -66,7 +65,7 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 	public Boolean save(Municipio t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			String query = "{CALL SP_CREATE_MUNICIPIO(?,?)}";
+			String query = "{CALL SP_CREATE_MUNICIPIO(?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getMunNombre());
 			stmt.setInt(2, t.getMunDepId().getDepId());
@@ -88,13 +87,14 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 		
 		CallableStatement stmt = null;
 		try {
-			String query = "{CALL SP_UPDATE_MUNICIPIO(?,?,?)}";
+			String query = "{CALL SP_UPDATE_MUNICIPIO(?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
-			stmt.setString(1, t.getMunNombre());
-			stmt.setInt(2, t.getMunId());
-			stmt.registerOutParameter(3, Types.INTEGER);
+			stmt.setString(2, t.getMunNombre());
+			stmt.setInt(1, t.getMunId());
+			stmt.setInt(3, t.getMunDepId().getDepId());
+			stmt.registerOutParameter(4, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(3) >= 1) {
+			if (stmt.getInt(4) >= 1) {
 				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
@@ -125,6 +125,7 @@ public class MunicipioImpl extends Conexion implements Service<Municipio>, Seria
 			if (getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
+					@SuppressWarnings("unused")
 					Departamento depto= new Departamento();
 					depto = departamentoService.finById(getRs().getInt(3));
 					g = new Municipio();
