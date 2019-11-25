@@ -172,23 +172,23 @@
 											</div>
 											<div class="form-group">
 												<label>Primer Nombre</label>
-												<input type="text" class="form-control" required id="perPNombreEdi" name="perPNombreEdi" maxlength="100">
+												<input type="text" class="form-control" pattern="[A-Za-z]" required id="perPNombreEdi" name="perPNombreEdi" maxlength="100">
 											</div>
 											<div class="form-group">
 												<label>Segundo Nombre</label>
-												<input type="text" class="form-control" required id="perSNombreEdi" name="perSNombreEdi" maxlength="100">
+												<input type="text" class="form-control" pattern="[A-Za-z]" required id="perSNombreEdi" name="perSNombreEdi" maxlength="100">
 											</div>	
 											<div class="form-group">
 												<label>Tercer Nombre</label>
-												<input type="text" class="form-control"  id="perTNombreEdi" name="perTNombreEdi" maxlength="100">
+												<input type="text" class="form-control" pattern="[A-Za-z]" id="perTNombreEdi" name="perTNombreEdi" maxlength="100">
 											</div>	
 											<div class="form-group">
 												<label>Primer Apellido</label>
-												<input type="text" class="form-control" required id="perPApellidoEdi" name="perPApellidoEdi" maxlength="100">
+												<input type="text" class="form-control" pattern="[A-Za-z]" required id="perPApellidoEdi" name="perPApellidoEdi" maxlength="100">
 											</div>	
 											<div class="form-group">
 												<label>Segundo Apellido</label>
-												<input type="text" class="form-control" required id="perSApellidoEdi" name="perSApellidoEdi" maxlength="100">
+												<input type="text" class="form-control" pattern="[A-Za-z]" required id="perSApellidoEdi" name="perSApellidoEdi" maxlength="100">
 											</div>	
 											<div class="form-group">
 												<label>Fecha de Nacimiento</label>
@@ -220,11 +220,11 @@
 											</div>
 											<div class="form-group">
 												<label>Madre</label>
-												<input type="text" class="form-control" id="perMadreEdi" name="perMadreEdi" maxlength="100">
+												<input type="text" class="form-control" pattern="[A-Za-z]" id="perMadreEdi" name="perMadreEdi" maxlength="100">
 											</div>
 											<div class="form-group">
 												<label>Padre</label>
-												<input type="text" class="form-control" id="perPadreEdi" name="perPadreEdi" maxlength="100">
+												<input type="text" class="form-control" pattern="[A-Za-z]" id="perPadreEdi" name="perPadreEdi" maxlength="100">
 											</div>
 											<div class="form-group">
 												<label>Estado</label>

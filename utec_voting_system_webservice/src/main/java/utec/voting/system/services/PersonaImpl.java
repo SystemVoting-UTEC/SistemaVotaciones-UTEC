@@ -103,7 +103,7 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 			statement.setString(1, persona.getPerDui());
 			statement.setString(2, persona.getPerPNombre());
 			statement.setString(3, persona.getPerSNombre());
-			statement.setString(4, persona.getPerTNombre());
+			statement.setString(4, persona.getPerTNombre().equals("") ? null : persona.getPerTNombre());
 			statement.setString(5, persona.getPerPApellido());
 			statement.setString(6, persona.getPerSApellido());
 			sqlStartDate = new java.sql.Date(sdf1.parse(persona.getPerFechaNac()).getTime());
@@ -143,7 +143,7 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 			statement.setString(1, persona.getPerDui());
 			statement.setString(2, persona.getPerPNombre());
 			statement.setString(3, persona.getPerSNombre());
-			statement.setString(4, persona.getPerTNombre());
+			statement.setString(4, persona.getPerTNombre().equals("") ? null : persona.getPerTNombre());
 			statement.setString(5, persona.getPerPApellido());
 			statement.setString(6, persona.getPerSApellido());
 			sqlStartDate = new java.sql.Date(sdf1.parse(persona.getPerFechaNac()).getTime());
