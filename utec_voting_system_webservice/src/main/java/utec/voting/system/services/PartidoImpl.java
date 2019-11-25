@@ -79,13 +79,14 @@ public class PartidoImpl extends Conexion implements Service<Partido>, Serializa
 	public Boolean update(Partido t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			String query = "{CALL SP_UPDATE_PARTIDO(?,?,?)}";
+			String query = "{CALL SP_UPDATE_PARTIDO(?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
-			stmt.setString(1, t.getParNombre());
-			stmt.setInt(2, t.getParId());
-			stmt.registerOutParameter(3, Types.INTEGER);
+			stmt.setString(2, t.getParNombre());
+			stmt.setInt(1, t.getParId());
+			stmt.setInt(3, t.getEstado());
+			stmt.registerOutParameter(4, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(3) >= 1) {
+			if (stmt.getInt(4) >= 1) {
 				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
