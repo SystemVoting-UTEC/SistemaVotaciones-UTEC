@@ -27,7 +27,6 @@ import utec.voting.system.services.DepartamentoImpl;
 @Path("/departamento")
 @Produces(MediaType.APPLICATION_JSON) 
 @Consumes(MediaType.APPLICATION_JSON)
-
 public class DepartamentoService {
 	
 private static final long serialVersionUID = 1L;
