@@ -40,7 +40,7 @@ public class OptionMenuImpl extends Conexion implements Service<OptionMenu>, Ser
 			if(getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					g = new OptionMenu(getRs().getInt(1), getRs().getString(2),getRs().getString(3));
+					g = new OptionMenu(getRs().getInt(1), getRs().getString(2),getRs().getString(3),getRs().getString(4));
 					l1.add(g);
 				}
 			}
@@ -54,7 +54,7 @@ public class OptionMenuImpl extends Conexion implements Service<OptionMenu>, Ser
 	}
 
 	@Override
-	public OptionMenu save(OptionMenu t) throws SQLException {
+	public Boolean save(OptionMenu t) throws SQLException {
 		// TODO Auto-generated method stub
 		return null;
 	}

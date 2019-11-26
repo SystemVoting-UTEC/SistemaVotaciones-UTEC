@@ -62,12 +62,12 @@ public class PartidoService implements Serializable{
 	
 	@POST
 	public Response addPartido(Partido gen) {
-		Partido Partido = new Partido();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
-			if( gen != null) {
-				Partido = partidoService.save(gen);
-				jsonObject = new JSONObject(Partido);
+			if(partidoService.save(gen)) {
+				jsonObject = new JSONObject("{\"response\":1}");
+			}else {
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -78,13 +78,12 @@ public class PartidoService implements Serializable{
 	
 	@PUT
 	public Response updPartido(Partido gen) {
-		Partido Partido = new Partido();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
 			if(partidoService.update(gen)) {
-				jsonObject = new JSONObject(1);
+				jsonObject = new JSONObject("{\"response\":2}");
 			}else {
-				jsonObject = new JSONObject(0);
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);

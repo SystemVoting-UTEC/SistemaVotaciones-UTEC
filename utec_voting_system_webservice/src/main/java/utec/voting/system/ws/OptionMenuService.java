@@ -56,13 +56,12 @@ public class OptionMenuService implements Serializable{
 	
 	@POST
 	public Response addOptionMenu(OptionMenu gen) {
-		logger.error("Request>>>>>"+gen);
-		OptionMenu OptionMenu = new OptionMenu();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
-			if( gen != null) {
-				OptionMenu = optionMenuService.save(OptionMenu);
-				jsonObject = new JSONObject(OptionMenu);
+			if(optionMenuService.save(gen)) {
+				jsonObject = new JSONObject("{\"response\":2}");
+			}else {
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -73,13 +72,12 @@ public class OptionMenuService implements Serializable{
 	
 	@PUT
 	public Response updOptionMenu(OptionMenu gen) {
-		OptionMenu OptionMenu = new OptionMenu();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
 			if(optionMenuService.update(gen)) {
-				jsonObject = new JSONObject(1);
+				jsonObject = new JSONObject("{\"response\":2}");
 			}else {
-				jsonObject = new JSONObject(0);
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);

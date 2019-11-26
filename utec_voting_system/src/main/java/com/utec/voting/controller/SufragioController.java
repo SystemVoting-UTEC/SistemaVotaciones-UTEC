@@ -16,10 +16,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.utec.voting.modelo.Candidato;
+import com.utec.voting.modelo.Eleccion;
 import com.utec.voting.modelo.Partido;
 import com.utec.voting.modelo.Sufragio;
 import com.utec.voting.modelo.Usuario;
@@ -41,8 +43,9 @@ public class SufragioController extends HttpServlet implements Serializable {
 	 * Variable de logueo para errores.
 	 */
 	static final Logger logger = Logger.getLogger(SufragioController.class);
-	Usuario usr = new Usuario();
-
+	private Usuario usr = new Usuario();
+	private List<Candidato> canList = new ArrayList<Candidato>();
+	private List<Partido> parList = new ArrayList<Partido>();
 	/**
 	 * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
 	 * methods.
@@ -52,51 +55,12 @@ public class SufragioController extends HttpServlet implements Serializable {
 	 * @throws ServletException if a servlet-specific error occurs
 	 * @throws IOException      if an I/O error occurs
 	 */
-	@SuppressWarnings("unchecked")
-	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		HttpSession sesion = request.getSession(true);
-		List<Partido> parList = new ArrayList<Partido>();
-		List<Candidato> canList = new ArrayList<Candidato>();
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		String votos = request.getParameter("voto");
-		String dui = request.getParameter("dui");
-		try {
-			response.setContentType("text/html;charset=UTF-8");
-			usr = (Usuario) sesion.getAttribute("usuario");
-			if (dui != null && votos != null) {
-				String[] l1 = votos.split(",");
-				Double sufragio = new Double(1 / l1.length);
-				for (String voto: l1) {
-					Candidato can = getCandidato(Integer.parseUnsignedInt(voto),canList);
-					if(can != null) {
-						Sufragio sufra = new Sufragio();
-						sufra.setSufPerDui(usr.getUsPerDui());
-						sufra.setSufSufragio(sufragio);
-						sufra.setSufCanId(can);
-					}
-	            }
-			} else {
-				if (usr != null) {
-					response.sendRedirect("sufragio.jsp");
-					parList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido", "GET"),ArrayList.class);
-					canList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/candidato/"+ usr.getUsPerDui().getPerDepId().getDepId(),"GET"),ArrayList.class);
-					sesion.setAttribute("parList", parList);
-					sesion.setAttribute("canList", canList);
-				} else {
-					response.sendRedirect("graficoVotaciones.jsp");
-				}
-			}
-		} catch (Exception e) {
-			logger.error("Error en el servlet Autentificando en el método processRequest: ", e);
-			response.sendRedirect("graficoVotaciones.jsp");
-		}
-
+	protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	}
 	
-	private Candidato getCandidato(Integer id, List<Candidato> ls) {
+	private Candidato getCandidato(Integer id) {
 		try {
-			for(Candidato can : ls)
+			for(Candidato can : canList)
 				if(id == can.getCanId())
 					return can;
 		} catch (Exception e) {
@@ -116,7 +80,7 @@ public class SufragioController extends HttpServlet implements Serializable {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		processRequest(request, response);
+		doPost(request, response);
 	}
 
 	/**
@@ -130,7 +94,55 @@ public class SufragioController extends HttpServlet implements Serializable {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		processRequest(request, response);
+		HttpSession sesion ;
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		response.setContentType("application/json");
+		Eleccion elc = new Eleccion();
+		Integer res;
+		try {
+			sesion = request.getSession(true);
+			String votos = request.getParameter("voto");
+			String dui = request.getParameter("dui");
+			usr = (Usuario) sesion.getAttribute("usuario");
+			elc = (Eleccion) sesion.getAttribute("eleccion");
+			canList = (List<Candidato>) sesion.getAttribute("canList");
+			if (dui != null && votos != null && elc != null) {
+				String[] l1 = votos.split(",");
+				double sufragio = 1 / l1.length;
+				for (String voto: l1) {
+					Candidato can = getCandidato(new Double(voto).intValue());
+					if(can != null) {
+						Sufragio sufra = new Sufragio();
+						sufra.setSufPerDui(usr.getUsPerDui());
+						sufra.setSufSufragio(sufragio);
+						sufra.setSufCanId(can);
+						sufra.setElcId(elc);
+						JSONObject object = new JSONObject(sufra);
+						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/voto",object, "POST"));
+						res = Integer.parseInt(object.get("response").toString());
+						if(res == 1) {
+							response.setStatus(HttpServletResponse.SC_OK);
+						}else {
+							response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ocurrió un problema, favor intentar mas tarde!");
+						}
+					}
+	            }
+			} else {
+				if (usr != null) {
+					canList = new ArrayList<Candidato>();
+					response.sendRedirect("sufragio.jsp");
+					parList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido", "GET"),Partido[].class);
+					canList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/candidato/"+ usr.getUsPerDui().getPerDepId().getDepId(),"GET"), Candidato[].class);
+					sesion.setAttribute("parList", parList);
+					sesion.setAttribute("canList", canList);
+				} else {
+					response.sendRedirect("graficoVotaciones.jsp");
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error en el servlet SufragioController en el método processRequest: ", e);
+			response.sendRedirect("graficoVotaciones.jsp");
+		}
 	}
 
 	/**
@@ -155,5 +167,33 @@ public class SufragioController extends HttpServlet implements Serializable {
 	 */
 	public void setUsr(Usuario usr) {
 		this.usr = usr;
+	}
+
+	/**
+	 * @return the canList
+	 */
+	public List<Candidato> getCanList() {
+		return canList;
+	}
+
+	/**
+	 * @param canList the canList to set
+	 */
+	public void setCanList(List<Candidato> canList) {
+		this.canList = canList;
+	}
+
+	/**
+	 * @return the parList
+	 */
+	public List<Partido> getParList() {
+		return parList;
+	}
+
+	/**
+	 * @param parList the parList to set
+	 */
+	public void setParList(List<Partido> parList) {
+		this.parList = parList;
 	}
 }

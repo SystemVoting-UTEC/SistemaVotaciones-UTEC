@@ -48,7 +48,7 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 	}
 
 	@Override
-	public EstadoFamiliar save(EstadoFamiliar t) throws SQLException {
+	public Boolean save(EstadoFamiliar t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_CREATE_ESTADO_FAMILIAR(?,?)}";
@@ -56,15 +56,15 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 			stmt.setString(1, t.getEstEstado());
 			stmt.registerOutParameter(2, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(2) > 0) {
-				t.setEstId(stmt.getInt(2));
+			if (stmt.getInt(2) >= 1) {
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}finally {
 			stmt.close();			
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override

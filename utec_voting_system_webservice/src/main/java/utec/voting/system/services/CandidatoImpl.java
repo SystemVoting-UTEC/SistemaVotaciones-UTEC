@@ -38,7 +38,6 @@ private static final long serialVersionUID = 1L;
 	private MunicipioImpl municipioService = new MunicipioImpl();
 	private TipoCandidatoImpl tipoCandidatoService = new  TipoCandidatoImpl();
 	
-	@SuppressWarnings("null")
 	@Override
 	public ArrayList<Candidato> getAll() throws SQLException {
 		CallableStatement stmt = null;
@@ -67,7 +66,6 @@ private static final long serialVersionUID = 1L;
 					departamento = departamentoService.finById(getRs().getInt(4));
 					municipio = municipioService.finById(getRs().getInt(5));
 					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));				
-					
 					tipocandidato = tipoCandidatoService.finById(getRs().getInt(6));
 					g = new Candidato();
 					g.setCanId(getRs().getInt(1));
@@ -76,6 +74,7 @@ private static final long serialVersionUID = 1L;
 					g.setCanDepId(departamento);
 					g.setCanMunId(municipio);
 					g.setCanTcaId(tipocandidato);
+					g.setCanEstado(getRs().getInt(7));
 					l1.add(g);
 				}
 			}
@@ -88,7 +87,7 @@ private static final long serialVersionUID = 1L;
 	}
 
 	@Override
-	public Candidato save(Candidato t) throws SQLException {
+	public Boolean save(Candidato t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
 			String query = "{CALL SP_CREATE_CANDIDATO(?,?,?,?,?,?)}";
@@ -100,15 +99,15 @@ private static final long serialVersionUID = 1L;
 			stmt.setInt(5, t.getCanTcaId().getTcaId());
 			stmt.registerOutParameter(6, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(2) > 0) {
-//				t.setTcaId(stmt.getInt(2));
+			if (stmt.getInt(2) >= 1) {
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
 		}finally {
-			stmt.close();
+			stmt.close();			
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override
@@ -143,7 +142,6 @@ private static final long serialVersionUID = 1L;
 		return null;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public Candidato finById(Integer id) throws SQLException {
 		CallableStatement stmt = null;
@@ -230,6 +228,7 @@ private static final long serialVersionUID = 1L;
 					g.setCanDepId(departamento);
 					g.setCanMunId(municipio);
 					g.setCanTcaId(tipocandidato);
+					g.setCanEstado(getRs().getInt(7));
 					l1.add(g);
 				}
 			}

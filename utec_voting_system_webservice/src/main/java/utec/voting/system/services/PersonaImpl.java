@@ -2,8 +2,12 @@ package utec.voting.system.services;
 
 import java.io.Serializable;
 import java.sql.CallableStatement;
-import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Types;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -25,7 +29,8 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 	 * Variable de logueo para errores.
 	 */
 	static final Logger logger = Logger.getLogger(PersonaImpl.class);
-	
+	SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd"); 
+	java.sql.Date sqlStartDate = null;
 	private GeneroImpl generoService =  new GeneroImpl();
 	private DepartamentoImpl departamentoService =  new DepartamentoImpl();
 	private EstadoFamiliarImpl estadoFamiliarService =  new EstadoFamiliarImpl();
@@ -39,7 +44,7 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 		String PER_T_NOMBRE;
 		String PER_P_APELLIDO;
 		String PER_S_APELLIDO;
-		Date PER_FECHA_NAC;
+		String PER_FECHA_NAC;
 		int PER_EDAD;
 		String PER_MADRE;
 		String PER_PADRE;
@@ -64,7 +69,7 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 					PER_T_NOMBRE = getRs().getString(4);
 					PER_P_APELLIDO = getRs().getString(5);
 					PER_S_APELLIDO = getRs().getString(6);
-					PER_FECHA_NAC = getRs().getDate(7);
+					PER_FECHA_NAC = getRs().getDate(7).toString();
 					PER_EDAD = getRs().getInt(8);
 					genero = generoService.finById(getRs().getInt("PER_GEN_ID"));
 					depto = departamentoService.finById(getRs().getInt("PER_DEP_ID"));
@@ -88,35 +93,43 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 	}
 
 	@Override
-	public Persona save(Persona persona) throws SQLException {
+	public Boolean save(Persona persona) throws SQLException {
 		CallableStatement statement  = null;
 		
 		try {
-			String query = "{CALL SP_CREATE_PERSONA(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+			String query = "{CALL SP_CREATE_PERSONA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 			statement = getConnection().prepareCall(query);
 			
 			statement.setString(1, persona.getPerDui());
 			statement.setString(2, persona.getPerPNombre());
 			statement.setString(3, persona.getPerSNombre());
-			statement.setString(4, persona.getPerTNombre());
+			statement.setString(4, persona.getPerTNombre().equals("") ? null : persona.getPerTNombre());
 			statement.setString(5, persona.getPerPApellido());
 			statement.setString(6, persona.getPerSApellido());
-			statement.setDate(7, persona.getPerFechaNac());
+			sqlStartDate = new java.sql.Date(sdf1.parse(persona.getPerFechaNac()).getTime());
+			statement.setDate(7, sqlStartDate);
 			statement.setInt(9,persona.getPerGenId().getGenId());
 			statement.setInt(10,persona.getPerDepId().getDepId());
-			statement.setInt(8,persona.getPerEdad());
+			DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate fechaNac = LocalDate.parse(persona.getPerFechaNac(), fmt);
+			LocalDate ahora = LocalDate.now();
+			Period periodo = Period.between(fechaNac, ahora);
+			statement.setInt(8, periodo.getYears());
 			statement.setInt(11,persona.getPerEstId().getEstId());
 			statement.setString(12, persona.getPerMadre());
 			statement.setString(13, persona.getPerPadre());
-			statement.setInt(14,persona.getEstado());
-			
+			statement.setInt(14,persona.getPerEstado());
+			statement.registerOutParameter(15, Types.INTEGER);
 			statement.execute();
+			if (statement.getInt(15) >= 1) {
+				return Boolean.TRUE;
+			}
 		} catch (Exception e) {
-			logger.error("Error: " + e.getMessage());
+			logger.error("Error" + e);
 		}finally {
-			
+			statement.close();			
 		}
-		return null;
+		return Boolean.FALSE;
 	}
 
 	@Override
@@ -124,29 +137,39 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 		CallableStatement statement = null;
 		
 		try {
-			String query = "{CALL SP_UPDATE_PERSONA(?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
+			String query = "{CALL SP_UPDATE_PERSONA(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)}";
 			statement = getConnection().prepareCall(query);
 			
 			statement.setString(1, persona.getPerDui());
 			statement.setString(2, persona.getPerPNombre());
 			statement.setString(3, persona.getPerSNombre());
-			statement.setString(4, persona.getPerTNombre());
+			statement.setString(4, persona.getPerTNombre().equals("") ? null : persona.getPerTNombre());
 			statement.setString(5, persona.getPerPApellido());
 			statement.setString(6, persona.getPerSApellido());
-			statement.setDate(7, persona.getPerFechaNac());
-			statement.setInt(8, persona.getPerEdad());
+			sqlStartDate = new java.sql.Date(sdf1.parse(persona.getPerFechaNac()).getTime());
+			statement.setDate(7, sqlStartDate);
+			DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate fechaNac = LocalDate.parse(persona.getPerFechaNac(), fmt);
+			LocalDate ahora = LocalDate.now();
+			Period periodo = Period.between(fechaNac, ahora);
+			statement.setInt(8, periodo.getYears());
 			statement.setInt(9, persona.getPerGenId().getGenId());
 			statement.setInt(10, persona.getPerDepId().getDepId());
 			statement.setInt(11, persona.getPerEstId().getEstId());
 			statement.setString(12, persona.getPerMadre());
 			statement.setString(13, persona.getPerPadre());
-			statement.setInt(14, persona.getEstado());
+			statement.setInt(14, persona.getPerEstado());
+			statement.registerOutParameter(15, Types.INTEGER);
+			statement.execute();
+			if (statement.getInt(15) >= 1) {
+				return Boolean.TRUE;
+			}
 		} catch (Exception e) {
-			logger.error("Error: " + e.getMessage());
+			logger.error("Error" + e);
 		}finally {
-			statement.close();
+			statement.close();			
 		}
-		return true;
+		return Boolean.FALSE;
 	}
 
 	@Override
@@ -182,7 +205,7 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 					estadoF =  estadoFamiliarService.finById(getRs().getInt("PER_EST_ID"));
 					g = new Persona(getRs().getString(1),getRs().getString(2),getRs().getString(3),
 							getRs().getString(4),getRs().getString(5)
-							,getRs().getString(6),getRs().getDate(7),
+							,getRs().getString(6),getRs().getString(7),
 							getRs().getInt(8)
 							,genero,depto, estadoF,getRs().getString(12),getRs().getString(13), getRs().getInt(14));
 				}

@@ -1,12 +1,10 @@
 package utec.voting.system.ws;
 
-import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -19,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import utec.voting.system.entities.Genero;
 import utec.voting.system.entities.Votante;
 import utec.voting.system.services.VotanteImpl;
 
@@ -56,7 +55,36 @@ public class VotanteService{
 		return Response.ok(jsArray.toString(),MediaType.APPLICATION_JSON).build();
 	}
 	
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	@POST
+	public Response addGenero(Votante gen) {
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
+		try {
+			if( gen != null) {
+				if(vService.save(gen)) {
+					jsonObject = new JSONObject("{\"response\":1}");
+				}else {
+					jsonObject = new JSONObject("{\"response\":3}");
+				}
+			}
+		} catch (Exception e) {
+			return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+		}
+		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+	}
+	
+	@PUT
+	public Response updGenero(Votante gen) {
+		JSONObject jsonObject = null;
+		try {
+			if(vService.update(gen)) {
+				jsonObject = new JSONObject("{\"response\":2}");
+			}else {
+				jsonObject = new JSONObject("{\"response\":3}");
+			}
+		} catch (Exception e) {
+			logger.error("Error: ",e);
+			return Response.status(500).build();
+		}
+		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
 	}
 }

@@ -59,13 +59,12 @@ public class CandidatoService implements Serializable{
 	
 	@POST
 	public Response addCandidato(Candidato gen) {
-		logger.error("Request>>>>>"+gen);
-		Candidato Candidato = new Candidato();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
-			if( gen != null) {
-				Candidato = canService.save(Candidato);
-				jsonObject = new JSONObject(Candidato);
+			if(canService.save(gen)) {
+				jsonObject = new JSONObject("{\"response\":1}");
+			}else {
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
@@ -76,13 +75,12 @@ public class CandidatoService implements Serializable{
 	
 	@PUT
 	public Response updCandidato(Candidato gen) {
-		Candidato Candidato = new Candidato();
-		JSONObject jsonObject = null;
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
 			if(canService.update(gen)) {
-				jsonObject = new JSONObject(1);
+				jsonObject = new JSONObject("{\"response\":2}");
 			}else {
-				jsonObject = new JSONObject(0);
+				jsonObject = new JSONObject("{\"response\":3}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);

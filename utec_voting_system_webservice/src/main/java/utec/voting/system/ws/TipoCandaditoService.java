@@ -63,13 +63,12 @@ public class TipoCandaditoService implements Serializable{
 		
 		@POST
 		public Response addTipoCandidato(TipoCandidato gen) {
-			logger.error("Request>>>>>"+gen);
-			TipoCandidato TipoCandidato = new TipoCandidato();
-			JSONObject jsonObject = null;
+			JSONObject jsonObject = new JSONObject("{\"response\":0}");
 			try {
-				if( gen != null) {
-					TipoCandidato = tpcService.save(TipoCandidato);
-					jsonObject = new JSONObject(TipoCandidato);
+				if(tpcService.save(gen)) {
+					jsonObject = new JSONObject("{\"response\":1}");
+				}else {
+					jsonObject = new JSONObject("{\"response\":3}");
 				}
 			} catch (Exception e) {
 				logger.error("Error: ",e);
@@ -80,13 +79,12 @@ public class TipoCandaditoService implements Serializable{
 		
 		@PUT
 		public Response updTipoCandidato(TipoCandidato gen) {
-			TipoCandidato TipoCandidato = new TipoCandidato();
-			JSONObject jsonObject = null;
+			JSONObject jsonObject = new JSONObject("{\"response\":0}");
 			try {
 				if(tpcService.update(gen)) {
-					jsonObject = new JSONObject(1);
+					jsonObject = new JSONObject("{\"response\":2}");
 				}else {
-					jsonObject = new JSONObject(0);
+					jsonObject = new JSONObject("{\"response\":3}");
 				}
 			} catch (Exception e) {
 				logger.error("Error: ",e);

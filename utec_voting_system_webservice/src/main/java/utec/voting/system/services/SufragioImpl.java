@@ -5,122 +5,67 @@ package utec.voting.system.services;
 
 import java.io.Serializable;
 import java.sql.CallableStatement;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.Types;
 
 import org.apache.log4j.Logger;
 
-import utec.voting.system.entities.Candidato;
+import utec.voting.system.entities.Eleccion;
 import utec.voting.system.entities.Persona;
 import utec.voting.system.entities.Sufragio;
+import utec.voting.system.entities.TipoUsuario;
+import utec.voting.system.entities.Usuario;
 import utec.voting.system.jdbc.Conexion;
 
 /**
- * @author manuel cardona
+ * @author Kevin Orellana
  *
  */
-public class SufragioImpl extends Conexion implements Service<Sufragio>, Serializable {
-
+public class SufragioImpl extends Conexion implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Variable de logueo para errores.
 	 */
 	static final Logger logger = Logger.getLogger(SufragioImpl.class);
-
-	private CandidatoImpl CandidatoService = new CandidatoImpl();
-	private PersonaImpl PersonaService = new PersonaImpl();
-
-	@Override
-	public ArrayList<Sufragio> getAll() throws SQLException {
-		Sufragio g;
-		Candidato candidato = null;
-		Persona persona = null;
-		ArrayList<Sufragio> l1 = new ArrayList<>();
-		CallableStatement stmt = null;
+	
+	public Boolean insertSufragio(Sufragio suf) {
 		try {
-			String query = "{CALL SP_READ_SufragioS()}";
-			stmt = getConnection().prepareCall(query);
-			setRs(stmt.executeQuery());
-			if (getRs().next()) {
-				getRs().beforeFirst();
-				while (getRs().next()) {
-					persona = PersonaService.finById(getRs().getInt("SUF_PER_DUI"));
-					candidato = CandidatoService.finById(getRs().getInt("SUF_CAN_ID"));
-					// g = new Sufragio(getRs().getInt(1),persona,candidato,
-					// getRs().getString(2),getRs().getInt(3),getRs().getdouble(4));
-					// l1.add(g);
-				}
-			}
-		} catch (Exception e) {
-			logger.error("Error: " + e);
-		} finally {
-			stmt.close();
-		}
-		return l1;
-	}
-
-	@Override
-	public Sufragio save(Sufragio t) throws SQLException {
-		CallableStatement stmt = null;
-		try {
-			String query = "{CALL SP_CREATE_Sufragio(?,?)}";
-			stmt = getConnection().prepareCall(query);
-			/*
-			 * stmt.setString(1, t.getGenSufragio()); stmt.registerOutParameter(2,
-			 * Types.INTEGER); stmt.execute(); if (stmt.getInt(2) > 0) {
-			 * t.setGenId(stmt.getInt(2)); }
-			 */
-		} catch (Exception e) {
-			logger.error("Error" + e);
-		} finally {
-			stmt.close();
-		}
-		return t;
-	}
-
-	@Override
-	public Boolean delete(Sufragio t) throws SQLException {
-		// TODO Auto-generated method stub
-		// hace falta SP_DELETE_Sufragio
-		return null;
-	}
-
-	@Override
-	public Sufragio finById(Integer id) throws SQLException {
-		CallableStatement stmt = null;
-		Sufragio g = null;
-		try {
-			String query = "{CALL SP_READ_ONE_GEN(?)}";
-			stmt = getConnection().prepareCall(query);
-			stmt.setInt(1, id);
-			setRs(stmt.executeQuery());
-			if (getRs().next()) {
-				getRs().beforeFirst();
-				while (getRs().next()) {
-					// g = new Sufragio(getRs().getInt(1), getRs().getString(2));
-				}
+			String query = "{CALL SP_CREATE_SUFRAGIO(?, ?, ?, ?,?)}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt.setString(1, suf.getSufPerDui().getPerDui());
+			stmt.setInt(2, suf.getSufCanId().getCanId());
+			stmt.setDouble(3, suf.getSufSufragio());
+			stmt.setInt(4, suf.getElcId().getElcId());
+			stmt.registerOutParameter(5, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(5) >= 1) {
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
-		} finally {
-			stmt.close();
 		}
-		return g;
+		return Boolean.FALSE;
 	}
-
-	@Override
-	public Sufragio finById(String id) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Boolean update(Sufragio t) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	
+	public Boolean sufragioEnabled(String us, Integer elc) {
+		CallableStatement stmt = null;
+		try {
+			String query = "{CALL SP_SUFRAGIO_ENABLE(?,?)}";
+			stmt = getConnection().prepareCall(query);
+			stmt.setString(1, us);
+			stmt.setInt(2, elc);
+			setRs(stmt.executeQuery());
+			if(getRs().next()) {
+				return Boolean.FALSE;
+			}else {
+				return Boolean.TRUE;
+			}
+		} catch (Exception e) {
+			logger.error("Al sufragioEnabled: ",e);
+		}
+		return Boolean.FALSE;
 	}
 }

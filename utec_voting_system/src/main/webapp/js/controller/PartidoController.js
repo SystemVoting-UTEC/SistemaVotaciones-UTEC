@@ -1,6 +1,6 @@
 $(document).ready(function() {
 		$('#PartidoTableContainer').jtable({
-			title : 'Listado de generos',
+			title : 'Listado de Partidos',
 			paging: true, //Enable paging
             pageSize: 10, //Set page size (default: 10)
             sorting: true, //Enable sorting

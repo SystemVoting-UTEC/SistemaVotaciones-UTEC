@@ -9,6 +9,12 @@ public class EstadoFamiliar {
 	private String estEstado;
 	
 	/**
+	 * 
+	 */
+	public EstadoFamiliar() {
+	}
+
+	/**
 	 * @param estId
 	 * @param estEstado
 	 */
@@ -16,10 +22,6 @@ public class EstadoFamiliar {
 		super();
 		this.estId = estId;
 		this.estEstado = estEstado;
-	}
-
-	public EstadoFamiliar() {
-		// TODO Auto-generated constructor stub
 	}
 
 	/**

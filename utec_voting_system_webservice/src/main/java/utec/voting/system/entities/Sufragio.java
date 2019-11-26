@@ -9,23 +9,26 @@ public class Sufragio {
 	private Persona sufPerDui;
 	private Candidato sufCanId;
 	private Double sufSufragio;
+	private Eleccion elcId;
 	
+	public Sufragio() {
+	}
+
 	/**
 	 * @param sufId
 	 * @param sufPerDui
 	 * @param sufCanId
 	 * @param sufSufragio
+	 * @param elcId
+	 * @param sufActivo
 	 */
-	public Sufragio(Integer sufId, Persona sufPerDui, Candidato sufCanId, Double sufSufragio) {
+	public Sufragio(Integer sufId, Persona sufPerDui, Candidato sufCanId, Double sufSufragio, Eleccion elcId) {
 		super();
 		this.sufId = sufId;
 		this.sufPerDui = sufPerDui;
 		this.sufCanId = sufCanId;
 		this.sufSufragio = sufSufragio;
-	}
-
-	public Sufragio() {
-		// TODO Auto-generated constructor stub
+		this.elcId = elcId;
 	}
 
 	/**
@@ -84,9 +87,24 @@ public class Sufragio {
 		this.sufSufragio = sufSufragio;
 	}
 
+	/**
+	 * @return the elcId
+	 */
+	public Eleccion getElcId() {
+		return elcId;
+	}
+
+	/**
+	 * @param elcId the elcId to set
+	 */
+	public void setElcId(Eleccion elcId) {
+		this.elcId = elcId;
+	}
+
 	@Override
 	public String toString() {
-		return "Sufragio [sufId=" + sufId + ", sufPerDui=" + sufPerDui + ", sufCanId=" + sufCanId + ", sufSufragio=" + sufSufragio + "]";
+		return "Sufragio [sufId=" + sufId + ", sufPerDui=" + sufPerDui + ", sufCanId=" + sufCanId + ", sufSufragio="
+				+ sufSufragio + ", elcId=" + elcId + "]";
 	}
 
 	}

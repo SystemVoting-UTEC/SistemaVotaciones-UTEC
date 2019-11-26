@@ -40,7 +40,7 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 			if(getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					g = new Genero(getRs().getInt(1), getRs().getString(2));
+					g = new Genero(getRs().getInt(1), getRs().getString(2),getRs().getString(3));
 					l1.add(g);
 				}
 			}
@@ -53,36 +53,36 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 	}
 	
 	@Override
-	public Genero save(Genero t) throws SQLException {
+	public Boolean save(Genero t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			String query = "{CALL SP_CREATE_GENERO(?,?)}";
+			String query = "{CALL SP_CREATE_GENERO(?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getGenGenero());
-			stmt.registerOutParameter(2, Types.INTEGER);
+			stmt.setString(2, t.getGenNombre());
+			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(2) > 0) {
-				t.setGenId(stmt.getInt(2));
+			if (stmt.getInt(3) > 0) {
+				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
 			logger.error("Error" + e);
-		}finally {
-			stmt.close();			
 		}
-		return t;
+		return Boolean.FALSE;
 	}
 
 	@Override
 	public Boolean update(Genero t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			String query = "{CALL SP_UPDATE_GENERO(?,?,?)}";
+			String query = "{CALL SP_UPDATE_GENERO(?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getGenGenero());
-			stmt.setInt(2, t.getGenId());
-			stmt.registerOutParameter(3, Types.INTEGER);
+			stmt.setString(2, t.getGenNombre());
+			stmt.setInt(3, t.getGenId());
+			stmt.registerOutParameter(4, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(3) >= 1) {
+			if (stmt.getInt(4) >= 1) {
 				return Boolean.TRUE;
 			}
 		} catch (Exception e) {
@@ -112,7 +112,7 @@ public class GeneroImpl extends Conexion implements Service<Genero>, Serializabl
 			if (getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					g = new Genero(getRs().getInt(1), getRs().getString(2));
+					g = new Genero(getRs().getInt(1), getRs().getString(2),getRs().getString(3));
 				}
 			}
 		} catch (Exception e) {

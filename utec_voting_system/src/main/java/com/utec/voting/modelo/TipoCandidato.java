@@ -9,6 +9,12 @@ public class TipoCandidato {
 	private String tcaTipo;
 	
 	/**
+	 * 
+	 */
+	public TipoCandidato() {
+	}
+
+	/**
 	 * @param tcaId
 	 * @param tcaTipo
 	 */

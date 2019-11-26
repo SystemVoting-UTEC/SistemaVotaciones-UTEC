@@ -9,23 +9,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
 <!-- Include one of jTable styles. -->
-<link href="css/metro/blue/jtable.css" rel="stylesheet" type="text/css" />
-<link href="css/jquery-ui-1.10.3.custom.css" rel="stylesheet"
-	type="text/css" />
+<link href="css/jquery-ui-1.10.3.custom.css" rel="stylesheet" type="text/css" />
 <!-- Include jTable script file. -->
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="js/jquery-ui-1.10.3.custom.js" type="text/javascript"></script>
-<script src="js/jtable/jquery.jtable.js" type="text/javascript"></script>
 <script src="js/jquery.validate.min.js" type="text/javascript"></script>
+<script src="js/sweetalert.min.js" type="text/javascript"></script>
 <!-- hojas de estilo-->
-<link href="css/font-awesome-4.4.0/css/font-awesome.min.css"
-	rel="stylesheet" type="text/css" />
+<link href="css/font-awesome-4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="css/style.css">
 <link rel="shortcut icon" href="img/icono.ico">
 
 <link rel="stylesheet" href="css/bootstrap.css">
 
+<link rel="stylesheet" href="css/sweetalert.css">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/Estilos.css">
 <link rel="stylesheet" href="css/styleVotante.css">
@@ -66,7 +63,7 @@
 									<h4 class="panel-title">
 										<a data-toggle="collapse" data-parent="#accordion"
 											href="#collapseOne"><span
-											class="glyphicon glyphicon-folder-close"> </span>
+											class="glyphicon glyphicon-cog"> </span>
 											Mantenimiento</a>
 									</h4>
 								</div>
@@ -74,11 +71,22 @@
 									<div class="panel-body">
 										<table class="table">
 											<c:forEach items="${sessionScope.optList}" var="opt">
-												<tr>
-													<td><span
-														class="glyphicon glyphicon-pencil text-primary"></span><a
-														href="${opt.optURL}"> ${opt.optNombre}</a></td>
-												</tr>
+												<c:if test="${opt.optNombre eq 'Votar'}">
+														<c:if test="${sessionScope.eleccion != null}">
+															<tr>
+																<td><span
+																	class="${opt.optIcono} text-primary"></span><a
+																	href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
+															</tr>
+														</c:if>
+												</c:if>
+												<c:if test="${opt.optNombre ne 'Votar'}">
+													<tr>
+														<td><span
+															class="${opt.optIcono} text-primary"></span><a
+															href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
+													</tr>
+												</c:if>
 											</c:forEach>
 										</table>
 									</div>
@@ -98,18 +106,29 @@
 									<c:if test="${sessionScope.usuario != null}">
 										<c:if test="${sessionScope.usuario.usTusId.tusId eq 2}">
 											<c:forEach items="${sessionScope.optList}" var="opt">
-												<tr>
-													<td><span
-														class="glyphicon glyphicon-pencil text-primary"></span><a
-														href="${opt.optURL}"> ${opt.optNombre}</a></td>
-												</tr>
+												<c:if test="${opt.optNombre eq 'Votar'}">
+														<c:if test="${sessionScope.eleccion != null}">
+															<tr>
+																<td><span
+																	class="${opt.optIcono} text-primary"></span><a
+																	href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
+															</tr>
+														</c:if>
+												</c:if>
+												<c:if test="${opt.optNombre ne 'Votar'}">
+													<tr>
+														<td><span
+															class="${opt.optIcono} text-primary"></span><a
+															href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
+													</tr>
+												</c:if>
 											</c:forEach>
 										</c:if>
 									</c:if>
 									<tr>
 										<td><span
 											class="glyphicon glyphicon-eye-open text-primary"></span><a
-											href="#"> Gráficos en linea</a></td>
+											href="#">&nbsp;&nbsp; Gráficos en linea</a></td>
 									</tr>
 								</table>
 							</div>
@@ -173,6 +192,30 @@
 			</div>
 		</div>
 	</form>
+	 <c:if test="${not empty requestScope.msj}">
+	 	<c:choose>
+	 		<c:when test="${requestScope.msj == 1}">
+	 			<script>
+			    	swal("Felicidades!", "El registro fue agregado", "success");
+			    </script>
+	 		</c:when>
+	 		<c:when test="${requestScope.msj == 2}">
+	 			<script>
+			    	swal("Felicidades!", "El registro fue modificado", "success");
+			    </script>
+	 		</c:when>
+	 		<c:when test="${requestScope.msj == 3}">
+	 			<script>
+	 				swal("Error!", "El registro no pudo ser guardado", "error");
+			    </script>
+	 		</c:when>
+	 		<c:otherwise>
+	 			<script>
+	 				swal("Error!", "Ocurrio un error favor comunicarse con el administrador", "error");
+			    </script>
+	 		</c:otherwise>
+	 	</c:choose>
+	</c:if>
 <!-- 		<script src="js/main.js" type="text/javascript"></script> -->
 	<script src="js/bootstrap.js"></script>
 </body>

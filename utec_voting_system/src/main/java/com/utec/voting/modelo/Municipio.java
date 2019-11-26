@@ -10,6 +10,12 @@ public class Municipio {
 	private Departamento munDepId;
 
 	/**
+	 * 
+	 */
+	public Municipio() {
+	}
+
+	/**
 	 * @param munId
 	 * @param munNombre
 	 * @param munDepId

@@ -3,6 +3,7 @@ package utec.voting.system.services;
 import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
@@ -31,12 +32,12 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 	
 	private PersonaImpl personaService = new PersonaImpl();
 	private TipoUsuarioImpl tipoUsuarioService = new TipoUsuarioImpl();
+	Persona Persona = new Persona();
+	TipoUsuario TipoUsuario = new TipoUsuario();
 
 	@Override
 	public ArrayList<Usuario> getAll() throws SQLException {
 		Usuario g;
-		Persona Persona = new Persona();
-		TipoUsuario TipoUsuario = new TipoUsuario();
 		ArrayList<Usuario> l1 = new ArrayList<>();
 		CallableStatement stmt = null;
 		try {
@@ -70,9 +71,25 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 	}
 
 	@Override
-	public Usuario save(Usuario t) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+	public Boolean save(Usuario t) throws SQLException {
+		CallableStatement stmt = null;
+		try {
+			String query = "{CALL SP_CREATE_USUARIO(?,?,?,?}";
+			stmt = getConnection().prepareCall(query);
+			stmt.setString(1, t.getUsPerDui().getPerDui());
+			stmt.setString(2, t.getUsPassword());
+			stmt.setInt(3, t.getUsTusId().getTusId());
+			stmt.registerOutParameter(4, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(4) > 0) {
+				return Boolean.TRUE;
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		}finally {
+			stmt.close();			
+		}
+		return Boolean.FALSE;
 	}
 
 	@Override
