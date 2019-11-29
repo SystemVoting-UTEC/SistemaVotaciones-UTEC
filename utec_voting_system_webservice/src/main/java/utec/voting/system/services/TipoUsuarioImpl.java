@@ -53,7 +53,7 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 		CallableStatement stmt=null;
 		try {
 			//falta sp
-			String query = "{CALL SP_CREATE_TIPOUSUARIO(?,?)}";
+			String query = "{CALL SP_CREATE_TIPO_USUARIO(?,?)}";
 			 stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getTusTipo());
 			stmt.registerOutParameter(2, Types.INTEGER);
@@ -73,10 +73,10 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 	public Boolean update(TipoUsuario t) throws SQLException {
 		try {
 			//falta sp
-			String query = "{CALL SP_UPDATE_TIPOUSUARIO(?,?,?)}";
+			String query = "{CALL SP_UPDATE_TIPO_USUARIO(?,?,?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
-			stmt.setString(1, t.getTusTipo());
-			stmt.setInt(2, t.getTusId());
+			stmt.setString(2, t.getTusTipo());
+			stmt.setInt(1, t.getTusId());
 			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
 			if (stmt.getInt(3) >= 1) {
