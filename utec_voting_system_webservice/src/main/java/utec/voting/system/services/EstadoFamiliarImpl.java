@@ -91,7 +91,6 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 
 	@Override
 	public Boolean delete(EstadoFamiliar t) throws SQLException {
-		// TODO Auto-generated method stub
 		//falta SP_DELETE_ESTADO_FAMILIAR
 		return null;
 	}
@@ -121,7 +120,6 @@ public class EstadoFamiliarImpl extends Conexion implements Service<EstadoFamili
 
 	@Override
 	public EstadoFamiliar finById(String id) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -91,7 +91,6 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 
 	@Override
 	public Boolean delete(Departamento t) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -120,7 +119,6 @@ public class DepartamentoImpl extends Conexion implements Service<Departamento>,
 
 	@Override
 	public Departamento finById(String id) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

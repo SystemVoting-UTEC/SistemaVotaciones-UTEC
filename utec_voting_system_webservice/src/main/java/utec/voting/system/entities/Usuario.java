@@ -6,11 +6,11 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Kevin Orellana
  * @version 1.0 Date: September 2019
  */
-@XmlRootElement
 public class Usuario {
 	private Persona usPerDui; //string
 	private String usPassword;//string
 	private TipoUsuario usTusId;//int
+	private Integer usEstado;
 	
 	public Usuario() {
 		
@@ -70,8 +70,17 @@ public class Usuario {
 		this.usTusId = usTusId;
 	}
 
+	public Integer getUsEstado() {
+		return usEstado;
+	}
+
+	public void setUsEstado(Integer usEstado) {
+		this.usEstado = usEstado;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuario [usPerDui=" + usPerDui + ", usPassword=" + usPassword + ", usTusId=" + usTusId + "]";
+		return "Usuario [usEstado=" + usEstado + ", usPassword=" + usPassword + ", usPerDui=" + usPerDui + ", usTusId="
+				+ usTusId + "]";
 	}
 }

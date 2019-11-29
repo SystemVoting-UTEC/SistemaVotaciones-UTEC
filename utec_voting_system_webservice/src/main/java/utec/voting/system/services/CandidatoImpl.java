@@ -189,7 +189,6 @@ private static final long serialVersionUID = 1L;
 
 	@Override
 	public Candidato finById(String id) throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -174,14 +174,14 @@ public class PersonaImpl extends Conexion implements Service<Persona>, Serializa
 
 	@Override
 	public Boolean delete(Persona t) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		//SP_DELETE_PERSONA
 		return null;
 	}
 
 	@Override
 	public Persona finById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 
