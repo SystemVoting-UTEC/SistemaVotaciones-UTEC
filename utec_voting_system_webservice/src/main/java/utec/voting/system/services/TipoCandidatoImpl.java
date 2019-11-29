@@ -120,7 +120,7 @@ public class TipoCandidatoImpl extends Conexion implements Service<TipoCandidato
 
 	@Override
 	public TipoCandidato finById(String id) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 	

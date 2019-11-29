@@ -99,7 +99,7 @@ public class PartidoImpl extends Conexion implements Service<Partido>, Serializa
 
 	@Override
 	public Boolean delete(Partido t) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		//SP_DELETE_PARTIDO
 		return null;
 	}
@@ -129,7 +129,7 @@ public class PartidoImpl extends Conexion implements Service<Partido>, Serializa
 
 	@Override
 	public Partido finById(String id) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 

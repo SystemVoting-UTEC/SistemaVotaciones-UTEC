@@ -2,8 +2,8 @@ package com.utec.voting.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+//import java.sql.PreparedStatement;
+//import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +33,8 @@ public class WebService extends HttpServlet{
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            PreparedStatement ps;//para preparar sentencias SQL
-            ResultSet rs;
+            //PreparedStatement ps;//para preparar sentencias SQL
+            //ResultSet rs;
 //            Conexion c = new Conexion();
 //            ArrayList<Integer> l1 = new ArrayList<Integer>();
 //            ArrayList<String> l2 = new ArrayList<String>();

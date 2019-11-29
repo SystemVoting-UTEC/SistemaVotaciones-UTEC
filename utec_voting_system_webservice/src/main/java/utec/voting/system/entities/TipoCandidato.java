@@ -61,7 +61,6 @@ public class TipoCandidato {
 	}
 
 	public String getGenGenero() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

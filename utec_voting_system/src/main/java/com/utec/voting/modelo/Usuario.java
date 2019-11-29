@@ -5,13 +5,14 @@ package com.utec.voting.modelo;
  * @version 1.0 Date: September 2019
  */
 public class Usuario {
-	private Persona usPerDui;
-	private String usPassword;
-	private TipoUsuario usTusId;
+	private Persona usPerDui; //string
+	private String usPassword;//string
+	private TipoUsuario usTusId;//int
+	private Integer usEstado;
 	
 	public Usuario() {
+		
 	}
-
 	
 	/**
 	 * @param usPerDui
@@ -67,8 +68,17 @@ public class Usuario {
 		this.usTusId = usTusId;
 	}
 
+	public Integer getUsEstado() {
+		return usEstado;
+	}
+
+	public void setUsEstado(Integer usEstado) {
+		this.usEstado = usEstado;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuario [usPerDui=" + usPerDui + ", usPassword=" + usPassword + ", usTusId=" + usTusId + "]";
+		return "Usuario [usEstado=" + usEstado + ", usPassword=" + usPassword + ", usPerDui=" + usPerDui + ", usTusId="
+				+ usTusId + "]";
 	}
 }

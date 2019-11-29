@@ -24,7 +24,6 @@ public class OptionMenuImpl extends Conexion implements Service<OptionMenu>, Ser
 	
 	@Override
 	public ArrayList<OptionMenu> getAll() throws SQLException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	
@@ -55,31 +54,31 @@ public class OptionMenuImpl extends Conexion implements Service<OptionMenu>, Ser
 
 	@Override
 	public Boolean save(OptionMenu t) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 
 	@Override
 	public Boolean update(OptionMenu t) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 
 	@Override
 	public Boolean delete(OptionMenu t) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 
 	@Override
 	public OptionMenu finById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 
 	@Override
 	public OptionMenu finById(String id) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 

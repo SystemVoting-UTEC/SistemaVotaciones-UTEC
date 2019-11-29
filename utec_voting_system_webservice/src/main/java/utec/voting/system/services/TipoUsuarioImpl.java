@@ -44,7 +44,7 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 		}
 		return l1;
 	
-		// TODO Auto-generated method stub
+		 
 	
 	}
 
@@ -91,7 +91,7 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 
 	@Override
 	public Boolean delete(TipoUsuario t) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 
@@ -120,7 +120,7 @@ public class TipoUsuarioImpl extends Conexion implements Service<TipoUsuario>, S
 
 	@Override
 	public TipoUsuario finById(String id) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 

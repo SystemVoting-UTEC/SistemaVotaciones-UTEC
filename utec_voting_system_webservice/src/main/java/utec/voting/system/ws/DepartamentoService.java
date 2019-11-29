@@ -103,7 +103,7 @@ private static final long serialVersionUID = 1L;
 	}
 
 	public static Departamento finById(int int1) {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 

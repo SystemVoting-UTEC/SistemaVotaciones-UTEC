@@ -114,7 +114,7 @@ public class VotanteImpl extends Conexion implements Service<Votante>, Serializa
 
 	@Override
 	public Votante finById(Integer id) throws SQLException {
-		// TODO Auto-generated method stub
+		 
 		return null;
 	}
 
