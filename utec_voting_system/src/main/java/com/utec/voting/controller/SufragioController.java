@@ -120,11 +120,8 @@ public class SufragioController extends HttpServlet implements Serializable {
 						JSONObject object = new JSONObject(sufra);
 						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/voto",object, "POST"));
 						res = Integer.parseInt(object.get("response").toString());
-						if(res == 1) {
-							response.setStatus(HttpServletResponse.SC_OK);
-						}else {
-							response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ocurrió un problema, favor intentar mas tarde!");
-						}
+						String jsonArray = gson.toJson(res);
+						response.getWriter().print(jsonArray);
 					}
 	            }
 			} else {
