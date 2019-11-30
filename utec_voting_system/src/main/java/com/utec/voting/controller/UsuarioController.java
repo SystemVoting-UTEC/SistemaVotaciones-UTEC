@@ -90,7 +90,7 @@ public class UsuarioController extends HttpServlet implements Serializable {
 		response.setContentType("application/json");
 		try {
 			HttpSession sesion = request.getSession(true);
-			Usuario us = (Usuario) sesion.getAttribute("Usuario");
+			Usuario us = (Usuario) sesion.getAttribute("usuario");
 			//Validando si existe la variable de sesion principal
 			if(us != null) {
 				if(request.getParameter("btnModificar")!=null){
