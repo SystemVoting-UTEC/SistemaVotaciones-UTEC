@@ -58,6 +58,7 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 					g.setUsPassword(getRs().getString(2));
 					g.setUsPerDui(Persona);
 					g.setUsTusId(TipoUsuario);
+					g.setUsEstado(getRs().getInt(4));
 					l1.add(g);
 				}
 			}

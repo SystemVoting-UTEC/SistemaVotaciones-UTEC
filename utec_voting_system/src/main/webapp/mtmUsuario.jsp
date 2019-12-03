@@ -39,7 +39,7 @@
 								                    <tr>
 								                        <td>[${usua.usPerDui.perDui}] ${usua.usPerDui.perPNombre} ${usua.usPerDui.perPApellido}</td>
 								                        <td>${usua.usTusId.tusTipo}</td>
-														<td>${usua.usEstado}</td>
+														<td>${usua.usEstado eq 1 ? 'Activo' : 'Inactivo'}</td>
 								                        <td>
 								                            <input type="submit" class="btn btn-info" value="Editar" onclick="showModal('${usua.usPerDui.perDui}');" />
 								                        </td>
