@@ -18,8 +18,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.utec.voting.modelo.Candidato;
 import com.utec.voting.modelo.Eleccion;
 import com.utec.voting.modelo.Partido;
@@ -95,7 +95,7 @@ public class SufragioController extends HttpServlet implements Serializable {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession sesion ;
-		//Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		response.setContentType("application/json");
 		Eleccion elc = new Eleccion();
 		Integer res;
