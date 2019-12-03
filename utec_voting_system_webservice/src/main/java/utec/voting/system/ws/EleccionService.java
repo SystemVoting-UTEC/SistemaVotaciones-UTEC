@@ -6,9 +6,12 @@ package utec.voting.system.ws;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -20,7 +23,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import utec.voting.system.entities.Eleccion;
-import utec.voting.system.entities.Genero;
 import utec.voting.system.services.EleccionImpl;
 
 /**
@@ -71,6 +73,55 @@ public class EleccionService implements Serializable{
 				obj.setElcId(0);
 			}
 			jsonObject = new JSONObject(obj);
+		} catch (Exception e) {
+			logger.error("Error: ",e);
+			return Response.status(500).build();
+		}
+		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+	}
+	
+	@GET
+	@Path("/{param}")
+	public Response findEleccion(@PathParam("param") String dui) throws SQLException {
+		JSONArray jsArray;
+		List<Eleccion> obj = null;
+		try {
+			obj =  new ArrayList<Eleccion>();
+			obj = eleccionService.getAll();
+			jsArray = new JSONArray(obj);
+		} catch (Exception e) {
+			logger.error("Error: ",e);
+			return Response.status(500).build();
+		}
+		return Response.ok(jsArray.toString(),MediaType.APPLICATION_JSON).build();
+	}
+	
+	@POST
+	public Response addGenero(Eleccion gen) {
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
+		try {
+			if( gen != null) {
+				if(eleccionService.save(gen)) {
+					jsonObject = new JSONObject("{\"response\":1}");
+				}else {
+					jsonObject = new JSONObject("{\"response\":3}");
+				}
+			}
+		} catch (Exception e) {
+			return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+		}
+		return Response.ok(jsonObject.toString(),MediaType.APPLICATION_JSON).build();
+	}
+	
+	@PUT
+	public Response updGenero(Eleccion gen) {
+		JSONObject jsonObject = null;
+		try {
+			if(eleccionService.update(gen)) {
+				jsonObject = new JSONObject("{\"response\":2}");
+			}else {
+				jsonObject = new JSONObject("{\"response\":3}");
+			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);
 			return Response.status(500).build();
