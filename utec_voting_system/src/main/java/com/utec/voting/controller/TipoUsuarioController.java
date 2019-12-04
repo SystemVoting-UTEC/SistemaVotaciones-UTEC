@@ -36,7 +36,7 @@ public class TipoUsuarioController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final String URI = "http://34.70.70.109/utec_voting_system_webservice/service/";
+	private static final String URI = "http://localhost:8080/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */

@@ -32,7 +32,7 @@ public class EleccionController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final String URI = "http://localhost:8080/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -70,7 +70,7 @@ public class EleccionController extends HttpServlet implements Serializable {
 					 if(request.getParameter("elcId") != null && request.getParameter("elcFechaInicioEdi") != null  && request.getParameter("elcFechaFinEdi") != null) {
 						 Eleccion eleccionEdit = new Eleccion();
 						 JSONObject object = new JSONObject(eleccionEdit);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/eleccion",object, "PUT"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"eleccion",object, "PUT"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 						 
@@ -81,14 +81,14 @@ public class EleccionController extends HttpServlet implements Serializable {
 					 if(request.getParameter("elcDescripcion") != null  && request.getParameter("elcFechaInicio") != null) {
 						 Eleccion eleccionInsert = new Eleccion();
 						 JSONObject object = new JSONObject(eleccionInsert);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/eleccion",object, "POST"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"eleccion",object, "POST"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 					 }
 				 }
 				
 				if(request.getParameter("id") == null) {
-					elecList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/eleccion/1", "GET"),Eleccion[].class);
+					elecList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"eleccion/1", "GET"),Eleccion[].class);
 					request.setAttribute("elecList", elecList);
 					res=request.getRequestDispatcher("mtmEleccion.jsp");
 					res.forward(request, response);
