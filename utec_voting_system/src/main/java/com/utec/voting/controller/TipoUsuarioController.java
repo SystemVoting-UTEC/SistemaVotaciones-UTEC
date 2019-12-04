@@ -102,7 +102,7 @@ public class TipoUsuarioController extends HttpServlet implements Serializable {
 					 }
 				 }
 				 
-				 if(request.getParameter("btnInsertarTipoUsuario")!=null){
+				 if(request.getParameter("btnInsertarTpcUsuario")!=null){
 					 if(request.getParameter("tusTipo") != null) {
 						 TipoUsuario TipoUsuarioInsert = new TipoUsuario();
 						 TipoUsuarioInsert.setTusTipo(request.getParameter("tusTipo"));
