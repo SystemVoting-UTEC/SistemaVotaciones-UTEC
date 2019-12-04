@@ -25,6 +25,7 @@ import com.utec.voting.modelo.Persona;
 import com.utec.voting.modelo.TipoUsuario;
 import com.utec.voting.modelo.Usuario;
 import com.utec.voting.util.ClientWebService;
+import com.utec.voting.util.EmailClient;
 import com.utec.voting.util.Encriptar;
 
 /**
@@ -38,7 +39,7 @@ public class UsuarioController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final String URI = "http://34.70.70.109/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -86,6 +87,7 @@ public class UsuarioController extends HttpServlet implements Serializable {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		RequestDispatcher res=null;
 		Usuario usuarioSelected=null;
+		String password="";
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		response.setContentType("application/json");
 		try {
@@ -94,7 +96,7 @@ public class UsuarioController extends HttpServlet implements Serializable {
 			//Validando si existe la variable de sesion principal
 			if(us != null) {
 				if(request.getParameter("btnModificar")!=null){
-					 if(request.getParameter("genIdEdi") != null) {
+					 if(request.getParameter("usPerDuiEdi") != null) {
 						 Usuario usuarioEdit = new Usuario();
                          Persona per = new Persona();
                          TipoUsuario tipoUsuario = new TipoUsuario();
@@ -102,10 +104,12 @@ public class UsuarioController extends HttpServlet implements Serializable {
                          usuarioEdit.setUsPerDui(per);
                          tipoUsuario.setTusId(Integer.parseInt(request.getParameter("usTusIdEdi")));
                          usuarioEdit.setUsTusId(tipoUsuario);
-                         usuarioEdit.setUsPassword(Encriptar.sha1(request.getParameter("usPasswordEdi")));
+                         password = Encriptar.getPassword(Encriptar.MINUSCULAS+Encriptar.MAYUSCULAS+Encriptar.NUMEROS,8);
+                         logger.error("Password: "+password);
+                         usuarioEdit.setUsPassword(Encriptar.sha1(password));
                          usuarioEdit.setUsEstado(Integer.parseInt(request.getParameter("usEstadoEdi")));
 						 JSONObject object = new JSONObject(usuarioEdit);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/Usuario",object, "PUT"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"Usuario",object, "PUT"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 						 
@@ -113,7 +117,7 @@ public class UsuarioController extends HttpServlet implements Serializable {
 				 }
 				 
 				 if(request.getParameter("btnInsertarUsuario")!=null){
-					 if(request.getParameter("genUsuario") != null) {
+					 if(request.getParameter("usPerDui") != null) {
                          Usuario usuarioInsert = new Usuario();
                          Persona per = new Persona();
                          TipoUsuario tipoUsuario = new TipoUsuario();
@@ -121,19 +125,25 @@ public class UsuarioController extends HttpServlet implements Serializable {
                          usuarioInsert.setUsPerDui(per);
                          tipoUsuario.setTusId(Integer.parseInt(request.getParameter("usTusId")));
                          usuarioInsert.setUsTusId(tipoUsuario);
-                         usuarioInsert.setUsPassword(Encriptar.sha1(request.getParameter("usPassword")));
+                         password = Encriptar.getPassword(Encriptar.MINUSCULAS+Encriptar.MAYUSCULAS+Encriptar.NUMEROS,8);
+                         usuarioInsert.setUsPassword(Encriptar.sha1(password));
                          usuarioInsert.setUsEstado(Integer.parseInt(request.getParameter("usEstado")));
 						 JSONObject object = new JSONObject(usuarioInsert);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/Usuario",object, "POST"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"Usuario",object, "POST"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
+					    String emailBody = "Credenciales <br/> <b>Usuario:</b> "+per.getPerDui()+" <br/> <b>Clave: </b>"+password+"<br/>***<b>Este es un correo generado automaticamente, favor no responder!</b>";
+				        String[] toEmails = { request.getParameter("usMail") };
+				        EmailClient javaEmail = new EmailClient();
+				        javaEmail.setMailServerProperties();
+				        javaEmail.sendEmail(javaEmail.draftEmailMessage(emailBody,toEmails));
 						request.setAttribute("msj",resp);
 					 }
 				 }
 				
 				if(request.getParameter("id") == null) {
-                    usList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/Usuario", "GET"),Usuario[].class);
-                    perList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/persona", "GET"),Persona[].class);
-                    tpusList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/TipoUsuario", "GET"),TipoUsuario[].class);
+                    usList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"Usuario", "GET"),Usuario[].class);
+                    perList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"persona", "GET"),Persona[].class);
+                    tpusList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"TipoUsuario", "GET"),TipoUsuario[].class);
                     request.setAttribute("usList", usList);
                     request.setAttribute("perList", perList);
                     request.setAttribute("tpusList", tpusList);

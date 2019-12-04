@@ -36,7 +36,7 @@ public class DepartamentoController extends HttpServlet implements Serializable 
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final String URI = "http://34.70.70.109/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -97,7 +97,7 @@ public class DepartamentoController extends HttpServlet implements Serializable 
 							 departamentoEdit.setDepNombre(request.getParameter("depNombreEdi"));
 							 
 							 JSONObject object = new JSONObject(departamentoEdit);
-							object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/departamento",object, "PUT"));
+							object = new JSONObject(new ClientWebService().clienteWS(URI+"departamento",object, "PUT"));
 							Integer resp = Integer.parseInt(object.get("response").toString());
 							request.setAttribute("msj",resp);
 							 
@@ -110,14 +110,14 @@ public class DepartamentoController extends HttpServlet implements Serializable 
 							 departamentoInsert.setDepNombre(request.getParameter("depNombre"));
 							 
 							 JSONObject object = new JSONObject(departamentoInsert);
-							object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/departamento",object, "POST"));
+							object = new JSONObject(new ClientWebService().clienteWS(URI+"departamento",object, "POST"));
 							Integer resp = Integer.parseInt(object.get("response").toString());
 							request.setAttribute("msj",resp);
 						 }
 					 }
 					
 					if(request.getParameter("id") == null) {
-						depList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/departamento", "GET"),Departamento[].class);
+						depList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"departamento", "GET"),Departamento[].class);
 						request.setAttribute("depList", depList);
 						res=request.getRequestDispatcher("mtmDepartamento.jsp");
 						res.forward(request, response);

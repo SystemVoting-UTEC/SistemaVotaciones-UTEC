@@ -36,7 +36,7 @@ public class PartidoController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private static final String URI = "http://34.70.70.109/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -97,7 +97,7 @@ public class PartidoController extends HttpServlet implements Serializable {
 							 PartidoEdit.setParNombre(request.getParameter("parNombreEdi"));
 							 PartidoEdit.setEstado(Integer.parseInt(request.getParameter("estadoEdi")));
 							 JSONObject object = new JSONObject(PartidoEdit);
-							object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido",object, "PUT"));
+							object = new JSONObject(new ClientWebService().clienteWS(URI+"partido",object, "PUT"));
 							Integer resp = Integer.parseInt(object.get("response").toString());
 							request.setAttribute("msj",resp);
 							 
@@ -110,14 +110,14 @@ public class PartidoController extends HttpServlet implements Serializable {
 							 PartidoInsert.setParNombre(request.getParameter("parNombre"));
 							 PartidoInsert.setEstado(Integer.parseInt(request.getParameter("estado")));
 							 JSONObject object = new JSONObject(PartidoInsert);
-							object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido",object, "POST"));
+							object = new JSONObject(new ClientWebService().clienteWS(URI+"partido",object, "POST"));
 							Integer resp = Integer.parseInt(object.get("response").toString());
 							request.setAttribute("msj",resp);
 						 }
 					 }
 					
 					if(request.getParameter("id") == null) {
-						parList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido", "GET"),Partido[].class);
+						parList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"partido", "GET"),Partido[].class);
 						request.setAttribute("parList", parList);
 						res=request.getRequestDispatcher("mtmPartido.jsp");
 						res.forward(request, response);

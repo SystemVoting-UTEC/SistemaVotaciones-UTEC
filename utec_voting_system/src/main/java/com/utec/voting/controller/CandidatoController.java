@@ -41,7 +41,7 @@ public class CandidatoController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final String URI = "http://34.70.70.109/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -117,7 +117,7 @@ public class CandidatoController extends HttpServlet implements Serializable {
 							 candidatoEdit.setCanTcaId(tpcEdit);
 							 candidatoEdit.setCanEstado(Integer.parseInt(request.getParameter("canEstadoEdi")));
 							 JSONObject object = new JSONObject(candidatoEdit);
-							object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/candidato",object, "PUT"));
+							object = new JSONObject(new ClientWebService().clienteWS(URI+"candidato",object, "PUT"));
 							Integer resp = Integer.parseInt(object.get("response").toString());
 							request.setAttribute("msj",resp);
 							 
@@ -141,19 +141,19 @@ public class CandidatoController extends HttpServlet implements Serializable {
 							 candidato.setCanTcaId(tpcEdit);
 							 candidato.setCanEstado(Integer.parseInt(request.getParameter("canEstado")));
 							 JSONObject object = new JSONObject(candidato);
-							object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/candidato",object, "POST"));
+							object = new JSONObject(new ClientWebService().clienteWS(URI+"candidato",object, "POST"));
 							Integer resp = Integer.parseInt(object.get("response").toString());
 							request.setAttribute("msj",resp);
 						 }
 					 }
 					
 					if(request.getParameter("id") == null) {
-						canList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/candidato", "GET"),Candidato[].class);
-						parList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido", "GET"),Partido[].class);
-						perList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/persona", "GET"),Persona[].class);
-						depList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/departamento", "GET"),Departamento[].class);
-						tpcList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/tipo_candidato", "GET"),TipoCandidato[].class);
-//						munList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/municipio", "GET"),Municipio[].class);
+						canList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"candidato", "GET"),Candidato[].class);
+						parList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"partido", "GET"),Partido[].class);
+						perList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"persona", "GET"),Persona[].class);
+						depList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"departamento", "GET"),Departamento[].class);
+						tpcList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"tipo_candidato", "GET"),TipoCandidato[].class);
+//						munList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"municipio", "GET"),Municipio[].class);
 						request.setAttribute("canList", canList);
 						request.setAttribute("parList", parList);
 						request.setAttribute("perList", perList);

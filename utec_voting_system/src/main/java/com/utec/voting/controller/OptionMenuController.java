@@ -36,7 +36,7 @@ public class OptionMenuController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final String URI = "http://34.70.70.109/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -97,7 +97,7 @@ public class OptionMenuController extends HttpServlet implements Serializable {
                           optionMenuEdit.setOptURL(request.getParameter("optURLEdi"));
                           optionMenuEdit.setOptIcono(request.getParameter("optIconoEdi"));
                           JSONObject object = new JSONObject(optionMenuEdit);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/option_menu",object, "PUT"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"option_menu",object, "PUT"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 						 
@@ -111,14 +111,14 @@ public class OptionMenuController extends HttpServlet implements Serializable {
 						  optionMenuInsert.setOptURL(request.getParameter("optURL"));
 						  optionMenuInsert.setOptIcono(request.getParameter("optIcono"));
 						 JSONObject object = new JSONObject(optionMenuInsert);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/option_menu",object, "POST"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"option_menu",object, "POST"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 					 }
 				 }
 				
 				if(request.getParameter("id") == null) {
-					optMenuList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/option_menu", "GET"), OptionMenu[].class);
+					optMenuList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"option_menu", "GET"), OptionMenu[].class);
 					request.setAttribute("optMenuList", optMenuList);
 					res=request.getRequestDispatcher("mtmOptionMenu.jsp");
 					res.forward(request, response);

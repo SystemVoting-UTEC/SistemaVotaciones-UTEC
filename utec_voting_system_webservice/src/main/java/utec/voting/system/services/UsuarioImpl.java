@@ -75,15 +75,16 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 	public Boolean save(Usuario t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			final String query = "{CALL SP_CREATE_USUARIO(?,?,?,?,?)";
+			final String query = "{CALL SP_CREATE_USUARIO(?,?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getUsPerDui().getPerDui());
 			stmt.setString(2, t.getUsPassword());
 			stmt.setInt(3, t.getUsTusId().getTusId());
 			stmt.setInt(4, t.getUsEstado());
-			stmt.registerOutParameter(5, Types.INTEGER);
+			stmt.setString(5, t.getUsEmail());
+			stmt.registerOutParameter(6, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(5) > 0) {
+			if (stmt.getInt(6) > 0) {
 				return Boolean.TRUE;
 			}
 		} catch (final Exception e) {
@@ -104,9 +105,10 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 			stmt.setString(2, t.getUsPassword());
 			stmt.setInt(3, t.getUsTusId().getTusId());
 			stmt.setInt(4, t.getUsEstado());
-			stmt.registerOutParameter(5, Types.INTEGER);
+			stmt.setString(5, t.getUsEmail());
+			stmt.registerOutParameter(6, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(5) > 0) {
+			if (stmt.getInt(6) > 0) {
 				return Boolean.TRUE;
 			}
 		} catch (final Exception e) {
@@ -148,7 +150,7 @@ public class UsuarioImpl extends Conexion implements Service<Usuario>, Serializa
 				while (getRs().next()) {
 					per = personaService.finById(us.getUsPerDui().getPerDui());
 					tpusu = tipoUsuarioService.finById(getRs().getInt(3));
-					obj = new Usuario(per, getRs().getString(2), tpusu);
+					obj = new Usuario(per, getRs().getString(2), tpusu,getRs().getString(4));
 				}
 			}
 		} catch (final Exception e) {

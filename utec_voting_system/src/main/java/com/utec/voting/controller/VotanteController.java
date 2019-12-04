@@ -32,7 +32,7 @@ public class VotanteController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final String URI = "http://34.70.70.109/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -74,7 +74,7 @@ public class VotanteController extends HttpServlet implements Serializable {
 					votanteInsert.setVotFechaVence(request.getParameter("votFechaVenceEdi"));
 					votanteInsert.setEstado(Integer.parseInt(request.getParameter("estadoEdi")));
 					JSONObject object = new JSONObject(votanteInsert);
-					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/votante", object, "PUT"));
+					object = new JSONObject(new ClientWebService().clienteWS(URI+"votante", object, "PUT"));
 					Integer resp = Integer.parseInt(object.get("response").toString());
 					request.setAttribute("msj", resp);
 				}
@@ -90,15 +90,15 @@ public class VotanteController extends HttpServlet implements Serializable {
 					votanteInsert.setVotFechaVence(request.getParameter("votFechaVence"));
 					votanteInsert.setEstado(Integer.parseInt(request.getParameter("estado")));
 					JSONObject object = new JSONObject(votanteInsert);
-					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/votante", object, "POST"));
+					object = new JSONObject(new ClientWebService().clienteWS(URI+"votante", object, "POST"));
 					Integer resp = Integer.parseInt(object.get("response").toString());
 					request.setAttribute("msj", resp);
 				}
 			}
 			
 			if(request.getParameter("id") == null) {
-				votList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/votante", "GET"),Votante[].class);
-				perList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/persona", "GET"),Persona[].class);
+				votList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"votante", "GET"),Votante[].class);
+				perList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"persona", "GET"),Persona[].class);
 				request.setAttribute("votList", votList);
 				request.setAttribute("perList", perList);
 				res=request.getRequestDispatcher("mtmVotante.jsp");
