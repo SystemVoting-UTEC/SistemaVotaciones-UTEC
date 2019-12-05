@@ -25,7 +25,27 @@ public class OptionMenuImpl extends Conexion implements Service<OptionMenu>, Ser
 	
 	@Override
 	public ArrayList<OptionMenu> getAll() throws SQLException {
-		return null;
+		OptionMenu g;
+		CallableStatement stmt = null;
+		ArrayList<OptionMenu> l1 = new ArrayList<>();
+		try {
+			String query = "{CALL SP_READALL_OPTIONMENU()}";
+			stmt = getConnection().prepareCall(query);
+			setRs(stmt.executeQuery());
+			if(getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					g = new OptionMenu(getRs().getInt(1), getRs().getString(2),getRs().getString(3),getRs().getString(4));
+					l1.add(g);
+				}
+			}
+			stmt.close();
+		} catch (Exception e) {
+			logger.error("Error: " + e);
+		}finally {
+			stmt.close();
+		}
+		return l1;
 	}
 	
 	public ArrayList<OptionMenu> getAll(Integer dui) throws SQLException {

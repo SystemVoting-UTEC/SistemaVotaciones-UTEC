@@ -95,7 +95,7 @@ public class UsuarioController extends HttpServlet implements Serializable {
 			Usuario us = (Usuario) sesion.getAttribute("usuario");
 			//Validando si existe la variable de sesion principal
 			if(us != null) {
-				if(request.getParameter("btnModificar")!=null){
+				if(request.getParameter("btnModificarUsuario")!=null){
 					 if(request.getParameter("usPerDuiEdi") != null) {
 						 Usuario usuarioEdit = new Usuario();
                          Persona per = new Persona();
@@ -104,10 +104,9 @@ public class UsuarioController extends HttpServlet implements Serializable {
                          usuarioEdit.setUsPerDui(per);
                          tipoUsuario.setTusId(Integer.parseInt(request.getParameter("usTusIdEdi")));
                          usuarioEdit.setUsTusId(tipoUsuario);
-                         password = Encriptar.getPassword(Encriptar.MINUSCULAS+Encriptar.MAYUSCULAS+Encriptar.NUMEROS,8);
-                         logger.error("Password: "+password);
-                         usuarioEdit.setUsPassword(Encriptar.sha1(password));
+                         usuarioEdit.setUsPassword(request.getParameter("usPasswordEdi"));
                          usuarioEdit.setUsEstado(Integer.parseInt(request.getParameter("usEstadoEdi")));
+                         usuarioEdit.setUsEmail(request.getParameter("usEmailEdi"));
 						 JSONObject object = new JSONObject(usuarioEdit);
 						object = new JSONObject(new ClientWebService().clienteWS(URI+"Usuario",object, "PUT"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
@@ -118,25 +117,41 @@ public class UsuarioController extends HttpServlet implements Serializable {
 				 
 				 if(request.getParameter("btnInsertarUsuario")!=null){
 					 if(request.getParameter("usPerDui") != null) {
-                         Usuario usuarioInsert = new Usuario();
-                         Persona per = new Persona();
-                         TipoUsuario tipoUsuario = new TipoUsuario();
-                         per.setPerDui(request.getParameter("usPerDui"));
-                         usuarioInsert.setUsPerDui(per);
-                         tipoUsuario.setTusId(Integer.parseInt(request.getParameter("usTusId")));
-                         usuarioInsert.setUsTusId(tipoUsuario);
-                         password = Encriptar.getPassword(Encriptar.MINUSCULAS+Encriptar.MAYUSCULAS+Encriptar.NUMEROS,8);
-                         usuarioInsert.setUsPassword(Encriptar.sha1(password));
-                         usuarioInsert.setUsEstado(Integer.parseInt(request.getParameter("usEstado")));
-						 JSONObject object = new JSONObject(usuarioInsert);
-						object = new JSONObject(new ClientWebService().clienteWS(URI+"Usuario",object, "POST"));
-						Integer resp = Integer.parseInt(object.get("response").toString());
-					    String emailBody = "Credenciales <br/> <b>Usuario:</b> "+per.getPerDui()+" <br/> <b>Clave: </b>"+password+"<br/>***<b>Este es un correo generado automaticamente, favor no responder!</b>";
-				        String[] toEmails = { request.getParameter("usMail") };
-				        EmailClient javaEmail = new EmailClient();
-				        javaEmail.setMailServerProperties();
-				        javaEmail.sendEmail(javaEmail.draftEmailMessage(emailBody,toEmails));
-						request.setAttribute("msj",resp);
+						 if(validateDui(request.getParameter("usPerDui"))){
+							 Usuario usuarioInsert = new Usuario();
+							 Persona per = new Persona();
+							 TipoUsuario tipoUsuario = new TipoUsuario();
+							 per.setPerDui(request.getParameter("usPerDui"));
+							 usuarioInsert.setUsPerDui(per);
+							 tipoUsuario.setTusId(Integer.parseInt(request.getParameter("usTusId")));
+							 usuarioInsert.setUsTusId(tipoUsuario);
+							 password = Encriptar.getPassword(Encriptar.MINUSCULAS+Encriptar.MAYUSCULAS+Encriptar.NUMEROS,8);
+							 usuarioInsert.setUsPassword(Encriptar.sha1(password));
+							 usuarioInsert.setUsEstado(Integer.parseInt(request.getParameter("usEstado")));
+							 usuarioInsert.setUsEmail(request.getParameter("usEmail"));
+							 JSONObject object = new JSONObject(usuarioInsert);
+							 object = new JSONObject(new ClientWebService().clienteWS(URI+"Usuario",object, "POST"));
+							 Integer resp = Integer.parseInt(object.get("response").toString());
+							 if(resp == 1) {
+								 request.setAttribute("msj",resp);
+								 StringBuilder sb = new StringBuilder();
+								 sb.append("¡Buen d&iacute;a! <br/>");
+								 sb.append("El motivo de este correo es para informar que su cuenta para votaciones fue creada con &eacute;xito.");
+								 sb.append("<br/><br/>");
+								 sb.append("<br/> Los siguientes datos son necesarios para poder realizar su voto.<br/>");
+								 sb.append("<br/><br/>");
+								 sb.append("Credenciales <br/><br/> <b>Usuario:</b> "+per.getPerDui()+" <br/> <b>Clave: </b>"+password);
+								 sb.append("<br/><br/>");
+								 sb.append("<br/>***<b>Este es un correo generado automaticamente, favor no responder!</b>");
+								 String[] toEmails = { request.getParameter("usEmail") };
+								 EmailClient javaEmail = new EmailClient();
+								 javaEmail.setMailServerProperties();
+								 javaEmail.sendEmail(javaEmail.draftEmailMessage(sb.toString(),toEmails));							
+							 }
+						 }else {
+							 request.setAttribute("msj",3);
+							 request.setAttribute("msjD", "No puede haber dos usuarios con un mismo DUI");
+						 }
 					 }
 				 }
 				
@@ -155,7 +170,9 @@ public class UsuarioController extends HttpServlet implements Serializable {
                             usuarioSelected = new Usuario();
                             usuarioSelected.setUsPerDui(usu.getUsPerDui());
                             usuarioSelected.setUsTusId(usu.getUsTusId());
+                            usuarioSelected.setUsPassword(usu.getUsPassword());
                             usuarioSelected.setUsEstado(usu.getUsEstado());
+                            usuarioSelected.setUsEmail(usu.getUsEmail());
 						}
 					}
 					String jsonArray = gson.toJson(usuarioSelected);
@@ -168,6 +185,16 @@ public class UsuarioController extends HttpServlet implements Serializable {
 			logger.error("Error en el metodo doPost()",e);
 		}
     }
+	
+	private Boolean validateDui(String dui) {
+		
+		for(Usuario p : usList) {
+			if(dui.equals(p.getUsPerDui().getPerDui()))
+				return Boolean.FALSE;
+		}
+		
+		return Boolean.TRUE;
+	}
 
     /**
      * Returns a short description of the servlet.

@@ -440,3 +440,15 @@ margin-left
 	.modal form label {
 		font-weight: normal;
 	}	
+	
+	/*Table scroll*/
+	.my-custom-scrollbar {
+	position: relative;
+	height: 100%;
+	width:100%;
+	overflow: auto;
+}
+
+.table-wrapper-scroll-y {
+	display: block;
+}

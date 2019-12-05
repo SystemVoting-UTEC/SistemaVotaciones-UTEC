@@ -22,12 +22,13 @@ public class Usuario {
 	 * @param usEmail
 	 * @author kevin_orellana
 	 */
-	public Usuario(Persona usPerDui, String usPassword, TipoUsuario usTusId, String usEmail) {
+	public Usuario(Persona usPerDui, String usPassword, TipoUsuario usTusId,Integer usEstado,String usEmail) {
 		super();
 		this.usPerDui = usPerDui;
 		this.usPassword = usPassword;
 		this.usTusId = usTusId;
 		this.usEmail = usEmail;
+		this.usEstado = usEstado;
 	}
 
 	/**

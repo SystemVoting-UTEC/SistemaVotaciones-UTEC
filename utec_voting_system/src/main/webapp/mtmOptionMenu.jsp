@@ -13,7 +13,7 @@
 											$('[data-toggle="tooltip"]').tooltip();
 										}
 								</script>
-								        <div class="table-wrapper">
+								        <div class="table-wrapper my-custom-scrollbar">
 								            <div class="table-title">
 								                <div class="row">
 								                    <div class="col-sm-6">

@@ -88,7 +88,7 @@ public class EleccionController extends HttpServlet implements Serializable {
 				 }
 				
 				if(request.getParameter("id") == null) {
-					elecList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"eleccion/1", "GET"),Eleccion[].class);
+					elecList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"eleccion/all/1", "GET"),Eleccion[].class);
 					request.setAttribute("elecList", elecList);
 					res=request.getRequestDispatcher("mtmEleccion.jsp");
 					res.forward(request, response);

@@ -81,7 +81,7 @@ public class EleccionService implements Serializable{
 	}
 	
 	@GET
-	@Path("/{param}")
+	@Path("/all/{param}")
 	public Response findEleccion(@PathParam("param") String dui) throws SQLException {
 		JSONArray jsArray;
 		List<Eleccion> obj = null;

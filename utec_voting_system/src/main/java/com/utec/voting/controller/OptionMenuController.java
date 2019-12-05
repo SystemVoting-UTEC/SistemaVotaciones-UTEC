@@ -125,7 +125,11 @@ public class OptionMenuController extends HttpServlet implements Serializable {
 				} else {
 					for ( OptionMenu opt : optMenuList) {
 						if(opt.getOptId() == Integer.parseInt(request.getParameter("id"))) {
-							 optionMenuSelected = new  OptionMenu(); 
+							 optionMenuSelected = new  OptionMenu();
+							 optionMenuSelected.setOptId(opt.getOptId());
+							 optionMenuSelected.setOptNombre(opt.getOptNombre());
+							 optionMenuSelected.setOptURL(opt.getOptURL());
+							 optionMenuSelected.setOptIcono(opt.getOptIcono());
 						}
 					}
 					String jsonArray = gson.toJson(optionMenuSelected);
@@ -148,4 +152,18 @@ public class OptionMenuController extends HttpServlet implements Serializable {
     public String getServletInfo() {
         return "Short description";
     }
+
+	/**
+	 * @return the optMenuList
+	 */
+	public List<OptionMenu> getOptMenuList() {
+		return optMenuList;
+	}
+
+	/**
+	 * @param optMenuList the optMenuList to set
+	 */
+	public void setOptMenuList(List<OptionMenu> optMenuList) {
+		this.optMenuList = optMenuList;
+	}
 }
