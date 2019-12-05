@@ -37,7 +37,7 @@ public class MunicipioController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final String URI = "http://localhost:8080/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -100,7 +100,7 @@ public class MunicipioController extends HttpServlet implements Serializable {
 						 departamentoEdit.setDepId(Integer.parseInt(request.getParameter("munDepIdEdi")));
 						 MunicipioEdit.setMunDepId(departamentoEdit);
 						 JSONObject object = new JSONObject(MunicipioEdit);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/municipio",object, "PUT"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"municipio",object, "PUT"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 						 
@@ -115,15 +115,15 @@ public class MunicipioController extends HttpServlet implements Serializable {
 						 departamentoEdit.setDepId(Integer.parseInt(request.getParameter("munDepId")));
 						 MunicipioInsert.setMunDepId(departamentoEdit);
 						 JSONObject object = new JSONObject(MunicipioInsert);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/municipio",object, "POST"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"municipio",object, "POST"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 					 }
 				 }
 				
 				if(request.getParameter("id") == null) {
-					munList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/municipio", "GET"),Municipio[].class);
-					depList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/departamento", "GET"),Departamento[].class);
+					munList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"municipio", "GET"),Municipio[].class);
+					depList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"departamento", "GET"),Departamento[].class);
 					request.setAttribute("munList", munList);
 					request.setAttribute("depList", depList);
 					res=request.getRequestDispatcher("mtmMunicipio.jsp");

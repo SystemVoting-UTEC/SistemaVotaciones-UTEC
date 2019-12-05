@@ -34,7 +34,7 @@ public class TipoCandidatoController extends HttpServlet implements Serializable
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final String URI = "http://localhost:8080/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -89,7 +89,7 @@ public class TipoCandidatoController extends HttpServlet implements Serializable
 					 tpcEdit.setTcaId(Integer.parseInt(request.getParameter("tcaIdEdi")));
 					 tpcEdit.setTcaTipo(request.getParameter("tcaTipoEdi"));
 					 JSONObject object = new JSONObject(tpcEdit);
-					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/tipo_candidato",object, "PUT"));
+					object = new JSONObject(new ClientWebService().clienteWS(URI+"tipo_candidato",object, "PUT"));
 					Integer resp = Integer.parseInt(object.get("response").toString());
 					request.setAttribute("msj",resp);
 					 
@@ -101,14 +101,14 @@ public class TipoCandidatoController extends HttpServlet implements Serializable
 					 TipoCandidato tpcInsert = new TipoCandidato();
 					 tpcInsert.setTcaTipo(request.getParameter("tcaTipo"));
 					 JSONObject object = new JSONObject(tpcInsert);
-					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/tipo_candidato",object, "POST"));
+					object = new JSONObject(new ClientWebService().clienteWS(URI+"tipo_candidato",object, "POST"));
 					Integer resp = Integer.parseInt(object.get("response").toString());
 					request.setAttribute("msj",resp);
 				 }
 			 }
 			
 			if(request.getParameter("id") == null) {
-				tpcList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/tipo_candidato", "GET"),TipoCandidato[].class);
+				tpcList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"tipo_candidato", "GET"),TipoCandidato[].class);
 				request.setAttribute("tpcList", tpcList);
 				res=request.getRequestDispatcher("mtmTipoCandidato.jsp");
 				res.forward(request, response);

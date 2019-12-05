@@ -13,7 +13,7 @@
                                             $('[data-toggle="tooltip"]').tooltip();
                                         }
 								</script>
-								        <div class="table-wrapper">
+								        <div class="table-wrapper my-custom-scrollbar">
 								            <div class="table-title">
 								                <div class="row">
 								                    <div class="col-sm-6">
@@ -28,17 +28,19 @@
 								            <table class="table table-striped table-hover">
 								                <thead>
 								                    <tr>
-								                        <th>Usuario</th>
-								                        <th>Tipo de Usuario</th>
-														<th>Estado</th>
-														<th>Opciones</th>
+								                        <th scope="col">Usuario</th>
+								                        <th scope="col">Tipo de Usuario</th>
+								                        <th scope="col">Correo</th>
+														<th scope="col">Estado</th>
+														<th scope="col">Opciones</th>
 								                    </tr>
 								                </thead>
 								                <tbody>
 								                <c:forEach items="${requestScope.usList}" var="usua">
 								                    <tr>
-								                        <td>[${usua.usPerDui.perDui}] ${usua.usPerDui.perPNombre} ${usua.usPerDui.perPApellido}</td>
+								                        <td scope="row">[${usua.usPerDui.perDui}] ${usua.usPerDui.perPNombre} ${usua.usPerDui.perPApellido}</td>
 								                        <td>${usua.usTusId.tusTipo}</td>
+								                        <td>${usua.usEmail}</td>
 														<td>${usua.usEstado eq 1 ? 'Activo' : 'Inactivo'}</td>
 								                        <td>
 								                            <input type="submit" class="btn btn-info" value="Editar" onclick="showModal('${usua.usPerDui.perDui}');" />
@@ -63,7 +65,9 @@
                                             <label>Persona</label>
                                             <select id="usPerDui" name="usPerDui" class="form-control" required>
                                                 <c:forEach var="vot" items="${requestScope.perList}">
-                                                    <option value="${vot.perDui}">${vot.perDui} (${vot.perPNombre} ${vot.perPApellido})</option>
+                                                	<c:if test="${vot.perEstado == 1}">
+	                                                    <option value="${vot.perDui}">${vot.perDui} (${vot.perPNombre} ${vot.perPApellido})</option>
+                                                	</c:if>
                                                 </c:forEach>
                                             </select>
                                         </div>	
@@ -75,6 +79,10 @@
                                                 </c:forEach>
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Correo</label>
+                                            <input type="email" class="form-control" id="usEmail" name="usEmail" required/>
+                                        </div>	
                                         <div class="form-group">
                                             <label>Estado</label>
                                             <select id="usEstado" name="usEstado" class="form-control" required>
@@ -105,7 +113,8 @@
 									<div class="modal-body">
                                         <div class="form-group">
                                             <label>Persona</label>
-                                            <input type="text" class="form-control datepicker"   id="usPerDuiEdi" name="usPerDuiEdi" readonly />
+                                            <input type="text" class="form-control"   id="usPerDuiEdi" name="usPerDuiEdi" readonly />
+                                            <input type="hidden" id="usPasswordEdi" name="usPasswordEdi"/> 
                                         </div>	
 										<div class="form-group">
                                             <label>Tipo de usuario</label>
@@ -115,6 +124,10 @@
                                                 </c:forEach>
                                             </select>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Correo</label>
+                                            <input type="email" class="form-control" id="usEmailEdi" name="usEmailEdi"/>
+                                        </div>	
                                         <div class="form-group">
                                             <label>Estado</label>
                                             <select id="usEstadoEdi" name="usEstadoEdi" class="form-control" required>
@@ -143,6 +156,8 @@
 					       	    	document.getElementById("usPerDuiEdi").value = response.usPerDui.perDui;
 					       	    	document.getElementById("usTusIdEdi").value = response.usTusId.tusId;
 					       	    	document.getElementById("usEstadoEdi").value = response.usEstado;
+					       	    	document.getElementById("usPasswordEdi").value = response.usPassword;
+					       	    	document.getElementById("usEmailEdi").value = response.usEmail;
 					       	    	$('#editUsuarioModal').modal('show');
 					       	    },
 					       	    error: function () {

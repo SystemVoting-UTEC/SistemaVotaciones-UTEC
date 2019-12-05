@@ -36,7 +36,7 @@ public class GeneroController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final String URI = "http://localhost:8080/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -96,7 +96,7 @@ public class GeneroController extends HttpServlet implements Serializable {
 						 generoEdit.setGenGenero(request.getParameter("genGeneroEdi"));
 						 generoEdit.setGenNombre(request.getParameter("genNombreEdi"));
 						 JSONObject object = new JSONObject(generoEdit);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "PUT"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"genero",object, "PUT"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 						 
@@ -109,14 +109,14 @@ public class GeneroController extends HttpServlet implements Serializable {
 						 generoInsert.setGenGenero(request.getParameter("genGenero"));
 						 generoInsert.setGenNombre(request.getParameter("genNombre"));
 						 JSONObject object = new JSONObject(generoInsert);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero",object, "POST"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"genero",object, "POST"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 					 }
 				 }
 				
 				if(request.getParameter("id") == null) {
-					genList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/genero", "GET"),Genero[].class);
+					genList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"genero", "GET"),Genero[].class);
 					request.setAttribute("genList", genList);
 					res=request.getRequestDispatcher("mtmGenero.jsp");
 					res.forward(request, response);

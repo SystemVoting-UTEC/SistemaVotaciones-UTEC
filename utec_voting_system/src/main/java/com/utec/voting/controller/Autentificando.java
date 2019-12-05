@@ -30,12 +30,13 @@ import com.utec.voting.util.Encriptar;
  * @version 1.0 Date: September 2019
  */
 public class Autentificando extends HttpServlet implements Serializable {
-
+	
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	private static final String URI = "http://localhost:8080/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -68,11 +69,11 @@ public class Autentificando extends HttpServlet implements Serializable {
 			usr.setUsPerDui(pers);
 			usr.setUsTusId(tpu);
 			JSONObject object = new JSONObject(usr);
-			usr = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/login", object, "POST"), Usuario.class);
+			usr = gson.fromJson(new ClientWebService().clienteWS(URI+"login", object, "POST"), Usuario.class);
 			if (usr != null) {
-				object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/eleccion/"+usr.getUsPerDui().getPerDui(), "GET"));
+				object = new JSONObject(new ClientWebService().clienteWS(URI+"eleccion/"+usr.getUsPerDui().getPerDui(), "GET"));
 				if(object.get("elcId").toString().equals("0")) {
-					object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/eleccion", "GET"));
+					object = new JSONObject(new ClientWebService().clienteWS(URI+"eleccion", "GET"));
 					eleccion = new Eleccion();
 					eleccion.setElcDescripcion(object.get("elcDescripcion").toString());
 					eleccion.setElcId(Integer.parseInt(object.get("elcId").toString()));
@@ -82,7 +83,7 @@ public class Autentificando extends HttpServlet implements Serializable {
 				}
 				Integer tipor = 1;
 				if (usr.getUsTusId().getTusId() == tipor) {
-					optList = gson.fromJson(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/option_menu/"+usr.getUsTusId().getTusId(), "GET"), ArrayList.class);
+					optList = gson.fromJson(new ClientWebService().clienteWS(URI+"option_menu/"+usr.getUsTusId().getTusId(), "GET"), ArrayList.class);
 					sesion = request.getSession(true);
 					sesion.setAttribute("usuario", usr);
 					sesion.setAttribute("departamento", usr.getUsPerDui().getPerDepId());
