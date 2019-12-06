@@ -51,7 +51,7 @@
 					<div id="addPartidoModal" class="modal fade">
 						<div class="modal-dialog">
 							<div class="modal-content">
-								<form id="savePartido" name="savePartido" action="partido.do" method="post">
+								<form id="savePartido" name="savePartido" action="partido.do" method="post" enctype="multipart/form-data">
 									<div class="modal-header">						
 										<h4 class="modal-title">Agregar Partido</h4>
 										<button type="button" class="close" data-dismiss="modal"
@@ -65,6 +65,10 @@
 										<div class="form-group">
 											<label>Estado</label>
 											<input type="text" class="form-control" required id="estado" name="estado" maxlength="11">
+										</div>	
+										<div class="form-group">
+											<label>Imagen</label>
+											 <input id="imagen" name="imagen" size="30" type="file">
 										</div>	
 									</div>
 									<div class="modal-footer">

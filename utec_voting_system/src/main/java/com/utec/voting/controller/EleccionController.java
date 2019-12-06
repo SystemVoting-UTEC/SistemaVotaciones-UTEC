@@ -66,9 +66,14 @@ public class EleccionController extends HttpServlet implements Serializable {
 			Usuario us = (Usuario) sesion.getAttribute("usuario");
 			//Validando si existe la variable de sesion principal
 			if(us != null) {
-				if(request.getParameter("btnModificar")!=null){
-					 if(request.getParameter("elcId") != null && request.getParameter("elcFechaInicioEdi") != null  && request.getParameter("elcFechaFinEdi") != null) {
+				if(request.getParameter("btnModificarEleccion")!=null){
+					 if(request.getParameter("elcIdEdi") != null && request.getParameter("elcFechaInicioEdi") != null  && request.getParameter("elcFechaFinEdi") != null) {
 						 Eleccion eleccionEdit = new Eleccion();
+						 eleccionEdit.setElcId(Integer.parseInt(request.getParameter("elcIdEdi")));
+						 eleccionEdit.setElcDescripcion(request.getParameter("elcDescripcionEdi"));
+						 eleccionEdit.setElcFechaInicio(request.getParameter("elcFechaInicioEdi"));
+						 eleccionEdit.setElcFechaFin(request.getParameter("elcFechaFinEdi"));
+						 eleccionEdit.setElcEstado(Integer.parseInt(request.getParameter("elcEstadoEdi")));
 						 JSONObject object = new JSONObject(eleccionEdit);
 						object = new JSONObject(new ClientWebService().clienteWS(URI+"eleccion",object, "PUT"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
@@ -80,6 +85,10 @@ public class EleccionController extends HttpServlet implements Serializable {
 				 if(request.getParameter("btnInsertarEleccion")!=null){
 					 if(request.getParameter("elcDescripcion") != null  && request.getParameter("elcFechaInicio") != null) {
 						 Eleccion eleccionInsert = new Eleccion();
+						 eleccionInsert.setElcDescripcion(request.getParameter("elcDescripcion"));
+						 eleccionInsert.setElcFechaInicio(request.getParameter("elcFechaInicio"));
+						 eleccionInsert.setElcFechaFin(request.getParameter("elcFechaFin"));
+						 eleccionInsert.setElcEstado(Integer.parseInt(request.getParameter("elcEstado")));
 						 JSONObject object = new JSONObject(eleccionInsert);
 						object = new JSONObject(new ClientWebService().clienteWS(URI+"eleccion",object, "POST"));
 						Integer resp = Integer.parseInt(object.get("response").toString());

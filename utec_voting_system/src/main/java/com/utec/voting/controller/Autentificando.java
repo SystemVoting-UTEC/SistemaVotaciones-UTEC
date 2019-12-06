@@ -74,12 +74,14 @@ public class Autentificando extends HttpServlet implements Serializable {
 				object = new JSONObject(new ClientWebService().clienteWS(URI+"eleccion/"+usr.getUsPerDui().getPerDui(), "GET"));
 				if(object.get("elcId").toString().equals("0")) {
 					object = new JSONObject(new ClientWebService().clienteWS(URI+"eleccion", "GET"));
-					eleccion = new Eleccion();
-					eleccion.setElcDescripcion(object.get("elcDescripcion").toString());
-					eleccion.setElcId(Integer.parseInt(object.get("elcId").toString()));
-					eleccion.setElcEstado(Integer.parseInt(object.get("elcEstado").toString()));
-					sesion = request.getSession(true);
-					sesion.setAttribute("eleccion", eleccion);
+					if(!object.get("elcId").toString().equals("0")) {
+						eleccion = new Eleccion();
+						eleccion.setElcDescripcion(object.get("elcDescripcion").toString());
+						eleccion.setElcId(Integer.parseInt(object.get("elcId").toString()));
+						eleccion.setElcEstado(Integer.parseInt(object.get("elcEstado").toString()));
+						sesion = request.getSession(true);
+						sesion.setAttribute("eleccion", eleccion);						
+					}
 				}
 				Integer tipor = 1;
 				if (usr.getUsTusId().getTusId() == tipor) {

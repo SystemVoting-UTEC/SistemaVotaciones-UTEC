@@ -121,14 +121,14 @@ public class EleccionImpl extends Conexion implements Service<Eleccion>, Seriali
 	public Boolean update(Eleccion t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			Timestamp ini = Timestamp.valueOf(t.getElcFechaInicio()+" 08:00:00");
-			Timestamp fin = Timestamp.valueOf(t.getElcFechaFin()+" 18:00:00");
+			Timestamp ini = Timestamp.valueOf(t.getElcFechaInicio().length() == 10 ?t.getElcFechaInicio()+" 08:00:00" : t.getElcFechaInicio());
+			Timestamp fin = Timestamp.valueOf(t.getElcFechaFin().length() == 10 ?t.getElcFechaFin()+" 18:00:00" : t.getElcFechaFin());
 			String query = "{CALL SP_UPDATE_ELECCION(?,?,?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, t.getElcId());
-			stmt.setTimestamp(2, ini);
-			stmt.setTimestamp(3, fin);
-			stmt.setString(4, t.getElcFechaFin());
+			stmt.setString(2, t.getElcDescripcion());
+			stmt.setTimestamp(3, ini);
+			stmt.setTimestamp(4, fin);
 			stmt.setInt(5, t.getElcEstado());
 			stmt.registerOutParameter(6, Types.INTEGER);
 			stmt.execute();
