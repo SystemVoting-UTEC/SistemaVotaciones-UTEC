@@ -53,6 +53,10 @@ public class EleccionService implements Serializable{
 		try {
 			obj =  new Eleccion();
 			obj = eleccionService.eleccionIsActive();
+			if (obj == null) {
+				obj= new Eleccion();
+				obj.setElcId(0);
+			}
 			jsonObject = new JSONObject(obj);
 		} catch (Exception e) {
 			logger.error("Error: ",e);

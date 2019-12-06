@@ -21,7 +21,6 @@
 <link rel="shortcut icon" href="img/icono.ico">
 
 <link rel="stylesheet" href="css/bootstrap.css">
-
 <link rel="stylesheet" href="css/sweetalert.css">
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/Estilos.css">
