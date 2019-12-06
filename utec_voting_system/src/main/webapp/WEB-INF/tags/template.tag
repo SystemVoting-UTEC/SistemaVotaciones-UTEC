@@ -232,6 +232,11 @@
 				    </script>	 			
 	 			</c:if>
 	 		</c:when>
+	 		<c:when test="${requestScope.msj == 4}">
+	 			<script>
+			    	swal("Éxito!", "El registro fue eliminado", "success");
+			    </script>
+	 		</c:when>
 	 		<c:otherwise>
 	 			<script>
 	 				swal("Error!", "Ocurrio un error favor comunicarse con el administrador", "error");

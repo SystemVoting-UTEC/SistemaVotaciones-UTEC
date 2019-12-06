@@ -50,7 +50,7 @@ public class OptionTipoUsuarioImpl extends Conexion implements Service<OptionTip
 				while (getRs().next()) {
 					TipoUsuario = new TipoUsuario();
 					OptionMenu = new OptionMenu();
-					OptionMenu = OptionMenuService.finById(getRs().getInt(1));
+					OptionMenu = OptionMenuService.finOneById(getRs().getInt(1));
 					TipoUsuario = TipoUsuarioService.finById(getRs().getInt(2));
 					g = new OptionTipoUsuario();
 					g.setOptId(OptionMenu);
@@ -90,7 +90,6 @@ public class OptionTipoUsuarioImpl extends Conexion implements Service<OptionTip
 	@Override
 	public Boolean update(OptionTipoUsuario t) throws SQLException {
 		try {
-			//falta sp
 			String query = "{CALL SP_UPDATE_OPTION_TIPO_USUARIO(?,?,?)}";
 			CallableStatement stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, t.getOptId().getOptId());
@@ -104,13 +103,25 @@ public class OptionTipoUsuarioImpl extends Conexion implements Service<OptionTip
 			logger.error("Error" + e);
 		}
 		return Boolean.FALSE;
-
 	}
 
 	@Override
 	public Boolean delete(OptionTipoUsuario t) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			String query = "{CALL SP_DELETE_OPTMENU(?,?,?)}";
+			CallableStatement stmt = getConnection().prepareCall(query);
+			stmt.setInt(1, t.getOptId().getOptId());
+			 stmt.setInt(2, t.getTusId().getTusId());
+			stmt.registerOutParameter(3, Types.INTEGER);
+			stmt.execute();
+			if (stmt.getInt(3) >= 1) {
+				return Boolean.TRUE;
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+			return Boolean.FALSE;
+		}
+		return Boolean.FALSE;
 	}
 
 	@Override

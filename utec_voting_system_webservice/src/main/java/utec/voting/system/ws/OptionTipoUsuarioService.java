@@ -94,9 +94,10 @@ public class OptionTipoUsuarioService implements Serializable{
 	
 	@DELETE
 	public Response deleteOptionTipoUsuario(OptionTipoUsuario gen) {
-		JSONObject jsonObject = new JSONObject("{\"result\": \"ok\"}");
+		JSONObject jsonObject = new JSONObject("{\"response\":0}");
 		try {
 			if(OptionTipoUsuarioService.delete(gen)) {
+				jsonObject = new JSONObject("{\"response\":4}");
 			}
 		} catch (Exception e) {
 			logger.error("Error: ",e);

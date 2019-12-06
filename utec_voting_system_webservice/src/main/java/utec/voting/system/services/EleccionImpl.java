@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import utec.voting.system.entities.Eleccion;
-import utec.voting.system.entities.Genero;
 import utec.voting.system.jdbc.Conexion;
 
 /**
@@ -43,7 +42,7 @@ public class EleccionImpl extends Conexion implements Service<Eleccion>, Seriali
 			if (getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					elec = new Eleccion(getRs().getInt(1), getRs().getString(2), getRs().getTimestamp(3), getRs().getTimestamp(4),getRs().getInt(5));
+					elec = new Eleccion(getRs().getInt(1), getRs().getString(2), getRs().getString(3), getRs().getString(4),getRs().getInt(5));
 				}
 			}
 		} catch (Exception e) {
@@ -62,7 +61,7 @@ public class EleccionImpl extends Conexion implements Service<Eleccion>, Seriali
 			if (getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					elec = new Eleccion(getRs().getInt(1), getRs().getString(2), getRs().getTimestamp(3), getRs().getTimestamp(4),getRs().getInt(5));
+					elec = new Eleccion(getRs().getInt(1), getRs().getString(2), getRs().getString(3), getRs().getString(4),getRs().getInt(5));
 				}
 			}
 		} catch (Exception e) {
@@ -83,7 +82,7 @@ public class EleccionImpl extends Conexion implements Service<Eleccion>, Seriali
 			if(getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-					g = new Eleccion(getRs().getInt(1), getRs().getString(2),getRs().getTimestamp(3),getRs().getTimestamp(4),getRs().getInt(5));
+					g = new Eleccion(getRs().getInt(1), getRs().getString(2),getRs().getString(3),getRs().getString(4),getRs().getInt(5));
 					l1.add(g);
 				}
 			}
@@ -99,11 +98,13 @@ public class EleccionImpl extends Conexion implements Service<Eleccion>, Seriali
 	public Boolean save(Eleccion t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
+			Timestamp ini = Timestamp.valueOf(t.getElcFechaInicio()+" 08:00:00");
+			Timestamp fin = Timestamp.valueOf(t.getElcFechaFin()+" 18:00:00");
 			String query = "{CALL SP_CREATE_ELECCION(?,?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setString(1, t.getElcDescripcion());
-			stmt.setTimestamp(2, t.getElcFechaInicio());
-			stmt.setTimestamp(3, t.getElcFechaFin());
+			stmt.setTimestamp(2, ini);
+			stmt.setTimestamp(3, fin);
 			stmt.setInt(4, t.getElcEstado());
 			stmt.registerOutParameter(5, Types.INTEGER);
 			stmt.execute();
@@ -120,12 +121,14 @@ public class EleccionImpl extends Conexion implements Service<Eleccion>, Seriali
 	public Boolean update(Eleccion t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
+			Timestamp ini = Timestamp.valueOf(t.getElcFechaInicio()+" 08:00:00");
+			Timestamp fin = Timestamp.valueOf(t.getElcFechaFin()+" 18:00:00");
 			String query = "{CALL SP_UPDATE_ELECCION(?,?,?,?,?,?)}";
 			stmt = getConnection().prepareCall(query);
 			stmt.setInt(1, t.getElcId());
-			stmt.setString(2, t.getElcDescripcion());
-			stmt.setTimestamp(3, t.getElcFechaInicio());
-			stmt.setTimestamp(4, t.getElcFechaFin());
+			stmt.setTimestamp(2, ini);
+			stmt.setTimestamp(3, fin);
+			stmt.setString(4, t.getElcFechaFin());
 			stmt.setInt(5, t.getElcEstado());
 			stmt.registerOutParameter(6, Types.INTEGER);
 			stmt.execute();

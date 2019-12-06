@@ -10,12 +10,12 @@
 				<c:if test="${sessionScope.usuario ne null}">
 				
 <script type="text/javascript">
-$(document).ready(function(){
-	$('[data-toggle="tooltip"]').tooltip();
-	 $(".datepicker").datepicker({
-	        dateFormat: "yy-mm-dd"
-	    });
-}
+	$(document).ready(function(){
+		$('[data-toggle="tooltip"]').tooltip();
+		 $(".datepicker").datepicker({
+		        dateFormat: "yy-mm-dd"
+		    });
+	});
 	// Activate tooltip
 </script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
