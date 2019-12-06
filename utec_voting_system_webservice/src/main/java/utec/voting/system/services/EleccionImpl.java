@@ -148,7 +148,23 @@ public class EleccionImpl extends Conexion implements Service<Eleccion>, Seriali
 
 	@Override
 	public Eleccion finById(Integer id) throws SQLException {
-		return null;
+		CallableStatement stmt = null;
+		Eleccion elec = null;
+		try {
+			String query = "{CALL SP_READ_ONE_ELECCION(?)}";
+			stmt = getConnection().prepareCall(query);
+			stmt.setInt(1, id);
+			setRs(stmt.executeQuery());
+			if (getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					elec = new Eleccion(getRs().getInt(1), getRs().getString(2), getRs().getString(3), getRs().getString(4),getRs().getInt(5));
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error al consultar selección: ",e);
+		}
+		return elec;
 	}
 
 	@Override

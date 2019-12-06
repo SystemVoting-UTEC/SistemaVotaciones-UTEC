@@ -38,7 +38,7 @@
 								                    <tr>
 								                        <td>${par.parId}</td>
 								                        <td>${par.parNombre}</td>
-														<td>${par.estado}</td>
+														<td>${par.estado eq 1 ? 'Activo':'Inactivo'}</td>
 								                        <td>
 								                            <input type="submit" class="btn btn-info" value="Editar" onclick="showModal(${par.parId});">
 								                        </td>
@@ -51,7 +51,7 @@
 					<div id="addPartidoModal" class="modal fade">
 						<div class="modal-dialog">
 							<div class="modal-content">
-								<form id="savePartido" name="savePartido" action="partido.do" method="post" enctype="multipart/form-data">
+								<form id="savePartido" name="savePartido" action="partido.do" method="post">
 									<div class="modal-header">						
 										<h4 class="modal-title">Agregar Partido</h4>
 										<button type="button" class="close" data-dismiss="modal"
@@ -64,11 +64,10 @@
 										</div>
 										<div class="form-group">
 											<label>Estado</label>
-											<input type="text" class="form-control" required id="estado" name="estado" maxlength="11">
-										</div>	
-										<div class="form-group">
-											<label>Imagen</label>
-											 <input id="imagen" name="imagen" size="30" type="file">
+											<select id="estado" name="estado" class="form-control" required="required">
+									                <option value="1">Activo</option>
+									                <option value="0">Inactivo</option>
+									        </select>
 										</div>	
 									</div>
 									<div class="modal-footer">
@@ -101,8 +100,11 @@
 										</div>
 										<div class="form-group">
 											<label>Estado</label>
-											<input type="text" class="form-control" required maxlength="11" id="estadoEdi" name="estadoEdi">
-										</div>		
+											<select id="estadoEdi" name="estadoEdi" class="form-control" required="required">
+									                <option value="1">Activo</option>
+									                <option value="0">Inactivo</option>
+									        </select>
+										</div>			
 									</div>
 									<div class="modal-footer">
 										<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">

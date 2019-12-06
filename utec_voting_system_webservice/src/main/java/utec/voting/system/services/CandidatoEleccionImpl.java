@@ -44,13 +44,10 @@ public class CandidatoEleccionImpl extends Conexion implements Service<Candidato
 			if (getRs().next()) {
 				getRs().beforeFirst();
 				while (getRs().next()) {
-
 					Eleccion = new Eleccion();
 					Eleccion = EleccionService.finById(getRs().getInt(2));
-					
 					Candidato = new Candidato();
 					Candidato = CandidatoService.finById(getRs().getInt(3));
-
 					g = new CandidatoEleccion();
 					g.setCelId(getRs().getInt(1));
 					g.setElcId(Eleccion);
@@ -71,14 +68,13 @@ public class CandidatoEleccionImpl extends Conexion implements Service<Candidato
 	public Boolean save(CandidatoEleccion t) throws SQLException {
 		CallableStatement stmt = null;
 		try {
-			final String query = "{CALL SP_CREATE_CANDIDATO_ELECCION(?,?,?,?)}";
+			final String query = "{CALL SP_CREATE_CANDIDATO_ELECCION(?,?,?)}";
 			stmt = getConnection().prepareCall(query);
-			stmt.setInt(1, t.getCelId());
-			stmt.setInt(2, t.getElcId().getElcId());
-			stmt.setInt(3, t.getCanId().getCanId());
-			stmt.registerOutParameter(4, Types.INTEGER);
+			stmt.setInt(1, t.getElcId().getElcId());
+			stmt.setInt(2, t.getCanId().getCanId());
+			stmt.registerOutParameter(3, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(4) > 0) {
+			if (stmt.getInt(3) > 0) {
 				return Boolean.TRUE;
 			}
 		} catch (final Exception e) {

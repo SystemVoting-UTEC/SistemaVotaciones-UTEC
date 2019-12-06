@@ -31,7 +31,7 @@
 												  <tr>
 												    <td>
 												     <div style="height: 150px; width: 150px;">
-														    <input type="checkbox" class="case-par-${par.parNombre}" name="${can.canPerDui.perPNombre} ${can.canPerDui.perPApellido}" value="${can.canId}">
+														    <input type="checkbox" class="case-par-${par.parNombre}" name="${can.canPerDui.perPNombre} ${can.canPerDui.perPApellido}" value="${can.canId}"/>
 														   		${can.canPerDui.perPNombre} ${can.canPerDui.perPApellido}
 													   </div>
 												    </td>
@@ -49,8 +49,8 @@
 					var voto = [];
 					$(".partido").on("click", function() {  
 						$("input[type='checkbox']").prop("checked", false);
-						  $(".case-"+$(this).attr('id')).prop("checked", this.checked);  
-						});
+					  	$(".case-"+$(this).attr('id')).prop("checked", this.checked);  
+					});
 					$('#btns').click(function (){
 						 $(':checkbox:checked').each( function () {
 						     voto[voto.length] = $(this).attr('value');

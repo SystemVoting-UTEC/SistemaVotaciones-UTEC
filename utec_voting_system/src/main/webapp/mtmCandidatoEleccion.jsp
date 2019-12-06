@@ -10,7 +10,8 @@
 				<c:if test="${sessionScope.usuario ne null}">
 								<script type="text/javascript">
 										$(document).ready(function(){
-										$('[data-toggle="tooltip"]').tooltip();
+											$('[data-toggle="tooltip"]').tooltip();
+										});
 								</script>
 								        <div class="table-wrapper">
 								            <div class="table-title">
@@ -28,20 +29,18 @@
 								                <thead>
 								                    <tr>
 								                        <th>ID</th>
-								                        <th>ID de Eleccion</th>
-														<th>ID Candidato</th>
-														<th>Opciones</th>
+								                        <th>Elecci&oacute;n</th>
+														<th>Candidato</th>
+														<th> </th>
 								                    </tr>
 								                </thead>
 								                <tbody>
 								                <c:forEach items="${requestScope.canElecList}" var="gen">
 								                    <tr>
 								                        <td>${gen.celId}</td>
-								                        <td>${gen.elcId.elcId}</td>
-														<td>${gen.canId.canId}</td>
-								                        <td>
-								                            <input type="submit" class="btn btn-info" value="Editar" onclick="showModal(${gen.celId},${gen.elcId.elcId},${gen.canId.canId});">
-								                        </td>
+								                        <td>${gen.elcId.elcDescripcion}</td>
+														<td>[${gen.canId.canPerDui.perDui}]  ${gen.canId.canPerDui.perPNombre} ${gen.canId.canPerDui.perPApellido}</td>
+								                    	<td>  </td>
 								                    </tr>
 								                </c:forEach>
 								                </tbody>
@@ -53,24 +52,25 @@
 							<div class="modal-content">
 								<form id="saveCandidatoEleccion" name="saveCandidatoEleccion" action="candidatoElecion.do" method="post">
 									<div class="modal-header">						
-										<h4 class="modal-title">Agregar Candidato Eleccion</h4>
+										<h4 class="modal-title">Agregar Candidato Elecci&oacute;n</h4>
 										<button type="button" class="close" data-dismiss="modal"
 													aria-hidden="true">&times;</button>
 									</div>
 									<div class="modal-body">					
 										<div class="form-group">
-											<label>ID Eleccion</label>
-											<select id="elcId" name="elcId" class="form-control">
+											<label>Elecci&oacute;n</label>
+											<select id="elcId" name="elcId" class="form-control" required="required">
 									            <c:forEach var="ce" items="${requestScope.elecList}">
-									                <option value="${ce.elcId}">${ce.elcId}</option>
+									            	
+									                <option value="${ce.elcId}">${ce.elcDescripcion}</option>
 									            </c:forEach>
 									        </select>
 										</div>
 										<div class="form-group">
-											<label>ID Candidato</label>
-											<select id="canId" name="canId" class="form-control">
+											<label>Candidato</label>
+											<select id="canId" name="canId" class="form-control" required="required">
 									            <c:forEach var="ce" items="${requestScope.canList}">
-									                <option value="${ce.canId}">${ce.canId}</option>
+									                <option value="${ce.canId}">[${ce.canPerDui.perDui}] ${ce.canPerDui.perPNombre} ${ce.canPerDui.perPApellido}</option>
 									            </c:forEach>
 									        </select>
 										</div>	
@@ -90,23 +90,16 @@
 							<div class="modal-content">
 								<form id="editCandidatoEleccion" name="editCandidatoEleccion" action="candidatoElecion.do" method="post">
 									<div class="modal-header">						
-										<h4 class="modal-title">Editar Candidato Eleccion</h4>
+										<h4 class="modal-title">Eliminar Candidato Elecci&oacute;n</h4>
 										<button type="button" class="close" data-dismiss="modal"
 													aria-hidden="true">&times;</button>
 									</div>
 									<div class="modal-body">					
-										<div class="form-group">
-											<label>ID</label>
-											<input type="text" class="form-control" required readonly="readonly" id="celIdEdi" name="celIdEdi" >
-										</div>
-										<div class="form-group">
-											<label>ID Eleccion</label>
-											<input type="text" class="form-control" required maxlength="11" id="elcIdEdi" name="elcIdEdi" >
-										</div>
-										<div class="form-group">
-											<label>ID Candidato</label>
-											<input type="text" class="form-control" required maxlength="11" id="canIdEdi" name="canIdEdi">
-										</div>		
+										<h3><b>Se eliminara el registro</b></h3><br/>
+										<center><b>¿Está seguro?</b></center>
+										<input type="hidden" class="form-control" required maxlength="11" id="celIdEdi" name="celIdEdi" />
+										<input type="hidden" class="form-control" required maxlength="11" id="elcIdEdi" name="elcIdEdi" />	
+										<input type="hidden" class="form-control" required maxlength="11" id="canIdEdi" name="canIdEdi" />
 									</div>
 									<div class="modal-footer">
 										<input type="button" class="btn btn-default" data-dismiss="modal" value="Cancelar">
@@ -118,16 +111,16 @@
 					</div>
 					<!-- FIN MODIFICAR -->
 					<script type="text/javascript">
-						function showModal(celId,elcId,canId){
+						function showModal(celId){
 							$.ajax({
 					       	    url: '/utec_voting_system/candidatoElecion.do',
 					       	    type: 'POST',
-					       	    data: jQuery.param({id:celId,id2:elcId,id3:canId}) ,
+					       	    data: jQuery.param({id:celId}) ,
 					       	    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 					       	    success: function (response) {
 					       	    	document.getElementById("celIdEdi").value = response.celId;
-					       	    	document.getElementById("elcIdEdi").value = response.elcId;
-					       	    	document.getElementById("canIdEdi").value = response.canId;
+					       	    	document.getElementById("elcIdEdi").value = response.elcId.elcId;
+					       	    	document.getElementById("canIdEdi").value = response.canId.canId;
 					       	    	$('#editCandidatoEleccionModal').modal('show');
 					       	    },
 					       	    error: function () {

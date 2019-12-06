@@ -108,14 +108,6 @@ public class PartidoController extends HttpServlet implements Serializable {
 					 
 					 if(request.getParameter("btnInsertarPartido")!=null){
 						 if(request.getParameter("parNombre") != null  && request.getParameter("estado") != null) {
-							 InputStream inputStream = null;
-							Part filePart = request.getPart("imagen");
-							if (filePart.getSize() > 0) {
-								System.out.println(filePart.getName());
-								System.out.println(filePart.getSize());
-								System.out.println(filePart.getContentType());
-								inputStream = filePart.getInputStream();
-							}
 							 Partido PartidoInsert = new Partido();
 							 PartidoInsert.setParNombre(request.getParameter("parNombre"));
 							 PartidoInsert.setEstado(Integer.parseInt(request.getParameter("estado")));
