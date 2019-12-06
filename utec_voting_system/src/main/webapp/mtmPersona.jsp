@@ -11,8 +11,9 @@
 							<script type="text/javascript">
 									$(document).ready(function(){
 									$('[data-toggle="tooltip"]').tooltip();
+									}
 							</script>
-						<div class="table-wrapper">
+						<div class="table-wrapper my-custom-scrollbar">
 					            <div class="table-title">
 					                <div class="row">
 					                    <div class="col-sm-6">
@@ -31,7 +32,6 @@
 					                        <th>Nombres</th>
 											<th>Apellidos</th>
 											<th>Nacimiento</th>
-											<th>Edad</th>
 											<th>Genero</th>
 											<th>Departamento</th>
 											<th>Estado Familiar</th>
@@ -48,7 +48,6 @@
 					                        <th>${p.perPNombre} ${p.perSNombre} ${p.perTNombre}</th>
 											<th>${p.perPApellido} ${p.perSApellido}</th>
 											<th>${p.perFechaNac}</th>
-											<th>${p.perEdad}</th>
 											<th>${p.perGenId.genNombre}</th>
 											<th>${p.perDepId.depNombre}</th>
 											<th>${p.perEstId.estEstado}</th>

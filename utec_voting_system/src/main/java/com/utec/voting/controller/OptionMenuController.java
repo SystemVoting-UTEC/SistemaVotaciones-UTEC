@@ -36,7 +36,7 @@ public class OptionMenuController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final String URI = "http://localhost:8080/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -89,40 +89,47 @@ public class OptionMenuController extends HttpServlet implements Serializable {
 			Usuario us = (Usuario) sesion.getAttribute("usuario");
 			//Validando si existe la variable de sesion principal
 			if(us != null) {
-				if(request.getParameter("btnModificar")!=null){
-					 if(request.getParameter("tusIdEdi") != null && request.getParameter("tusTipoEdi") != null) {
+				if(request.getParameter("btnModificarOptionMenu")!=null){
+					if(request.getParameter("optNombreEdi") != null && request.getParameter("optURLEdi") != null && request.getParameter("optIconoEdi") != null) {
 						  OptionMenu  optionMenuEdit = new  OptionMenu();
 						  optionMenuEdit.setOptId(Integer.parseInt(request.getParameter("optIdEdi")));
                           optionMenuEdit.setOptNombre(request.getParameter("optNombreEdi"));
                           optionMenuEdit.setOptURL(request.getParameter("optURLEdi"));
                           optionMenuEdit.setOptIcono(request.getParameter("optIconoEdi"));
                           JSONObject object = new JSONObject(optionMenuEdit);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/OptionMenu",object, "PUT"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"option_menu",object, "PUT"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 						 
 					 }
 				 }
 				 
-				 if(request.getParameter("btnInsertar OptionMenu")!=null){
-					 if(request.getParameter("tusTipo") != null) {
-						  OptionMenu  OptionMenuInsert = new  OptionMenu();
-						 JSONObject object = new JSONObject( OptionMenuInsert);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/OptionMenu",object, "POST"));
+				 if(request.getParameter("btnInsertarOptionMenu")!=null){
+					 if(request.getParameter("optNombre") != null && request.getParameter("optURL") != null && request.getParameter("optIcono") != null) {
+						  OptionMenu  optionMenuInsert = new  OptionMenu();
+						  optionMenuInsert.setOptNombre(request.getParameter("optNombre"));
+						  optionMenuInsert.setOptURL(request.getParameter("optURL"));
+						  optionMenuInsert.setOptIcono(request.getParameter("optIcono"));
+						 JSONObject object = new JSONObject(optionMenuInsert);
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"option_menu",object, "POST"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 					 }
 				 }
 				
 				if(request.getParameter("id") == null) {
-					optMenuList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/OptionMenu", "GET"), OptionMenu[].class);
-					request.setAttribute("tpcUsuarioList", optMenuList);
-					res=request.getRequestDispatcher("mtm OptionMenu.jsp");
+					optMenuList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"option_menu", "GET"), OptionMenu[].class);
+					request.setAttribute("optMenuList", optMenuList);
+					res=request.getRequestDispatcher("mtmOptionMenu.jsp");
 					res.forward(request, response);
 				} else {
 					for ( OptionMenu opt : optMenuList) {
 						if(opt.getOptId() == Integer.parseInt(request.getParameter("id"))) {
-							 optionMenuSelected = new  OptionMenu(); 
+							 optionMenuSelected = new  OptionMenu();
+							 optionMenuSelected.setOptId(opt.getOptId());
+							 optionMenuSelected.setOptNombre(opt.getOptNombre());
+							 optionMenuSelected.setOptURL(opt.getOptURL());
+							 optionMenuSelected.setOptIcono(opt.getOptIcono());
 						}
 					}
 					String jsonArray = gson.toJson(optionMenuSelected);
@@ -145,4 +152,18 @@ public class OptionMenuController extends HttpServlet implements Serializable {
     public String getServletInfo() {
         return "Short description";
     }
+
+	/**
+	 * @return the optMenuList
+	 */
+	public List<OptionMenu> getOptMenuList() {
+		return optMenuList;
+	}
+
+	/**
+	 * @param optMenuList the optMenuList to set
+	 */
+	public void setOptMenuList(List<OptionMenu> optMenuList) {
+		this.optMenuList = optMenuList;
+	}
 }

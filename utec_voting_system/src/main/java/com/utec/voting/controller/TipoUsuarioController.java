@@ -36,7 +36,7 @@ public class TipoUsuarioController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+	private static final String URI = "http://localhost:8080/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -95,26 +95,26 @@ public class TipoUsuarioController extends HttpServlet implements Serializable {
 						 TipoUsuarioEdit.setTusId(Integer.parseInt(request.getParameter("tusIdEdi")));
 						 TipoUsuarioEdit.setTusTipo(request.getParameter("tusTipoEdi"));
 						 JSONObject object = new JSONObject(TipoUsuarioEdit);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/TipoUsuario",object, "PUT"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"TipoUsuario",object, "PUT"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 						 
 					 }
 				 }
 				 
-				 if(request.getParameter("btnInsertarTipoUsuario")!=null){
+				 if(request.getParameter("btnInsertarTpcUsuario")!=null){
 					 if(request.getParameter("tusTipo") != null) {
 						 TipoUsuario TipoUsuarioInsert = new TipoUsuario();
 						 TipoUsuarioInsert.setTusTipo(request.getParameter("tusTipo"));
 						 JSONObject object = new JSONObject(TipoUsuarioInsert);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/TipoUsuario",object, "POST"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"TipoUsuario",object, "POST"));
 						Integer resp = Integer.parseInt(object.get("response").toString());
 						request.setAttribute("msj",resp);
 					 }
 				 }
 				
 				if(request.getParameter("id") == null) {
-					tpcUsuarioList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/TipoUsuario", "GET"),TipoUsuario[].class);
+					tpcUsuarioList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"TipoUsuario", "GET"),TipoUsuario[].class);
 					request.setAttribute("tpcUsuarioList", tpcUsuarioList);
 					res=request.getRequestDispatcher("mtmTipoUsuario.jsp");
 					res.forward(request, response);

@@ -18,8 +18,8 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
 
-//import com.google.gson.Gson;
-//import com.google.gson.GsonBuilder;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.utec.voting.modelo.Candidato;
 import com.utec.voting.modelo.Eleccion;
 import com.utec.voting.modelo.Partido;
@@ -38,7 +38,7 @@ public class SufragioController extends HttpServlet implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	private static final String URI = "http://localhost:8080/utec_voting_system_webservice/service/";
 	/**
 	 * Variable de logueo para errores.
 	 */
@@ -95,7 +95,7 @@ public class SufragioController extends HttpServlet implements Serializable {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		HttpSession sesion ;
-		//Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		response.setContentType("application/json");
 		Eleccion elc = new Eleccion();
 		Integer res;
@@ -118,21 +118,18 @@ public class SufragioController extends HttpServlet implements Serializable {
 						sufra.setSufCanId(can);
 						sufra.setElcId(elc);
 						JSONObject object = new JSONObject(sufra);
-						object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/voto",object, "POST"));
+						object = new JSONObject(new ClientWebService().clienteWS(URI+"voto",object, "POST"));
 						res = Integer.parseInt(object.get("response").toString());
-						if(res == 1) {
-							response.setStatus(HttpServletResponse.SC_OK);
-						}else {
-							response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ocurrió un problema, favor intentar mas tarde!");
-						}
+						String jsonArray = gson.toJson(res);
+						response.getWriter().print(jsonArray);
 					}
 	            }
 			} else {
 				if (usr != null) {
 					canList = new ArrayList<Candidato>();
 					response.sendRedirect("sufragio.jsp");
-					parList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/partido", "GET"),Partido[].class);
-					canList = ClientWebService.stringToArray(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/candidato/"+ usr.getUsPerDui().getPerDepId().getDepId(),"GET"), Candidato[].class);
+					parList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"partido", "GET"),Partido[].class);
+					canList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"candidato/"+ usr.getUsPerDui().getPerDepId().getDepId(),"GET"), Candidato[].class);
 					sesion.setAttribute("parList", parList);
 					sesion.setAttribute("canList", canList);
 				} else {

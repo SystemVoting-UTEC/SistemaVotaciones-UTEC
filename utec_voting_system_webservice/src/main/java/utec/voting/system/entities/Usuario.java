@@ -11,6 +11,7 @@ public class Usuario {
 	private String usPassword;//string
 	private TipoUsuario usTusId;//int
 	private Integer usEstado;
+	private String usEmail;
 	
 	public Usuario() {
 		
@@ -20,12 +21,16 @@ public class Usuario {
 	 * @param usPerDui
 	 * @param usPassword
 	 * @param usTusId
+	 * @param usEmail
+	 * @author kevin_orellana
 	 */
-	public Usuario(Persona usPerDui, String usPassword, TipoUsuario usTusId) {
+	public Usuario(Persona usPerDui, String usPassword, TipoUsuario usTusId, Integer usEstado,String usEmail) {
 		super();
 		this.usPerDui = usPerDui;
 		this.usPassword = usPassword;
 		this.usTusId = usTusId;
+		this.usEmail = usEmail;
+		this.usEstado = usEstado;
 	}
 
 	/**
@@ -78,9 +83,22 @@ public class Usuario {
 		this.usEstado = usEstado;
 	}
 
+	/**
+	 * @return the usEmail
+	 */
+	public String getUsEmail() {
+		return usEmail;
+	}
+
+	/**
+	 * @param usEmail the usEmail to set
+	 */
+	public void setUsEmail(String usEmail) {
+		this.usEmail = usEmail;
+	}
+
 	@Override
 	public String toString() {
-		return "Usuario [usEstado=" + usEstado + ", usPassword=" + usPassword + ", usPerDui=" + usPerDui + ", usTusId="
-				+ usTusId + "]";
+		return "Usuario [usPerDui=" + usPerDui + ", usPassword=" + usPassword + ", usTusId=" + usTusId + ", usEstado=" + usEstado + ", usEmail=" + usEmail + "]";
 	}
 }

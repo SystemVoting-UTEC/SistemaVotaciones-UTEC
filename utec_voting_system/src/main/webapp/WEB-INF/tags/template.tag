@@ -30,13 +30,33 @@
 
 </head>
 <body onkeydown="return showKeyCode(event)">
+	<script type="text/javascript">
+	jQuery(document).ready(function(){
+		  $(".oculto").hide();              
+		    $(".inf").click(function(){
+		          var nodo = $(this).attr("href");  
+		 
+		          if ($(nodo).is(":visible")){
+		               $(nodo).hide();
+		               return false;
+		          }else{
+		        $(".oculto").hide("slow");                             
+		        $(nodo).fadeToggle("fast");
+		        return false;
+		          }
+		    });
+		}); 
+	</script>
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-xs-12">
 				<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
 					<div class="container-fluid">
 						<div class="navbar-header">
-							<a class="navbar-brand" href="#">Sistema Votaciones</a>
+							<a class="navbar-brand inf" href="#info1" href="#info1"> <span
+								class="glyphicon glyphicon-th" aria-hidden="true"
+								title="Men&uacute; de opciones"></span>&nbsp;Sistema Votaciones
+							</a>
 						</div>
 						<div class="nav navbar-nav navbar-right">
 							<c:if test="${sessionScope.usuario != null}">
@@ -62,9 +82,8 @@
 								<div class="panel-heading">
 									<h4 class="panel-title">
 										<a data-toggle="collapse" data-parent="#accordion"
-											href="#collapseOne"><span
-											class="glyphicon glyphicon-cog"> </span>
-											Mantenimiento</a>
+											href="#collapseOne"><span class="glyphicon glyphicon-cog">
+										</span> Mantenimiento</a>
 									</h4>
 								</div>
 								<div id="collapseOne" class="panel-collapse collapse in">
@@ -72,18 +91,16 @@
 										<table class="table">
 											<c:forEach items="${sessionScope.optList}" var="opt">
 												<c:if test="${opt.optNombre eq 'Votar'}">
-														<c:if test="${sessionScope.eleccion != null}">
-															<tr>
-																<td><span
-																	class="${opt.optIcono} text-primary"></span><a
-																	href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
-															</tr>
-														</c:if>
+													<c:if test="${sessionScope.eleccion != null}">
+														<tr>
+															<td><span class="${opt.optIcono} text-primary"></span><a
+																href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
+														</tr>
+													</c:if>
 												</c:if>
 												<c:if test="${opt.optNombre ne 'Votar'}">
 													<tr>
-														<td><span
-															class="${opt.optIcono} text-primary"></span><a
+														<td><span class="${opt.optIcono} text-primary"></span><a
 															href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
 													</tr>
 												</c:if>
@@ -107,18 +124,16 @@
 										<c:if test="${sessionScope.usuario.usTusId.tusId eq 2}">
 											<c:forEach items="${sessionScope.optList}" var="opt">
 												<c:if test="${opt.optNombre eq 'Votar'}">
-														<c:if test="${sessionScope.eleccion != null}">
-															<tr>
-																<td><span
-																	class="${opt.optIcono} text-primary"></span><a
-																	href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
-															</tr>
-														</c:if>
+													<c:if test="${sessionScope.eleccion != null}">
+														<tr>
+															<td><span class="${opt.optIcono} text-primary"></span><a
+																href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
+														</tr>
+													</c:if>
 												</c:if>
 												<c:if test="${opt.optNombre ne 'Votar'}">
 													<tr>
-														<td><span
-															class="${opt.optIcono} text-primary"></span><a
+														<td><span class="${opt.optIcono} text-primary"></span><a
 															href="${opt.optURL}">&nbsp;&nbsp;${opt.optNombre}</a></td>
 													</tr>
 												</c:if>
@@ -136,14 +151,15 @@
 					</div>
 				</div>
 			</div>
+
 			<div class="col-xs-10">
 				<jsp:doBody />
 			</div>
+
 			<div class="col-xs-12">
-					<p id="copyright" style="text-align:center">
-						<b>Copyright 2019, Grupo 11-Ing. en Sistemas y
-								computación.</b>
-					</p>
+				<p id="copyright" style="text-align: center">
+					<b>Copyright 2019, Grupo 11-Ing. en Sistemas y computación.</b>
+				</p>
 			</div>
 		</div>
 	</div>
@@ -205,9 +221,16 @@
 			    </script>
 	 		</c:when>
 	 		<c:when test="${requestScope.msj == 3}">
-	 			<script>
-	 				swal("Error!", "El registro no pudo ser guardado", "error");
-			    </script>
+	 			<c:if test="${not empty requestScope.msjD}">
+	 				<script>
+	 					swal("Error!", "Registro duplicado", "warning");
+			    	</script>
+	 			</c:if>
+	 			<c:if test="${requestScope.msjD == null}">
+		 			<script>
+		 				swal("Error!", "El registro no pudo ser guardado", "error");
+				    </script>	 			
+	 			</c:if>
 	 		</c:when>
 	 		<c:otherwise>
 	 			<script>
