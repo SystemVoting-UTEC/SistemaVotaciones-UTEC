@@ -4,6 +4,7 @@
 package com.utec.voting.controller;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import org.apache.log4j.Logger;
 import org.json.JSONObject;
@@ -106,6 +108,14 @@ public class PartidoController extends HttpServlet implements Serializable {
 					 
 					 if(request.getParameter("btnInsertarPartido")!=null){
 						 if(request.getParameter("parNombre") != null  && request.getParameter("estado") != null) {
+							 InputStream inputStream = null;
+							Part filePart = request.getPart("imagen");
+							if (filePart.getSize() > 0) {
+								System.out.println(filePart.getName());
+								System.out.println(filePart.getSize());
+								System.out.println(filePart.getContentType());
+								inputStream = filePart.getInputStream();
+							}
 							 Partido PartidoInsert = new Partido();
 							 PartidoInsert.setParNombre(request.getParameter("parNombre"));
 							 PartidoInsert.setEstado(Integer.parseInt(request.getParameter("estado")));
