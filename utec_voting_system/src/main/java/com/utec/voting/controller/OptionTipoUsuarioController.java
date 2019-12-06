@@ -93,28 +93,29 @@ public class OptionTipoUsuarioController extends HttpServlet implements Serializ
 				Usuario us = (Usuario) sesion.getAttribute("usuario");
 				//Validando si existe la variable de sesion principal
 				if(us != null) {
-					if(request.getParameter("btnModificar")!=null){
+					if(request.getParameter("btnEliminarTipoMenu")!=null){
 						 if(request.getParameter("optIdEdi") != null && request.getParameter("tusIdEdi") != null) {
-							 OptionTipoUsuario OptionTipoUsuarioEdit = new OptionTipoUsuario();
+							 OptionTipoUsuario OptionTipoUsuarioEdit = null;
 							 OptionMenu OptionMenuEdit = new OptionMenu();
 							 TipoUsuario TipoUsuarioEdit = new TipoUsuario();
 							 OptionMenuEdit.setOptId(Integer.parseInt(request.getParameter("optIdEdi")));
 							 TipoUsuarioEdit.setTusId(Integer.parseInt(request.getParameter("tusIdEdi")));
+							 OptionTipoUsuarioEdit = new OptionTipoUsuario(OptionMenuEdit,TipoUsuarioEdit);
 							 JSONObject object = new JSONObject(OptionTipoUsuarioEdit);
-							object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/OptionTipoUsuario",object, "PUT"));
+							object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/OptionTipoUsuario",object, "DELETE"));
 							Integer resp = Integer.parseInt(object.get("response").toString());
 							request.setAttribute("msj",resp);
-							 
 						 }
 					 }
 					 
-					 if(request.getParameter("btnInsertarOptionTipoUsuario")!=null){
+					 if(request.getParameter("btnInsertarOTU")!=null){
 						 if(request.getParameter("optId") != null && request.getParameter("tusId") != null) {
-							 OptionTipoUsuario OptionTipoUsuarioInsert = new OptionTipoUsuario();
+							 OptionTipoUsuario OptionTipoUsuarioInsert = null;
 							 OptionMenu OptionMenuInsert = new OptionMenu();
 							 TipoUsuario TipoUsuarioInsert = new TipoUsuario();
 							 OptionMenuInsert.setOptId(Integer.parseInt(request.getParameter("optId")));
 							 TipoUsuarioInsert.setTusId(Integer.parseInt(request.getParameter("tusId")));
+							 OptionTipoUsuarioInsert = new OptionTipoUsuario(OptionMenuInsert, TipoUsuarioInsert);
 							 JSONObject object = new JSONObject(OptionTipoUsuarioInsert);
 							object = new JSONObject(new ClientWebService().clienteWS("http://localhost:8080/utec_voting_system_webservice/service/OptionTipoUsuario",object, "POST"));
 							Integer resp = Integer.parseInt(object.get("response").toString());
@@ -133,8 +134,8 @@ public class OptionTipoUsuarioController extends HttpServlet implements Serializ
 						res.forward(request, response);
 					} else {
 						for (OptionTipoUsuario tpcU : OpTpUsuarioList) {
-							if(tpcU.getTusId().getTusId() == Integer.parseInt(request.getParameter("id")) &&
-								tpcU.getOptId().getOptId() == Integer.parseInt(request.getParameter("id2"))) {
+							if(tpcU.getTusId().getTusId() == Integer.parseInt(request.getParameter("idd")) &&
+								tpcU.getOptId().getOptId() == Integer.parseInt(request.getParameter("id"))) {
 								OptionTipoUsuarioSelected = new OptionTipoUsuario(); 
 								OptionTipoUsuarioSelected.setOptId(tpcU.getOptId());
 								OptionTipoUsuarioSelected.setTusId(tpcU.getTusId());

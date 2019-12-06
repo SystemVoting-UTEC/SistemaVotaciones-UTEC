@@ -3,8 +3,6 @@
  */
 package com.utec.voting.modelo;
 
-import java.sql.Timestamp;
-
 /**
  * @author Kevin Orellana
  *
@@ -12,8 +10,8 @@ import java.sql.Timestamp;
 public class Eleccion {
 	private	Integer elcId;
 	private String elcDescripcion;
-	private	Timestamp elcFechaInicio; 
-	private	Timestamp elcFechaFin; 
+	private	String elcFechaInicio; 
+	private	String elcFechaFin; 
 	private	Integer elcEstado;
 	
 	public Eleccion() {
@@ -26,7 +24,7 @@ public class Eleccion {
 	 * @param elcFechaFin
 	 * @param elcEstado
 	 */
-	public Eleccion(Integer elcId, String elcDescripcion, Timestamp elcFechaInicio, Timestamp elcFechaFin,Integer elcEstado) {
+	public Eleccion(Integer elcId, String elcDescripcion, String elcFechaInicio, String elcFechaFin,Integer elcEstado) {
 		this.elcId = elcId;
 		this.elcDescripcion = elcDescripcion;
 		this.elcFechaInicio = elcFechaInicio;
@@ -65,28 +63,28 @@ public class Eleccion {
 	/**
 	 * @return the elcFechaInicio
 	 */
-	public Timestamp getElcFechaInicio() {
+	public String getElcFechaInicio() {
 		return elcFechaInicio;
 	}
 
 	/**
 	 * @param elcFechaInicio the elcFechaInicio to set
 	 */
-	public void setElcFechaInicio(Timestamp elcFechaInicio) {
+	public void setElcFechaInicio(String elcFechaInicio) {
 		this.elcFechaInicio = elcFechaInicio;
 	}
 
 	/**
 	 * @return the elcFechaFin
 	 */
-	public Timestamp getElcFechaFin() {
+	public String getElcFechaFin() {
 		return elcFechaFin;
 	}
 
 	/**
 	 * @param elcFechaFin the elcFechaFin to set
 	 */
-	public void setElcFechaFin(Timestamp elcFechaFin) {
+	public void setElcFechaFin(String elcFechaFin) {
 		this.elcFechaFin = elcFechaFin;
 	}
 

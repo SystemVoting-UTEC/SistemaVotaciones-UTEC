@@ -144,6 +144,28 @@ public class OptionMenuImpl extends Conexion implements Service<OptionMenu>, Ser
 		}
 		return g;
 	}
+	
+	public OptionMenu finOneById(Integer id) throws SQLException {
+		CallableStatement stmt = null;
+		OptionMenu g =  null;
+		try {
+			String query = "{CALL SP_READ_ONE_OPTMENU(?)}";
+			stmt = getConnection().prepareCall(query);
+			stmt.setInt(1, id);
+			setRs(stmt.executeQuery());
+			if (getRs().next()) {
+				getRs().beforeFirst();
+				while (getRs().next()) {
+					g = new OptionMenu(getRs().getInt(1), getRs().getString(2),getRs().getString(3),getRs().getString(4));
+				}
+			}
+		} catch (Exception e) {
+			logger.error("Error" + e);
+		}finally {
+			stmt.close();
+		}
+		return g;
+	}
 
 	@Override
 	public OptionMenu finById(String id) throws SQLException {

@@ -11,10 +11,11 @@
 								<script type="text/javascript">
 										$(document).ready(function(){
 											$('[data-toggle="tooltip"]').tooltip();
-											 $(".datepicker").datepicker({
+											  $(".datepicker").datepicker({
 											        dateFormat: "yy-mm-dd"
 											    });
-										}
+											  $.datepicker.regional["es"]
+										});
 								</script>
 								        <div class="table-wrapper">
 								            <div class="table-title">
@@ -161,9 +162,10 @@
 						}
 						
 						$(function(){
-						    $(".datepicker").datepicker({
-						        dateFormat: "yy-mm-dd"
-						    });
+							  $(".datepicker").datepicker({
+							        dateFormat: "yy-mm-dd"
+							    });
+							  $.datepicker.regional["es"]
 						});
  					</script>
 				</c:if>
