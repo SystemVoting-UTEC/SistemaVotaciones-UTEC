@@ -197,14 +197,14 @@ public class CandidatoController extends HttpServlet implements Serializable {
     }
 
 	/**
-	 * @return the genList
+	 * @return the canList
 	 */
 	public List<Candidato> getCanList() {
 		return canList;
 	}
 
 	/**
-	 * @param genList the genList to set
+	 * @param canList the genList to set
 	 */
 	public void setCanList(List<Candidato> canList) {
 		this.canList = canList;
