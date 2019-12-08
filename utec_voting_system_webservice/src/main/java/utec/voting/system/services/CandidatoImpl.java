@@ -99,7 +99,7 @@ private static final long serialVersionUID = 1L;
 			stmt.setInt(5, t.getCanTcaId().getTcaId());
 			stmt.registerOutParameter(6, Types.INTEGER);
 			stmt.execute();
-			if (stmt.getInt(2) >= 1) {
+			if (stmt.getInt(6) >= 1) {
 				return Boolean.TRUE;
 			}
 		} catch (Exception e) {

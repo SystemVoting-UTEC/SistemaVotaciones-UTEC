@@ -153,7 +153,7 @@ public class CandidatoController extends HttpServlet implements Serializable {
 						perList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"persona", "GET"),Persona[].class);
 						depList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"departamento", "GET"),Departamento[].class);
 						tpcList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"tipo_candidato", "GET"),TipoCandidato[].class);
-//						munList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"municipio", "GET"),Municipio[].class);
+						munList = ClientWebService.stringToArray(new ClientWebService().clienteWS(URI+"municipio", "GET"),Municipio[].class);
 						request.setAttribute("canList", canList);
 						request.setAttribute("parList", parList);
 						request.setAttribute("perList", perList);

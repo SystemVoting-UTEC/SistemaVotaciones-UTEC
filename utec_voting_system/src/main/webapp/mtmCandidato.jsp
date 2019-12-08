@@ -92,7 +92,7 @@
 										</div>
 										<div class="form-group">
 											<label>Municipio</label>
-											<select id="canMunId" name="canMunId" class="form-control" disabled="disabled">
+											<select id="canMunId" name="canMunId" class="form-control" >
 									            <c:forEach var="mun" items="${requestScope.munList}">
 									                <option value="${mun.munId}">${mun.munNombre}</option>
 									            </c:forEach>
@@ -194,11 +194,11 @@
 					</div>
 					<!-- FIN MODIFICAR -->
 					<script type="text/javascript">
-						function showModal(genId){
+						function showModal(canId){
 							$.ajax({
 					       	    url: '/utec_voting_system/candidato.do',
 					       	    type: 'POST',
-					       	    data: jQuery.param({id:genId}) ,
+					       	    data: jQuery.param({id:canId}) ,
 					       	    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
 					       	    success: function (response) {
 					       	    	document.getElementById("canIdEdi").value = response.canId;
